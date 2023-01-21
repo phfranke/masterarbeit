@@ -4,6 +4,8 @@ author: "Philipp Franke"
 date: "2023-01-16"
 output:
   pdf_document: default
+
+bibliography: literatur.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -32,4 +34,5 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 
 # Einleitung
 Invasive eingeführte Arten, die Neobiota, führen in vielen Fällen zur Verdrängung von einheimischen Arten und wird deshalb als Gefährdung der Biodiversität angesehen.
-
+Wie schon @clavero2005invasive zeigte.[@clavero2005invasive]
+@arntzen1999italian spricht über die italienischen Kammmolche
