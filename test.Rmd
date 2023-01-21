@@ -33,6 +33,21 @@ plot(pressure)
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
 # Einleitung
-Invasive eingeführte Arten, die Neobiota, führen in vielen Fällen zur Verdrängung von einheimischen Arten und wird deshalb als Gefährdung der Biodiversität angesehen.
-Wie schon @clavero2005invasive zeigte.[@clavero2005invasive]
-@arntzen1999italian spricht über die italienischen Kammmolche
+```{r, include=FALSE}
+options(tinytex.verbose = TRUE)
+```
+
+# Test Literatur
+**irgendwas geht schief**
+schon @arntzen1999italian zeigt: das ist Mist
+bla [@arntzen1999italian]
+
+<!-- Invasive eingeführte Arten, die Neobiota, führen in vielen Fällen zur Verdrängung von einheimischen Arten und wird deshalb als Gefährdung der Biodiversität angesehen. Wie schon @clavero2005invasive zeigte.[@clavero2005invasive] -->
+
+Generell sind invasive Arten problematisch [@dufresnes2016massive]
+
+Andere Aussagen bestätigendas durch das Band [@clavero2005invasive]
+
+# Literatur
+
+
