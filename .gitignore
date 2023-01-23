@@ -1,10 +1,9 @@
+*.tex
+test.out
+test.aux*.aux
+*.knit.md
+*.out
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
-*.aux
-*.knit.md
-*.out
-*.tex
-test.out
-test.aux
