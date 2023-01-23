@@ -42,6 +42,9 @@ options(tinytex.verbose = TRUE)
 
 # Einleitung
 ## Situation
+
+
+## Neobiota
 schon @arntzen1999italian zeigt: das ist Mist
 bla [@arntzen1999italian]
 
@@ -50,9 +53,6 @@ Invasive eingeführte Arten, die Neobiota, führen in vielen Fällen zur Verdrä
 Generell sind invasive Arten problematisch [@dufresnes2016massive]
 
 Andere Aussagen bestätigen das durch das Band [@clavero2005invasive]
-
-## Neobiota
-asdfasf
 
 ## Modellierung
 asdfae
