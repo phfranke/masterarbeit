@@ -6,3 +6,5 @@
 *.knit.md
 *.out
 *.tex
+test.out
+test.aux
