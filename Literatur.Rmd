@@ -1,0 +1,22 @@
+---
+title: "Literatur zusammenfassung"
+author: "Philipp Franke"
+date: "2023-01-16"
+output:
+  pdf_document: default
+
+bibliography: literatur.bib
+---
+
+# Literatur
+
+
+südliche populationsgrenzen von zwei molcharten. wassertemperatur inziziiert fortpflanzung.
+* (i) how do the population dynamics of these two populations vary over their breeding period?
+* (ii) How do environmental covariates (i.e., ground and water temperature, precipitation and photoperiod) affect the breeding-migration patterns in each species? And
+* (iii) do individual traits, such as sex, body condition and body size (which can be considered a proxy for fecundity) influence these breeding-migration patterns? [@mettouris2018breeding]
+
+nördliche KM kommen jedes Jahr ins Fortpflanzungsgewässer. Erwachsen mit >2 Jahren (nur wenn schnell gewachsen) sind eher mit 3 oder 4. Überleben zwischen den Jahren zwischen 33-57 Prozent [@arntzen1993six]
+
+Untersuchungen in Bonn, 3 natürliche Weiher, 3 neu geschaffene, Weiher eingezäunt mit "drift fences"
+adulte sind sehr weiher-treu, juvenile wandern <86m [@kupfer2000population]
