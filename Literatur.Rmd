@@ -2,8 +2,7 @@
 title: "Literatur zusammenfassung"
 author: "Philipp Franke"
 date: "2023-01-28"
-output:
-  pdf_document: default
+output:  bookdown::pdf_document2
 
 bibliography: literatur.bib
 ---
@@ -24,7 +23,7 @@ knitr::opts_chunk$set(echo = TRUE)
 options(tinytex.verbose = TRUE)
 ```
 
-# Literatur
+# Literatur: Biologie
 ## 1.
 südliche populationsgrenzen von zwei molcharten. wassertemperatur inziziiert fortpflanzung.
 * (i) how do the population dynamics of these two populations vary over their breeding period?
@@ -38,26 +37,69 @@ nördliche KM kommen jedes Jahr ins Fortpflanzungsgewässer. Erwachsen mit >2 Ja
 Untersuchungen in Bonn, 3 natürliche Weiher, 3 neu geschaffene, Weiher eingezäunt mit "drift fences"
 adulte sind sehr weiher-treu (von 132 gefangenen adulten werden 83 = 63% wieder gefangen, 1 davon NICHT im gleichen Gewässer), juvenile wandern <860m. 176 junge markiert --> 35 wiedergefangen in 10-860m Distanz, 17 in terrestrischen Fallen in der Umgebung zw 10 und 60m Distanz nach 4 Tagen (mittelwert), 7 junge im Waldrand gefangen 120 - 240 m nach 11 Tagen (mittelwert), 13 in zäune rund um andere Gewässer in 300 - 860m nach 23 Tagen (Mittelwert) [@kupfer2000population]
 
-## 4. {#lit4}
-```{r wanderdistanzen, echo=FALSE}
+## 4.
+```{r tab_wdist, echo=FALSE}
 tier_Nr <- c(1,1,2,3,4,1,2,3,4,5)
 fangort <- c('Gew1','Waldrand','Gew3','Gew1','Gew2','Gew2','Gew3','GewD','Gew1','Gew2')
 wiederfangort <- c('Waldrand','Gew1','GewC', 'Gew2','GewD', 'Waldrand','GewD', 'Gew2', 'GewB', 'GewD')
 distanz <- c(950,950,1140,860,430,240,530,430,1290,430)
 tage <- c(30,24,257,388,333,35,65,29,413,333)
 tab<-cbind(tier_Nr, fangort, wiederfangort,distanz,tage)
-knitr::kable(tab,caption='Relative Wanderleistung adulter (subadulter) Triturus cristatus',label='tab:wanderdistanzen')
+knitr::kable(tab,caption='Relative Wanderleistung adulter (subadulter) Triturus cristatus',label='wdist')
 ```
-Mittlere Wanderdistanz gemäss \@ref(tab:tab:wanderdistanzen), beschrieben in \@ref{lit4}:
-```{r mittlere_wanderdistanz,echo=FALSE, collapse=TRUE}
-mean(distanz)
+```{r, echo=FALSE}
+dist_mean=mean(distanz)
 ```
+
+Mittlere Wanderdistanz gemäss Tabelle \@ref(tab:wdist): `r dist_mean` Meter
+
 [@kupfer1998wanderstrecken]
 
-```{r a, fig.cap="The cars data.", echo=FALSE}
-plot(cars)
-```
+## 5. 
+hybridisierende Arten **T.cristatus** & **T.marmoratus**, Arten kommen in Ihren Lebensräumen 'reinrassig' vor und in hybrider Zone. wenig fremde gene in reinrassigen LR.
+[@arntzen1991restricted]
 
-See Figure \@ref(fig:a).
+## 6. T.cristatus 20 Jahre Monitoring
+langlebigkeit weibchen: 9.4 +-2.4 Jahre, Männchen 8.8 +-2.1 Jahre. max W 19a, max M 15a.Grösste Körperlänge nach 40.22 +- 4.37 Monaten (Männchen) und 40.77+-4.52 Monaten (Weibchen)
+Abwanderung beobachtet nur von 8 adulten Männchen und 4 adulten Weibchen, 76.92 davon zwischen Teich B und C nachdem Goldfische entfernt. Max distanz: 2039 Meter luftlinie (zwei Männchen). Keine signifikanten Unterschiede zwischen Männchen und Weibchen in abwanderungsdistanzen.
+[@mori2017twenty]
+
+## 7. eDNA Metabarcoding
+Resultate aus Allschwil, Herkunft
+Aussetzung ist mindestens 7 jahre alt (erster Photoverdacht 2012) und anhand der Genetik
+[@dufresnes2019early]
+
+
+## 8.
+low dispersal rate of t.carn.
+Schätzung von überlebensrate und wanderungen mit model. 20 Jahre fang-wiederfang
+sowohl wiederfangquote, sterberate als auch abwandern ist höher in geringeren Dichten. Zuwandern ist höher in höheren dichten.
+geschlechterabhängige ausbreitungsrate
+ABER: negativ dichteabhängige wachstumsrate der Population. je dichter desto weniger jungtiere
+[@https://doi.org/10.1111/1365-2656.12906]
+
+## 9. Msc. Thesis Schwizer, HErzogenmatt
+wöchentliche Sommer überlebensraten brüter: 0.919 +/-0.0184, 0.93 +/-0.0111, 0.955 +/- 0.0227 (drei Weiherkomplexe)
+Nichbtbrüter:   0.971 +/- 0.0375, 0.954 +/-0.0265, 0.957 +/-0.0398
+wöchentliche Winterüberlebensrate beide Gruppen: 0.9994 +/-0.0016, 0.9998 +/-0.0009, 0.9976 +/-0.0031
+generell höher für männchen als weibchen, Überleben für brüter weniger wahrscheinlich als für nichtbrüter.[@schwizer2007population]
+
+## 10. 
+Gemäss @sinsch2014movement sind diie Ausbreitung einer Population sowohl auf individueller Wanderverhalten, als auch auf ökologische Aspekte des Lebensraumes zu tun.
+
+## 11. @sinsch2017wandern
+Wenige Individuen wandern weit und sind so für die Ausbreitung der Populationen zuständig.Mit genetischen Analysen wird ein Genfluss und somit eine zumindest gelegentlicher Austausch von Individuuen zwischen Populationen nachgewiesen. Die übrlicherweise ermittelten Wanderdistanzen bei Kreutkröten werden durch die genetischen Analysen um etwa Faktor 4 übertroffen.
+
+## 12. südafrika guttural toad
+@vimercati2021cost ursprünglich wurden neben den Adulten auch Eier und Kaulquappen gefangen, was nicht zum Rückgang der Population führte aber sehr teuer war. Der Einsatz von Kosten-Effizienz- Modellen verbesserte die Situation, da eingesetze Finanzen ins Verhältnis zu entfernten Individuen gesetzt werden konnten.
+
+## 13. model kombiniert populationsdynamik und landschafts widerstand
+@vimercati2017integrating
+
+# Literatur: Modell
+## @deangelis2014individual
+Vorteile von ABM ist das definieren einer unbestimmten Anzahl von Regeln für das individuelle Verhalten. Dies ist mit Formel-basierten Ansätzen schwer und gar unmöglich:
+Lokale Interaktionen zwischen Individuen und Populationen, individuelle Unterschiede, anpassungsfähiges Verhalten.
+
 
 # Literaturverzeichnis
