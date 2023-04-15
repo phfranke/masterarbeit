@@ -5,6 +5,8 @@ date: "2023-02-07"
 output:  bookdown::pdf_document2
 
 bibliography: literatur.bib
+
+toc-title: "Inhaltsverzeichnis"
 ---
 
 <!-- Einführung Rmarkdown Unigis: https://unigis-salzburg.github.io/Opt_AppDev-R/
@@ -44,7 +46,7 @@ Fragen zum generellen Wachstum der Population, zu Wanderdistanzen oder auch zur 
 
 
 ## Modellierung der Wanderungen
-Gemäss @sinsch2014movement sind die Ausbreitung einer Population sowohl auf individueller Wanderverhalten, als auch auf ökologische Aspekte des Lebensraumes zu tun. Abschätzung der Gendrift anhand Genanalysen lassen erahnene, dass Fang- Wiederfang- Experimente und Beobachtungsdaten das Wanderverhalten  von Amphibien klar unterschätzen. Dabei scheint die bremsende Wirkung unterschiedlicher Landschaften zwar die Vernetzungswege zu beeinflussen aber kaum die Vernetzung selber behindern. In @sinsch2017wandern ist von einem Faktor 10 zwischen feldherpetologisch ermittelten Wanderdistanzen und genetischen Schätzungen (400-1200m VS. 10x mehr)
+Gemäss @sinsch2014movement sind die Ausbreitung einer Population sowohl auf individuelles Wanderverhalten, als auch auf ökologische Aspekte des Lebensraumes zurück zu führen. Abschätzung der Gendrift anhand Genanalysen lassen erahnene, dass Fang- Wiederfang- Experimente und Beobachtungsdaten das Wanderverhalten  von Amphibien klar unterschätzen. Dabei scheint die bremsende Wirkung unterschiedlicher Landschaften zwar die Vernetzungswege zu beeinflussen aber kaum die Vernetzung selber behindern. In @sinsch2017wandern ist von einem Faktor 10 zwischen feldherpetologisch ermittelten Wanderdistanzen und genetischen Schätzungen (400-1200m VS. 10x mehr)
 --> Für die Konnektivität reichen wenige Individuuen pro Generation. Seltene Ereignisse sind mit Beobachtungen schwer nachzuvollziehen. die Daten stellen also einen Durschnittswert dar, während einzelne Ausreisser für die Ausbreitung der Art ausreichen und die Erhaltung von Metapopulationen.
 
 
@@ -53,10 +55,33 @@ Gemäss @sinsch2014movement sind die Ausbreitung einer Population sowohl auf ind
 Der italienische Kammmolch ist in der Schweiz heimisch und wird hier deswegen nicht als Neozoon bezeichnet. Die Herkunft des Italienischen Kammmolches liegt, wie der Name schon andeutet, südlich der Alpen. Es gibt mehrere Vorkommen des italienischen Kammmolches nördlich der Alpen, doch gehen diese nicht auf natürliche Ausbreitungsprozesse zurück (*Literatur*).
 
 # Material und Methoden
-## Konzeptionelles Modell
-Die Beschrebung des konzeptionellen Modells erfolgt in einem UML- Aktivitätsdiagram und über das ODD- Protokoll. Hier werden wichtige Eckpunkte eingehender erläutert.
-### Auflösung
-Die zeitliche Auflösung ist 1 Tag, als Beginn wird der angenommene Aussetzungszeitpunkt der Kammmolche verwendet und als Enddatum der 31.12.2049. Das Untersuchungsgebiet besteht aus einem 10 * 10 km grossen Quadrat in der Nordwestecke der Schweiz. Es reicht bis an die Kantonsgrenze zu Basel-Stadt im Norden sowie an die Landesgrenze zu Frankreich im Westen. 
+## Untersuchungsgebiet
+Das Untersuchungsgebiet besteht aus einem 10 * 10 km grossen Quadrat in der Nordwestecke der Schweiz. Es reicht bis an die Kantonsgrenze zu Basel-Stadt im Norden sowie an die Landesgrenze zu Frankreich im Westen. Es deckt auf Schweizer Seite die Gemeinden Allschwil, Biel-Benken, Binningen, Bottmingen und Oberwil ab. Am Rand des Untersuchungsgebietes liegen Basel-Stadt und Franzöischer Boden. Diese Gebiete werden grösstenteils ausgeschlossen. Sie liegen peripher und spielen vermutlich für den Untersuchungszweck eine untergeordnete Rolle. Zudem sind in Frankreich keine vergleichbaren Daten zur Bodenbedeckung vorhanden. eine Ausnahme ist die französische Gemeinde Neuwiller. Diese liegt zwischen den Gemeinden Allschwil und Biel-Benken und liegt somit recht zentral im Untersuchungsgebiet. Das Ausschliessen dieser Gemeinde könnte die Aussagekraft des Modells stark einschränken. Aus diesem Grund wurde diese Gemeinde in das Modell integriert. Die benötigten Oberflächendaten wurden hier anhand der 1:25'000 er Landeskarte der Schweiz von Hand grob abdigitalisiert. Erkennbare Strukturen, wie Gebäude, Siedlung, Strassen, Wälder, Landwirtschaftsland und Gewässer wurden dabei berücksichtigt. Die Körnung ist deutlich gröber wie die Daten der amtlichen Vermessung.
+
+## Modell
+Die Beschreibung des konzeptionellen Modells erfolgt in einem UML- Aktivitätsdiagram und über das ODD- Protokoll. In den folgenden Absätzen, wird die Funktionsweise des Modells beschrieben.
+
+### Funktionsweise
+Das Modell stellt die Populationsdynamik der italienischen Kammmolche im Untersuchungsgebiet nach. 
+
+
+### zeitliche Auflösung
+Das Modell arbeitet in Zählschritten, jeder Schritt beträgt einen Tag. Als Beginn wird der angenommene Aussetzungszeitpunkt der Kammmolche verwendet und als Enddatum der 31.12.2049. 
+
+### Bodenoberfläche
+Informationen über die Bodenoberfläche dienen der Verbesserung von Wanderbewegungen sowie der Darstellung. Die Daten stammen von der amtlichen Vermessung des Kanton Basel-Landschaft und sind über einen Downloaddienst frei verfügbar. Die Vektordaten sind in einer hohen Genauigkeit erfasst und klassifiziert. Die Kategorien sind in Tabelle \@ref(tab:bobe) aufgelistet.
+
+```{r tab_bobe, echo=FALSE}
+Code <- c(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)
+Bezeichnung <- c('Acker, Wiese, Weide','Bahn','fliessendes Gewässer','Gartenanlage','Gebäude','Reben','stehendes Gewässer','Strasse, Weg','Trottoir','übrige befestigte','übrige bestockte','übrige humusiert','übrige Intensivkultur','Verkehrsinsel', 'Wald', 'Waldstrasse', 'Wasserbecken')
+tab<-cbind(Code,Bezeichnung)
+knitr::kable(tab,caption='Klassifizierung der Bodenoberfläche',label='bobe')
+```
+
+
+### Agenten
+Das Modell bildet die Entwicklungszyklen und die Stadien der Kammmolche nach. Der Entwicklungszyklus beinhaltet im zeitlichen Ablauf die Stadien Eier, Larven, Juvenile und Adulte Tiere. Die Entwicklungsstadien werden alle als eigene Spezies implementiert. Beim Übergang von einem Stadium ins nächste wird das Individuum aus dem Modell entfernt und ein Individuum des neuen Stadiums geschaffen. Dabei werden die Attribute "Geschlecht" und "Fortpflanzungsgewässer" jeweils an die nächste Generation weitergegeben. Die Sterblichkeit der einzelnen Stadien wird an dieser Stelle implementiert. Erreicht ein Individuum aufgrund der Streblichkeit das neue Stadium nicht wird es aus dem Modell entfernt ohne, dass ein neues Stadium entsteht.
+
 
 
 ## Daten
@@ -71,7 +96,14 @@ Loch in Frankreich anhand 1:25'000 er Landeskarte grob abdigitalisiert. grösser
 ## Parameter, Sensitivitätsanalyse und Kalibrierung
 
 
+
+
 ## Validierung
+
+
+# Resultate
+
+
 
 
 
