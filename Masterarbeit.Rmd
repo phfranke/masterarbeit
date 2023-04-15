@@ -59,10 +59,11 @@ Der italienische Kammmolch ist in der Schweiz heimisch und wird hier deswegen ni
 Das Untersuchungsgebiet besteht aus einem 10 * 10 km grossen Quadrat in der Nordwestecke der Schweiz. Es reicht bis an die Kantonsgrenze zu Basel-Stadt im Norden sowie an die Landesgrenze zu Frankreich im Westen. Es deckt auf Schweizer Seite die Gemeinden Allschwil, Biel-Benken, Binningen, Bottmingen und Oberwil ab. Am Rand des Untersuchungsgebietes liegen Basel-Stadt und Franzöischer Boden. Diese Gebiete werden grösstenteils ausgeschlossen. Sie liegen peripher und spielen vermutlich für den Untersuchungszweck eine untergeordnete Rolle. Zudem sind in Frankreich keine vergleichbaren Daten zur Bodenbedeckung vorhanden. eine Ausnahme ist die französische Gemeinde Neuwiller. Diese liegt zwischen den Gemeinden Allschwil und Biel-Benken und liegt somit recht zentral im Untersuchungsgebiet. Das Ausschliessen dieser Gemeinde könnte die Aussagekraft des Modells stark einschränken. Aus diesem Grund wurde diese Gemeinde in das Modell integriert. Die benötigten Oberflächendaten wurden hier anhand der 1:25'000 er Landeskarte der Schweiz von Hand grob abdigitalisiert. Erkennbare Strukturen, wie Gebäude, Siedlung, Strassen, Wälder, Landwirtschaftsland und Gewässer wurden dabei berücksichtigt. Die Körnung ist deutlich gröber wie die Daten der amtlichen Vermessung.
 
 ## Modell
-Die Beschreibung des konzeptionellen Modells erfolgt in einem UML- Aktivitätsdiagram und über das ODD- Protokoll. In den folgenden Absätzen, wird die Funktionsweise des Modells beschrieben.
+Die Beschreibung des konzeptionellen Modells erfolgt in einem UML- Aktivitätsdiagram und über das ODD- Protokoll. In den folgenden Absätzen, wird die Funktionsweise des Modells beschrieben. Um die funktionsfähigkeit des Modell zu erhalten und zu verbessern, werden viele Lebensabschnitte der Kammmolche stark vereinfacht dargestellt. Das Ziel dieses Modells ist es darzustellen in welchen Gebieten sich die Kammmolche ausbreiten und eine Vorstellung über die Populationsgrösse zu erhalten. Dazu werden Sterblichkeiten der einzelnen Entwicklungsstadien implementiert sowie eine jährliche Sterblichkeit der adulten Tiere. Die saisonale Wanderbewegung ist stark vereinfacht dargestellt, da sie weder  Auswirkungen auf die Ausbreitungstätigkeit noch auf die Überlebenswahrscheinlichkeit der Tiere mit sich bringt. hingegen werden spezielle Ausbreitungsaktivitäten modelliert, welche für die Besiedelung neuer Gewässer entscheidend ist.
 
-### Funktionsweise
-Das Modell stellt die Populationsdynamik der italienischen Kammmolche im Untersuchungsgebiet nach. 
+
+### Zweck
+Zweck des Modells ist die Untersuchung der Populationsdynamik. Dazu werden die Wanderbewegungen im Raum und die Entwicklungsstadien simuliert.
 
 
 ### zeitliche Auflösung

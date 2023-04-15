@@ -96,6 +96,12 @@ Wenige Individuen wandern weit und sind so für die Ausbreitung der Populationen
 ## 13. model kombiniert populationsdynamik und landschafts widerstand
 @vimercati2017integrating
 
+## 14. Wanderleistung
+@jehle2007wanderleistung
+Übersicht über Studien zur Wanderleistung von Amphibien generell. Schwanzlurche etwas kleinere Distanzen als Froschlurche. Juvenile stärker als adulte. Spricht von der Kennzahl Distanz, welche etwa ein Individuum pro Population und Jahr erreicht wird. Schwanzlurche 8-9 km. Triturus carnifex adulte: 293m (@stoefer2001zeitliche), juvenile ca. 500m (kupfer 1998).
+Orientierung anhand mehrere redundanter Systeme (Landkarte, Hinweginformationen, Magnetfeld, olafktorische und optische Informationen). Hohe Brutgewässertreue, Rückweg wird auch gefunden, wenn keine Hinweginformationen vorhanden sind.
+
+
 # Literatur: Modell
 ## @deangelis2014individual
 Vorteile von ABM ist das definieren einer unbestimmten Anzahl von Regeln für das individuelle Verhalten. Dies ist mit Formel-basierten Ansätzen schwer und gar unmöglich:
