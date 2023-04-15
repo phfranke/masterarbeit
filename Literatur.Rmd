@@ -78,7 +78,7 @@ geschlechterabhängige ausbreitungsrate
 ABER: negativ dichteabhängige wachstumsrate der Population. je dichter desto weniger jungtiere
 [@https://doi.org/10.1111/1365-2656.12906]
 
-## 9. Msc. Thesis Schwizer, HErzogenmatt
+## 9. Msc. Thesis Schwizer, Herzogenmatt
 wöchentliche Sommer überlebensraten brüter: 0.919 +/-0.0184, 0.93 +/-0.0111, 0.955 +/- 0.0227 (drei Weiherkomplexe)
 Nichbtbrüter:   0.971 +/- 0.0375, 0.954 +/-0.0265, 0.957 +/-0.0398
 wöchentliche Winterüberlebensrate beide Gruppen: 0.9994 +/-0.0016, 0.9998 +/-0.0009, 0.9976 +/-0.0031
@@ -88,7 +88,7 @@ generell höher für männchen als weibchen, Überleben für brüter weniger wah
 Gemäss @sinsch2014movement sind diie Ausbreitung einer Population sowohl auf individueller Wanderverhalten, als auch auf ökologische Aspekte des Lebensraumes zu tun.
 
 ## 11. @sinsch2017wandern
-Wenige Individuen wandern weit und sind so für die Ausbreitung der Populationen zuständig.Mit genetischen Analysen wird ein Genfluss und somit eine zumindest gelegentlicher Austausch von Individuuen zwischen Populationen nachgewiesen. Die übrlicherweise ermittelten Wanderdistanzen bei Kreutkröten werden durch die genetischen Analysen um etwa Faktor 4 übertroffen.
+Wenige Individuen wandern weit und sind so für die Ausbreitung der Populationen zuständig.Mit genetischen Analysen wird ein Genfluss und somit eine zumindest gelegentlicher Austausch von Individuuen zwischen Populationen nachgewiesen. Die übrlicherweise ermittelten Wanderdistanzen bei Kreuzkröten werden durch die genetischen Analysen um etwa Faktor 4 übertroffen.
 
 ## 12. südafrika guttural toad
 @vimercati2021cost ursprünglich wurden neben den Adulten auch Eier und Kaulquappen gefangen, was nicht zum Rückgang der Population führte aber sehr teuer war. Der Einsatz von Kosten-Effizienz- Modellen verbesserte die Situation, da eingesetze Finanzen ins Verhältnis zu entfernten Individuen gesetzt werden konnten.
@@ -98,7 +98,7 @@ Wenige Individuen wandern weit und sind so für die Ausbreitung der Populationen
 
 ## 14. Wanderleistung
 @jehle2007wanderleistung
-Übersicht über Studien zur Wanderleistung von Amphibien generell. Schwanzlurche etwas kleinere Distanzen als Froschlurche. Juvenile stärker als adulte. Spricht von der Kennzahl Distanz, welche etwa ein Individuum pro Population und Jahr erreicht wird. Schwanzlurche 8-9 km. Triturus carnifex adulte: 293m (@stoefer2001zeitliche), juvenile ca. 500m (kupfer 1998).
+Übersicht über Studien zur Wanderleistung von Amphibien generell. Schwanzlurche etwas kleinere Distanzen als Froschlurche. Juvenile stärker als adulte. Spricht von der Kennzahl Distanz, welche etwa ein Individuum pro Population und Jahr erreicht wird. Schwanzlurche 8-9 km. Triturus cristatus adulte: 293m (@stoefer2001zeitliche), juvenile ca. 500m (kupfer 1998).
 Orientierung anhand mehrere redundanter Systeme (Landkarte, Hinweginformationen, Magnetfeld, olafktorische und optische Informationen). Hohe Brutgewässertreue, Rückweg wird auch gefunden, wenn keine Hinweginformationen vorhanden sind.
 
 
@@ -106,6 +106,7 @@ Orientierung anhand mehrere redundanter Systeme (Landkarte, Hinweginformationen,
 ## @deangelis2014individual
 Vorteile von ABM ist das definieren einer unbestimmten Anzahl von Regeln für das individuelle Verhalten. Dies ist mit Formel-basierten Ansätzen schwer und gar unmöglich:
 Lokale Interaktionen zwischen Individuen und Populationen, individuelle Unterschiede, anpassungsfähiges Verhalten.
+
 
 
 # Literaturverzeichnis
