@@ -1,3 +1,4 @@
+*.pdf
 *.tex
 test.out
 test.aux*.aux
