@@ -36,10 +36,11 @@ Amphibien sind besonders von der Einschleppung invasiver Species betroffen, da v
 Im vorliegenden Fall treffen der heimische Nürdliche Kammmolch (Triturus cristatus) und der eingeführte Südliche Kammmolch (Triturus carnifex) aufeinander. Beide Arten sind auf der roten Liste der Schweiz als stark gefährdet eingestuft [@schmidt2005rote]. Während der Italienische Kammmolch natürlicherweise nur auf der Alpensüdseite vorkommt, besiedelt der Nördliche Kammmolch weite Teile Europas nördlich der Alpen. Die Alpen wirken als natürliche Barriere. Die Vorkommen der südlichen Art auf der Alpennordseite sind in den meisten Fällen auf Verschleppungen zurückzuführen, einzig in einer schmale Kontaktzone östlich der Alpen besteht eine natürliche Kontaktzone [@meilink2015genetic]. In Bereichen mit eingeschleppten italienischen Kammmolchen, wurde ein Rückgang des nördlichen Kammmolches dokumentiert. (Niederlande: @meilink2015genetic; Genf: @arntzen1999geneva, Deutschland: )
 
 ## Modellierung der Populationsdynamik
+Dynamik untersucht mit mathemathischen Modellen: @caudera2021mathematical, @la2017understanding hasen und kaninchen. Fische, berücksichtigung der räumlichen Anordnung ABM: @della2014simulating 
+
 Sowohl in der Förderung von bedrohten Tierarten, als auch in der Bekämpfung von Schadorganismen sind fundamentale Kenntnisse der Populationsdynamik hilfreich. Die Populationsdynamik beschreibt Faktoren wie Entwicklungsstadien, Ausbreitungsverhalten, Fortpflanzung und Sterblichkeit und bringt diese in einen Zusammenhang. Für solche Untersuchungen werden häufig statistische oder mathematische Modelle verwendet. @vimercati2021cost zeigt an einem Beispiel in Südafrika auf, wie Populationsmodelle die gezielte Bekämpfung von invasiven Amphibien und den Mitteleinsatz verbessern können. Dies Modelle lassen grundsätzlich Aussagen auf Systemebene zu. @vimercati2017integrating ergänzen bestehende mathematische Modelle um den Landschaftswiderstand um die effektive Ausbreitung in einer konkreten räumlichen Umgebung zu simulieren. Dennoch bleibt die konkrete, räumliche Ausprägungen unberücksichtigt. Aspekte wie Wanderhindernisse und Vernetzungskorridore können die Populationsdynamik in einer realen Welt entscheidend beeinflussen.
 
 Agentenbasierte Modellierungsansätze bieten Möglichkeiten um die Modelle mit räumlichen Gegebenheiten und einer vielzahl von Verhaltensweisen und -Regeln zu ergänzen [@deangelis2014individual]. So entstehen Modelle, welche die Entscheidungsstrukturen in biologischen Systemen nachbilden, vor allem wenn sie mit stochastischen Elementen ergänzt werden.
-
 
 
 ## Modellierung der Wanderungen
@@ -47,14 +48,20 @@ Gemäss @sinsch2014movement sind die Ausbreitung einer Population sowohl auf ind
 --> Für die Konnektivität reichen wenige Individuuen pro Generation. Seltene Ereignisse sind mit Beobachtungen schwer nachzuvollziehen. die Daten stellen also einen Durschnittswert dar, während einzelne Ausreisser für die Ausbreitung der Art ausreichen und die Erhaltung von Metapopulationen.
 
 
-
 ## Italienischer Kammmolch (Triturus carnifex)
 Das im Rahmen dieser Masterarbeit entwickelte Modell bildet die individuellen Lebenszyklen der Kammmolche nach. Für die Nachbildung der individuellen Lebensgeschichten der Kammmolche ist ein einigermassen tiefgehendes Verständnis der Lebensweise notwendig. Hier werden wesentliche Aspekte der Biologie von kammmolchen zusammengefasst. Die Lebensweisen von Italienischem Kammmolch (Triturus carnifex) und Nördlichem Kammmolch (Triturus cristatus) ähneln sich zuweilen stark, andere Aspekte sind nur von einer Art detailliert bekannt. Für die vorliegende Arbeit werden wissenschaftliche Erkenntnisse von beiden Arten meist als gleichbedeutend aufgefasst.
 
 ### Jahreszyklus
-Kammmolche sind für die Fortpflanzung auf stehende Gewässer angewiesen. Adulte Tiere verbringen grosse Teile des Jahres an Land und wandern im Vorfrühling in die Gewässer. Die Gewässertreue bei adulten Tieren ist dabei sehr ausgeprägt. In einem Fang-Wiederfang-Experiment von @kupfer2000population wird lediglich einem Individuum von 82 wiedergefangenen Tieren ein Gewässerwechsel nachgewiesen, was `r round(100/82,2)` Prozent entspricht. Nach der Fortpflanzung verlassen die Tiere die Gewässer und verbringen das restliche Jahr an Land. Dazu suchen sie häufig Gehölze oder andere Strukturen mit einem guten Angebot an Verstecken auf. Häufig liegen diese Verstecke in naher Umgebung zu den Gewässern. Einige Individuen nehmen jeweils einen weiteren Weg auf sich um weiter entfernte Wälder, Parks oder Gärten zu erreichen[@stoefer2001zeitliche].
+Kammmolche sind für die Fortpflanzung auf stehende Gewässer angewiesen. Adulte Tiere verbringen grosse Teile des Jahres an Land und wandern im Vorfrühling in die Gewässer. Die Gewässertreue bei adulten Tieren ist dabei sehr ausgeprägt. In einem Fang-Wiederfang-Experiment von @kupfer2000population wird lediglich einem Individuum von 82 wiedergefangenen Tieren ein Gewässerwechsel nachgewiesen, was `r round(100/82,2)` Prozent entspricht. Nach der Fortpflanzung verlassen die Tiere die Gewässer und verbringen das restliche Jahr an Land. Dazu suchen sie häufig Gehölze oder andere Strukturen mit einem guten Angebot an Verstecken auf. Häufig liegen diese Verstecke in mur wenige Meter von den Gewässernentfernt. Nur wenige Individuen nehmen weitere Weg in Kauf um Verstecke in einer Distanz bis zu wenigen hundert Meter zu erreichen [@stoefer2001zeitliche].
 
-Die Weibchen legen 200-400 Eier [@meyer2009schlangenspuren]. Aufgrund eines Gendefekts bei Triturus- Arten schlüpfen aus lediglich 50% der befruchteten Eier Larven.
+### Entwicklungsstadien
+Die Weibchen legen 200-400 Eier [@meyer2009schlangenspuren]. Aufgrund eines genetischen Phänomens stoppt bei der Hälfte der Eier die Entwicklung und die Embryonen sterben ab. Grund dafür sind unterschiedliche Ausprägungen des Chromosom 1. Embryonen, welche zwei gleichartige Chomosomen 1 besitzen, sterben demnach ab und Individuen mit beiden unterschiedlichen Ausprägungen sind überlebensfähig [@horner1985normal]. Die Mortalität der geschlüpften Larven ist ebenfalls relativ hoch, lediglich 5% der Larven erreichen die Metamorphose. Vieles spricht dafür, dass die Sterblichkeit im Larvenstadium eine Dichteabhängigkeit aufweist (persönliche Informationen B. Schmidt). Insbesondere der hohe Energiebedarf dürfte zu einem starken Konkurrenzdruck bei der Nahrungsbeschaffung führen.
+
+##Literatur noch lesen
+@perret2003transience
+@van2007body
+
+
 
 
 
