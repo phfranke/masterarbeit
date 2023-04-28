@@ -44,7 +44,8 @@ Agentenbasierte Modellierungsansätze bieten Möglichkeiten um die Modelle mit r
 
 
 ## Modellierung der Wanderungen
-Gemäss @sinsch2014movement sind die Ausbreitung einer Population sowohl auf individuelles Wanderverhalten, als auch auf ökologische Aspekte des Lebensraumes zurück zu führen. Abschätzung der Gendrift anhand Genanalysen lassen erahnene, dass Fang- Wiederfang- Experimente und Beobachtungsdaten das Wanderverhalten  von Amphibien klar unterschätzen. Dabei scheint die bremsende Wirkung unterschiedlicher Landschaften zwar die Vernetzungswege zu beeinflussen aber kaum die Vernetzung selber behindern. In @sinsch2017wandern ist von einem Faktor 10 zwischen feldherpetologisch ermittelten Wanderdistanzen und genetischen Schätzungen (400-1200m VS. 10x mehr)
+Gemäss @sinsch2014movement sind die Ausbreitung einer Population sowohl auf individuelles Wanderverhalten, als auch auf ökologische Aspekte des Lebensraumes zurück zu führen. Abschätzung der Gendrift anhand Genanalysen lassen erahnene, dass Fang- Wiederfang- Experimente und Beobachtungsdaten das Wanderverhalten  von Amphibien klar unterschätzen. Dabei scheint die bremsende Wirkung unterschiedlicher Landschaften zwar die Vernetzungswege zu beeinflussen aber kaum die Vernetzung selber behindern. 
+Die genetische Vernetzung und damit die Ausbreitungsmöglichkeiten von Amphibien wird nicht hauptsächlich durch regelmässigen Austausch von Individuen sichergestellt, sondern zu einem hohen Grad von einzelnen Individuen mit stark erhöhter Wanderleistung [@sinsch2017wandern]. @sinsch2017wandern spricht von einem Faktor 10 zwischen feldherpetologisch ermittelten Wanderdistanzen und genetischen Schätzungen (400-1200m VS. 10x mehr)
 --> Für die Konnektivität reichen wenige Individuuen pro Generation. Seltene Ereignisse sind mit Beobachtungen schwer nachzuvollziehen. die Daten stellen also einen Durschnittswert dar, während einzelne Ausreisser für die Ausbreitung der Art ausreichen und die Erhaltung von Metapopulationen.
 
 
@@ -55,11 +56,12 @@ Das im Rahmen dieser Masterarbeit entwickelte Modell bildet die individuellen Le
 Kammmolche sind für die Fortpflanzung auf stehende Gewässer angewiesen. Adulte Tiere verbringen grosse Teile des Jahres an Land und wandern im Vorfrühling in die Gewässer. Die Gewässertreue bei adulten Tieren ist dabei sehr ausgeprägt. In einem Fang-Wiederfang-Experiment von @kupfer2000population wird lediglich einem Individuum von 82 wiedergefangenen Tieren ein Gewässerwechsel nachgewiesen, was `r round(100/82,2)` Prozent entspricht. Nach der Fortpflanzung verlassen die Tiere die Gewässer und verbringen das restliche Jahr an Land. Dazu suchen sie häufig Gehölze oder andere Strukturen mit einem guten Angebot an Verstecken auf. Häufig liegen diese Verstecke in mur wenige Meter von den Gewässernentfernt. Nur wenige Individuen nehmen weitere Weg in Kauf um Verstecke in einer Distanz bis zu wenigen hundert Meter zu erreichen [@stoefer2001zeitliche].
 
 ### Entwicklungsstadien
-Die Weibchen legen 200-400 Eier [@meyer2009schlangenspuren]. Aufgrund eines genetischen Phänomens stoppt bei der Hälfte der Eier die Entwicklung und die Embryonen sterben ab. Grund dafür sind unterschiedliche Ausprägungen des Chromosom 1. Embryonen, welche zwei gleichartige Chomosomen 1 besitzen, sterben demnach ab und Individuen mit beiden unterschiedlichen Ausprägungen sind überlebensfähig [@horner1985normal]. Die Mortalität der geschlüpften Larven ist ebenfalls relativ hoch, lediglich 5% der Larven erreichen die Metamorphose. Vieles spricht dafür, dass die Sterblichkeit im Larvenstadium eine Dichteabhängigkeit aufweist (persönliche Informationen B. Schmidt). Insbesondere der hohe Energiebedarf dürfte zu einem starken Konkurrenzdruck bei der Nahrungsbeschaffung führen.
+Die Weibchen legen 200-400 Eier [@meyer2009schlangenspuren]. Aufgrund eines genetischen Phänomens stoppt bei der Hälfte der Eier die Entwicklung und die Embryonen sterben ab. Grund dafür sind unterschiedliche Ausprägungen des Chromosom 1. Embryonen, welche zwei gleichartige Chomosomen 1 besitzen, sterben demnach ab und Individuen mit beiden unterschiedlichen Ausprägungen sind überlebensfähig [@horner1985normal]. Die Mortalität der geschlüpften Larven ist ebenfalls relativ hoch, lediglich 5% der Larven erreichen die Metamorphose. Vieles spricht für eine dichteabhängige Sterblichkeit im Larvenstadium (persönliche Informationen B. Schmidt, @van2007body, @schabetsberger1988alpine). Insbesondere der hohe Energiebedarf dürfte zu einem starken Konkurrenzdruck bei der Nahrungsbeschaffung führen. @schabetsberger1988alpine schätzt in einem alpinen Karstsee von rund 40'000 m2 die Anzahl Larven von T. alpestris nach einem ausserordentlichen warmen Sommer auf 30'000.
+
 
 ##Literatur noch lesen
-@perret2003transience
-@van2007body
+@hartel_nemes_öllerer_cogălniceanu_moga_arntzen_2010
+
 
 
 

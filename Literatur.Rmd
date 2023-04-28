@@ -106,13 +106,17 @@ Orientierung anhand mehrere redundanter Systeme (Landkarte, Hinweginformationen,
 Chromosom-1-Syndrom
 Triturus- Arten bilden Gameten mit zwei unterschiedlich geformten Varianten des Chromosom 1 aus. Embryonen mit beiden Varianten überleben, während embryonen mit gemischten Varianten als Embryo absterben. Das führt dazu, dass ziemlich genau 50% der Eier vor Beendigung der Entwicklung absterben.
 
-
+## Dichteabhängigkeit von Larven
+@schabetsberger1995alpine, Triturus alpestris, warmer sommer 1986 30'000 Larven, fressen 8.1% vom Eigengewicht pro Tag -> mögliche Ursache für Sterblichkeit. Fläche des Sees insgesamt geschätzt (100m breite, 120m länge, praktisch rund = 110m`2 *pi = 
+`r format(110*110 * pi,scientific=FALSE)` m2 
+entspricht mittlerer Dichte von `r format(30000/(110*110 * pi),scientific=FALSE)` Larven pro m2.
 
 # Literatur: Modell
 ## @deangelis2014individual
 Vorteile von ABM ist das definieren einer unbestimmten Anzahl von Regeln für das individuelle Verhalten. Dies ist mit Formel-basierten Ansätzen schwer und gar unmöglich:
 Lokale Interaktionen zwischen Individuen und Populationen, individuelle Unterschiede, anpassungsfähiges Verhalten.
 
+@hartel_nemes_öllerer_cogălniceanu_moga_arntzen_2010
 
 
 # Literaturverzeichnis
