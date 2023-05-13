@@ -61,11 +61,9 @@ Die Weibchen legen 200-400 Eier [@meyer2009schlangenspuren]. Aufgrund eines gene
 ### Wanderungen
 Für die Nördlichen Kammmolche wird häufig eine hohe Brutgewässertreue ermittelt [@jehle2007wanderleistung, @mori2017twenty], was bedeutet, dass Eier in demselben Weiher gelegt werden, wo das Tier selber geschlüpft ist. Generell wird die Ausbreitung der Population auf andere Gewässer sowie der genetische Austausch zwischen mehreren entfernten Populationen nur durch wenige Individuen vollbracht [@sinsch2017wandern]. Zudem bestehen Hinweise darauf, dass hauptsächlich juvenile Kammmolche wandern und neue Brutgewässer besiedeln.[@kupfer2000population]
 @kupfer2000population fing `r round(100/83,1)`% der adulten Kammolche (1 von 83) in einem anderen Gewässer und 13 von 35 (`r round(1300/35,1)`%) der Juvenilen.
+Mehrere Sinne sind an der Orientierung beteiligt. Die geruchliche Wahrnehmung wird dabei als wichtiger Sinn erachtet für die Orientierung auch über grössere Distanzen [@weiss2021olfaction]. Amphibien halten sich generell an Land an Stellen mit hoher Feuchtigkeit auf. In diesem Modell werden die Gebiete, durch welche die Tiere Wandern als Gradienten der Feuchtigkeit modelliert. Gemäss der Methode der Landschaftsumrisse [@https://doi.org/10.1111/j.1523-1739.2004.00263.x] werden hier konzentrische Kreise um unterschiedliche Bodenbedeckungstypen gelegt um die Eignung als Vernetzungslebensraum abzubilden.10, 100 und 200m Puffer an gewässern und wald. befestigte Gebiete und gebäude abgezogen.
 
 
-
-##Literatur noch lesen
-@hartel_nemes_öllerer_cogălniceanu_moga_arntzen_2010
 
 
 
