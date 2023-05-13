@@ -21,6 +21,8 @@ global {
 	float ueberlebensrate_juvenil parameter: "Überlebensrate Juvenil: " category: "Biologie" init:1.0;
 	float ueberlebensrate_adult parameter: "Überlebenrate Adulte, jährlich: " category:"Biologie" init: 0.5;
 	float larvendichte parameter: "Larvendichte Anz./m2" category:"Biologie" init:1.0;
+	float wanderAdult parameter: "Rate der Auswanderer Adulte [%]: " category: "Biologie" init: 1.2;
+	float wanderJuvenil parameter: "Rate der Auswanderer Juvenil [%]: " category: "Biologie" init: 37.3;
 	int zeit_ei parameter: "Entwicklungsdauer Ei (Tage): " category: "Biologie" init:15;
 	int zeit_larve parameter: "Entwicklungsdauer Larve (Tage): " category: "Biologie" init: 90;
 	int zeit_juvenil parameter: "Entwicklungsdauer Juvenil (Tage): " category: "Biologie" init: 730;
@@ -34,8 +36,8 @@ global {
 			location <- any_location_in(one_of(where (bb,each.anzahl_km!=0)));
 			female <- flip (0.5);
 			heimisches_gewaesser <- first(overlapping(collect(bb,each),self.location));
-			geschlechtsreife <- current_date;
-			letzte_fortpflanzung <- current_date;
+			geschlechtsreife <- starting_date;
+			letzte_fortpflanzung <- starting_date;
 		}
 	}
 }
@@ -89,7 +91,7 @@ species eier {
  	reflex entwicklung {
  		if (current_date - legedatum)/3600/24 >= zeit_ei {
  			if flip (ueberlebensrate_eier) {
-	 			write "eier entwicklung";
+	 			//write "eier entwicklung";
 				create larve number:1 {
 	 				self.color <- myself.color;
 	 				self.female <- myself.female;
@@ -144,6 +146,7 @@ species juvenil {
 	date entwicklungsdatum;
 	bb heimisches_gewaesser;
 	bool female;
+	bool wandern <- true;
 	rgb color;
 	reflex entwicklung {
 		if (current_date - entwicklungsdatum)/3600/24 >= zeit_juvenil {
@@ -152,11 +155,24 @@ species juvenil {
 					self.color <- myself.color;
 					self.female <- myself.female;
 					self.heimisches_gewaesser <- myself.heimisches_gewaesser;
-					self.letzte_fortpflanzung <- current_date - 2 #year;
+					self.geschlechtsreife <- current_date;
+					self.letzte_fortpflanzung <- nil;
 					self.location <- myself.location;
 				}
 			}
 			do die;
+		}
+		if wandern and flip(wanderJuvenil/100) {
+			create migrant number:1 {
+				self.stadium <- "juvenil";
+				self.entwicklungsdatum <- myself.entwicklungsdatum;
+				self.heimisches_gewaesser <- myself.heimisches_gewaesser;
+				self.letzte_fortpflanzung <- nil;
+			}
+			do die;
+		}
+		else {
+			wandern <- false;
 		}
 	}
 	aspect gis {
@@ -165,28 +181,27 @@ species juvenil {
 }
 
 species migrant skills: [moving]{
-	juvenil stadium_juv;
-	adult stadium_adult;
-	point ziel;
+	string stadium <- nil;
+	bb heimisches_gewaesser;
+	date entwicklungsdatum;
+	date letzte_fortpflanzung;
+	float ziel <- 999.9;
 	float distanz;
 	aspect gis{
-		draw cross (3) color:#transparent border:#blue;
+		draw square(12) color:#magenta;
 	}
-	
-	action ziel_festlegen {
-	// ziel <- punkt in weiter ferne (5km?), zufällige himmelsrichtung?	
-	}
-	
-	action wandern {
-		 //innerhalb geeigneter Strukturen?
-		do ziel_festlegen;
-		do goto target:ziel speed: self.distanz #m/#day;
+		
+	reflex wandern {
+		//innerhalb geeigneter Strukturen?
+		if ziel = 999.9 {ziel <- rnd(359.9);}
+		do move heading: ziel speed: 2 #m/#day;
 	}
 }
 
 species adult skills: [moving]{
 	date geschlechtsreife;
 	bb heimisches_gewaesser;
+	bool wandern <- true;
 	bool female;
 	rgb color;
 	date letzte_fortpflanzung;
@@ -205,22 +220,35 @@ species adult skills: [moving]{
 	reflex decide {
 		switch current_date.week_of_year {
 			match_between [0,8] {
-				do ueberwintern;
+				//do ueberwintern;
 			}
 			match_between [9,35] {
-				if (current_date - self.letzte_fortpflanzung)/3600/24 >=500 {
+				if letzte_fortpflanzung = nil or (current_date - self.letzte_fortpflanzung)/3600/24 >=500 {
 					do fortpflanzen;
 				}
-				else {do verstecken;}
+			//	else {do verstecken;}
 			}
 			match_between [36,44] {
-				do verstecken;
+			//	do verstecken;
+				if wandern and flip(wanderAdult/100) {
+					create migrant number:1 {
+						self.stadium <- "adult";
+						self.location <- myself.location;
+						self.heimisches_gewaesser <- myself.heimisches_gewaesser;
+						self.entwicklungsdatum <- myself.geschlechtsreife;
+						self.letzte_fortpflanzung <- myself.letzte_fortpflanzung;
+					}
+					do die;
+				}
+				else {
+					wandern <- false;
+				}
 			}
 			match_between [45,51] {
-				do ueberwintern;
+			//	do ueberwintern;
 			}
 			match 52 {
-				do ueberwintern;
+			//	do ueberwintern;
 				if current_date.day_of_week= 1 {
 					do sterben;
 				}
@@ -265,7 +293,7 @@ species adult skills: [moving]{
 	
 	action fortpflanzen {
 		if overlaps(self.heimisches_gewaesser.shape,self.location){
-			do wander bounds: self.heimisches_gewaesser.shape speed: 0.1 #m/#day;
+			//do wander bounds: self.heimisches_gewaesser.shape speed: 0.1 #m/#day;
 			if count(overlapping(adult,circle(10,self.location)),each.female=false)>=1 and self.female {
 				create eier number:300 {
 					self.location <- myself.location;
@@ -273,9 +301,9 @@ species adult skills: [moving]{
 					self.legedatum <- current_date;
  					self.female <- flip (0.5);
  					self.color <- female ? #red : #brown;
- 					write "Nachwuchs";
 					}
-				self.letzte_fortpflanzung <- current_date;
+				letzte_fortpflanzung <- current_date;
+				write letzte_fortpflanzung;
 			}
 			
 		}
@@ -301,7 +329,7 @@ species adult skills: [moving]{
 	action sterben {
 		if flip(1-ueberlebensrate_adult){
 			do die;
-			write "sterb!";
+			//write "sterb!";
 		}
 	}
 }
@@ -314,6 +342,7 @@ experiment test {
 			//species eier aspect:gis;
 			//species larve aspect:gis;
 			species juvenil aspect:gis;
+			species migrant aspect:gis;
 			
 			}
 		display Grafiken {
@@ -322,17 +351,20 @@ experiment test {
 					//"Eier", 
 					"Larven",
 					//"Juvenile",
-					"Adulte"
+					"Adulte",
+					"Migranten"
 				] color:[
 					//#silver,
 					#green,
 					//#red,
-					#blue
+					#blue,
+					#magenta
 				] value: [
 					//count(eier,each.color!=nil),
 					count(larve,each.color!=nil),
 					//count(juvenil,each.color!=nil),
-					count(adult,each.color!=nil)
+					count(adult,each.color!=nil),
+					count(migrant,each.stadium!=nil)
 				] marker:false;
 			}
 			chart "Anteil Weibchen" type:histogram size:{0.2,1} position:{0.8,0} style:bar y_range:{0,100} {
