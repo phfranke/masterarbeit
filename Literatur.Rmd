@@ -124,9 +124,12 @@ Lokale Interaktionen zwischen Individuen und Populationen, individuelle Untersch
 
 ## @hartel_nemes_öllerer_cogălniceanu_moga_arntzen_2010
 5 Faktoren um Vorkommen vorherzusagen: macrophyte cover, urban areas, predatory fish, road and nearest pond occupied.
-Kombination von Veteilung und Nischen- Modell
+Kombination von Verteilung und Nischen- Modell
 
 ## @https://doi.org/10.1111/j.1523-1739.2004.00263.x
 Landnutzung durch unterschiedliche Arten wird durch "Countours" (höhenkurven) modelliert. so können Gradiente modelliert werden. Anders als in Matrix- Modellen wird hier Landschaft nicht in Lebensraum und nicht-Lebensraum unterteilt sonder je nach Art in abgestufte Gebieten anhand eines Gradienten (ähnlich wie Höhenlinien) unterteilt. Komplexer realitätsnaher.
+
+# @WALLENTIN2017165
+
 
 # Literaturverzeichnis
