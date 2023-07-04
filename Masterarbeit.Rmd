@@ -59,12 +59,11 @@ Kammmolche sind für die Fortpflanzung auf stehende Gewässer angewiesen. Adulte
 Die Weibchen legen 200-400 Eier [@meyer2009schlangenspuren]. Aufgrund eines genetischen Phänomens stoppt bei der Hälfte der Eier die Entwicklung und die Embryonen sterben ab. Grund dafür sind unterschiedliche Ausprägungen des Chromosom 1. Embryonen, welche zwei gleichartige Chomosomen 1 besitzen, sterben demnach ab und Individuen mit beiden unterschiedlichen Ausprägungen sind überlebensfähig [@horner1985normal]. Die Mortalität der geschlüpften Larven ist ebenfalls relativ hoch, lediglich 5% der Larven erreichen die Metamorphose. Vieles spricht für eine dichteabhängige Sterblichkeit im Larvenstadium (persönliche Informationen B. Schmidt, @van2007body, @schabetsberger1995alpine). Insbesondere der hohe Energiebedarf dürfte zu einem starken Konkurrenzdruck bei der Nahrungsbeschaffung führen. @schabetsberger1995alpine schätzt in einem alpinen Karstsee von rund 40'000 m2 die Anzahl Larven von T. alpestris nach einem ausserordentlichen warmen Sommer auf 30'000, was ein Maximalwert für diesen Standort darstellen dürfte.
 
 ### Wanderungen
-Für die Nördlichen Kammmolche wird häufig eine hohe Brutgewässertreue ermittelt [@jehle2007wanderleistung, @mori2017twenty], was bedeutet, dass Eier in demselben Weiher gelegt werden, wo das Tier selber geschlüpft ist. Generell wird die Ausbreitung der Population auf andere Gewässer sowie der genetische Austausch zwischen mehreren entfernten Populationen nur durch wenige Individuen vollbracht [@sinsch2017wandern]. Zudem bestehen Hinweise darauf, dass hauptsächlich juvenile Kammmolche wandern und neue Brutgewässer besiedeln.[@kupfer2000population]
+Für die Nördlichen Kammmolche wird eine hohe Brutgewässertreue ermittelt [@jehle2007wanderleistung, @mori2017twenty], was bedeutet, dass Eier in demselben Weiher gelegt werden, in dem das Tier selbst geschlüpft ist. Generell wird die Ausbreitung der Population auf andere Gewässer sowie der genetische Austausch zwischen mehreren entfernten Populationen nur durch wenige Individuen vollbracht [@sinsch2017wandern]. Zudem bestehen Hinweise darauf, dass hauptsächlich juvenile Kammmolche wandern und neue Brutgewässer besiedeln.[@kupfer2000population]
 @kupfer2000population fing `r round(100/83,1)`% der adulten Kammolche (1 von 83) in einem anderen Gewässer und 13 von 35 (`r round(1300/35,1)`%) der Juvenilen.
-Mehrere Sinne sind an der Orientierung beteiligt. Die geruchliche Wahrnehmung wird dabei als wichtiger Sinn erachtet für die Orientierung auch über grössere Distanzen [@weiss2021olfaction]. Amphibien halten sich generell an Land an Stellen mit hoher Feuchtigkeit auf. In diesem Modell werden die Gebiete, durch welche die Tiere Wandern als Gradienten der Feuchtigkeit modelliert. Gemäss der Methode der Landschaftsumrisse [@https://doi.org/10.1111/j.1523-1739.2004.00263.x] werden hier konzentrische Kreise um unterschiedliche Bodenbedeckungstypen gelegt um die Eignung als Vernetzungslebensraum abzubilden.10, 100 und 200m Puffer an gewässern und wald. befestigte Gebiete und gebäude abgezogen.
+Mehrere Sinne sind an der Orientierung beteiligt. Die geruchliche Wahrnehmung wird dabei als wichtiger Sinn erachtet für die Orientierung auch über grössere Distanzen [@weiss2021olfaction]. Amphibien halten sich generell an Land an Stellen mit hoher Feuchtigkeit auf. In diesem Modell werden die Gebiete, durch welche die Tiere Wandern als Gradienten der Feuchtigkeit modelliert.
 
-
-
+Gemäss der Methode der Landschaftsumrisse [@https://doi.org/10.1111/j.1523-1739.2004.00263.x] werden hier konzentrische Kreise um unterschiedliche Bodenbedeckungstypen gelegt um die Eignung als Vernetzungslebensraum abzubilden.10, 100 und 200m Puffer an gewässern und wald. befestigte Gebiete und gebäude abgezogen.
 
 
 
@@ -97,14 +96,24 @@ knitr::kable(tab,caption='Klassifizierung der Bodenoberfläche',label='bobe')
 
 
 ### Agenten
-Das Modell bildet die Entwicklungszyklen und die Stadien der Kammmolche nach. Der Entwicklungszyklus beinhaltet im zeitlichen Ablauf die Stadien Eier, Larven, Juvenile und Adulte Tiere. Die Entwicklungsstadien werden alle als eigene Spezies implementiert. Beim Übergang von einem Stadium ins nächste wird das Individuum aus dem Modell entfernt und ein Individuum des neuen Stadiums geschaffen. Dabei werden die Attribute "Geschlecht" und "Fortpflanzungsgewässer" jeweils an die nächste Generation weitergegeben. Die Sterblichkeit der einzelnen Stadien wird an dieser Stelle implementiert. Erreicht ein Individuum aufgrund der Streblichkeit das neue Stadium nicht wird es aus dem Modell entfernt ohne, dass ein neues Stadium entsteht.
+Das Modell bildet die Entwicklungszyklen und die Stadien der Kammmolche nach. Der Entwicklungszyklus beinhaltet im zeitlichen Ablauf die Stadien Eier, Larven, Juvenile und Adulte Tiere. In den ersten Stadien (als Ei und Larve) sind Kammmolche an ihr Gewässer gebunden und unternehmen keine Wanderungen. Aus Gründen der Performance wurden diese Stadien nicht als einzelne Individuen modelliert. Es werden jeweils ausgehend vom Muttertier eine Entität kreiert, welche das Stadium "Ei" oder "Larve" annehmen kann und die Anzahl Individuen als nummerisches Attribut enthält. Die Sterblichkeit wird hier nicht in Form eines einmaligen, zufälligen Ereignisses für jedes Individuum durchgeführt, sondern als Reduktion der Anzahl Individuen. Dieser Übergang von agentenbasiertem Modell zu einem formelbasierten Modellansatz stammt, stark vereinfacht, aus @WALLENTIN2017165. Als Schalter für den Wechsel zwischen den Modellparadigmen bietet sich hier der Übergang zwischen den Stadien an.
 
+Der Übergang zwischen den Entwicklungsstadien geschieht nach dem Kalender. Bei Überschreiten der Zeitdauer, welche für jedes Stadium festgelegt ist, gehen die betroffenen Tiere ins nächste Stadium über. Die Sterblichkeit wird in allen Stadien hier platziert. Jedes Individuum wird entweder in das nächste Stadium befördert oder es stirb. Die Wahrscheinlichkeiten für diesen Übertritt entstammt aus der Literatur.
+
+### Modellkonzepte
+Ausbreitung
+Vermehrung
+Sensing
 
 
 ## Daten
 ### Bodenbedeckung
 Kanton BL WMS Layer. Verfügbare Typen: ----
 Loch in Frankreich anhand 1:25'000 er Landeskarte grob abdigitalisiert. grössere Strassen, Wald, alle Bäche, alle Weiher, Häuser mit Standardrechteck ungefähr. Umgebung um Häuser: Gartenanlage, Rest: Acker, Wiese, Weide
+
+
+## Vernetzungskorridore
+@https://doi.org/10.1111/j.1523-1739.2004.00263.x Lebensraumumrisse. Im GIS modelliert. Annahme: Eher feuchte Regionen werden für Wanderungen bevorzugt. Puffer um Gewässer und Wald von 10, 100 und 200 Metern. 
 
 ### Zähl- und Messdaten
 
