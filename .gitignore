@@ -1,3 +1,4 @@
+Literatur.pdf
 *.pdf
 *.tex
 test.out
@@ -8,4 +9,3 @@ test.aux*.aux
 .Rhistory
 .RData
 .Ruserdata
-Literatur.pdf
