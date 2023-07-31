@@ -80,7 +80,7 @@ Das Untersuchungsgebiet besteht aus einem 10 * 10 km grossen Quadrat in der Nord
 ## Modell
 In den folgenden Absätzen, wird die Funktionsweise des Modells beschrieben. Die Beschreibung des konzeptionellen Modells erfolgt zusätzlich im ODD- Protokoll (siehe Anhang). Das Modell wird auf einem handelsüblichen Laptop ausgeführt. Das Modell berechnet gleichzeitig tausende von Agenten, was die Arbeitsspeicher des Computers stark beansprucht. Um die Funktionsfähigkeit des Modell zu erhalten und zu beschleunigen, werden viele Lebensabschnitte der Kammmolche vereinfacht dargestellt. So sind räumliche Berechnungen ressourcenintensiv, weshalb sie im Modell auf ein Minimum reduziert werden. Das Modell ist stringent auf die beschriebenen Ziele (siehe Kapitel \@ref(fragestellung)) ausgerichtet und vernachlässigt Verhaltensweisen, welche für diese Ziele nicht relevant sind. 
 
-Beispielsweise verbringen Kammmolche grosse Teile des Erwachsenenlebens ausserhalb der Gewässer und kommen lediglich für die Fortpflanzung in die Gewässer. Welcher Anteil der Population in der Fortpflanzungszeit tatsächlich in die Gewässer einwandert ist aber unbekannt und müsste im Modell angenommen oder in verschiedenen Szenarien abgebildet werden. Im Modell hat die Population in den Gewässern Einfluss auf die Anzahl der abgefangenen Tiere. Hier wird mit Szenarien gearbeitet, wieviel Prozent der Population abgefangen werden. Diese Szenarien decken eine grosse Bandbreite ab und beinhalten zwei Apsekte: 1. Tiere, welche durch die Zäune schlüpfen oder sonstwie umgehen; 2. Tiere, welche gar nicht in die Gewässer einwandern und deshalb nicht gefangen werden.
+Beispielsweise verbringen Kammmolche grosse Teile des Erwachsenenlebens ausserhalb der Gewässer und kommen lediglich für die Fortpflanzung in die Gewässer. Welcher Anteil der Population in der Fortpflanzungszeit tatsächlich in die Gewässer einwandert ist aber unbekannt und müsste im Modell angenommen oder in verschiedenen Szenarien abgebildet werden. Im Modell hat die Population in den Gewässern Einfluss auf die Anzahl der im Rahmen der Bekämpfungsmassnahmen gefangenen Tiere. Das Modell belässt die Tiere in den meisten Situationen unbeweglich in den Gewässern. Die Bekämpfung der Kammmolche wird mit Szenarien untersucht. Diese Szenarien decken eine grosse Bandbreite ab und beinhalten zwei Aspekte: 1. Tiere, welche durch die Zäune schlüpfen oder sonstwie umgehen; 2. Tiere, welche gar nicht in die Gewässer einwandern und deshalb nicht gefangen werden.
 
 ### Zweck
 Die Fragestellung ist in Kapitel \@ref(fragestellung) beschrieben. Das Modell bezweckt die Untersuchung der Populationsdynamik. Dafür werden Wanderbewegungen, Sterblichkeit und Fortpflanzugstätigkeit der Italienischen Kammmolche modelliert.
@@ -111,10 +111,10 @@ Das Modell beginnt am 1.1.2000 mit einer bestimmten Anzahl daulten Tiere in eine
   * Wanderung zwischen April und Oktober: Ein bestimmter Anteil der Erwachsenen wandert, andere bleiben im Gewässer.
 
 ### Wanderungen
-Wandernde Tiere, unabhängig ob es sich um juvenile oder adulte Tiere handelt, zeigen das gleiche Wanderverhalten. Sie laufen in eine zufällige Himmelsrichtung aus dem Gewässer. Die Wanderrichtung weicht mit jedem Zeitschritt um +/- 15° vom momentanen Kurs ab. Nach Ablauf der Wandersaison suchen die wandernden Tiere dasjenige Gewässer auf, welches Ihnen am nächsten ist (Luftlinie). Bei der Berechnung der Wanderrichtung wird auch die Wandergeschwindigkeit für den Zeitschritt festgelegt. Diese nimmt zufällig einen Wert zwischen 5 und 30 Metern pro Tag an. Dieses Gewässer wird dann zum angestammten Gewässer des Individuums. Umgebungsdaten bleiben hier weitgehend unberücksichtigt, da konkrete Wanderverhalten der Tiere zu wenig bekannt sind und diese das Modell weiter verlangsamen würden. Lediglich Gebäude können nicht durchwandert werden, alle anderen Bodenoberflächen können mit gleichbleibender Geschwindigkeit durchschritten.
+Wandernde Tiere, unabhängig ob es sich um juvenile oder adulte Tiere handelt, zeigen das gleiche Wanderverhalten. Sie laufen in eine zufällige Himmelsrichtung aus dem Gewässer. Die Wanderrichtung weicht mit jedem Zeitschritt um maximal +/- 30° vom aktuellen Kurs ab. Nach Ablauf der Wandersaison suchen die wandernden Tiere dasjenige Gewässer auf, welches Ihnen am nächsten ist (Luftlinie). Diese nimmt zufällig einen Wert zwischen 5 und 25 Metern pro Tag an. Dieses Gewässer wird dann zum angestammten Gewässer des Individuums. Bei der Berechnung der Wanderrichtung wird auch die Wandergeschwindigkeit für den Zeitschritt festgelegt. Umgebungsdaten bleiben hier weitgehend unberücksichtigt, da konkrete Wanderverhalten der Tiere zu wenig bekannt sind und diese das Modell stark verlangsamen würden. Einzig die Gebäude werden als Hinderniss modelliert, welche von den Kammmolchen nicht durchwandert werden können. Alle anderen Bodenoberflächen können mit gleichbleibender Geschwindigkeit durchschritten.
 
 ### Bekämpfung
-Ab dem 1.1.2020 werden Bekämpfungsmassnahmen simuliert. 
+Ab dem Modelldatum 1.1.2020 werden Bekämpfungsmassnahmen simuliert. Es ist bekannt, an welchen Weihern Tiere abgefangen werden. Hier werden an einem einzelnen Tag eine bestimmte Anzahl Tiere aus dem Modell entfernt. Dabei werden lediglich Tiere entfernt, welche mit einem der eingezäunten Gewässer verbunden ist. Für die Validierung werden hier Informationen zu den einzelnen Tieren gespeichert wie Anzahl,Geschlecht und Alter.
 
 
 ### Parameter
@@ -141,9 +141,6 @@ Bezeichnung <- c('Acker, Wiese, Weide','Bahn','fliessendes Gewässer','Gartenanl
 tab<-cbind(Code,Bezeichnung)
 knitr::kable(tab,caption='Klassifizierung der Bodenoberfläche',label='bobe')
 ```
-
-<!-- ## Vernetzungskorridore -->
-<!-- @https://doi.org/10.1111/j.1523-1739.2004.00263.x Lebensraumumrisse. Im GIS modelliert. Annahme: Eher feuchte Regionen werden für Wanderungen bevorzugt. Puffer um Gewässer und Wald von 10, 100 und 200 Metern.  -->
 
 ### Zähl- und Messdaten
 
