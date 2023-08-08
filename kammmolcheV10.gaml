@@ -35,12 +35,14 @@ global {
 	int zeit_larve parameter: "Entwicklungsdauer Larve (Tage): " category: "Entwicklung" init: 90;
 	int zeit_juvenil parameter: "Entwicklungsdauer Juvenil (Tage): " category: "Entwicklung" init: 730;
 	int gelegegroesse parameter: "Gelegegrösse (Eier / Weibchen): " category: "Entwicklung" init: 300;
+	int fortpflanzungPause parameter: "Jahre ohne Fortpflanzung: " category: "Entwicklung" init: 2;
 	int anz_gelegte_eier <- 0;
 	int anz_geschluepfte_larven <- 0;
 	int anz_entw_juvenil <- 0;
 	int anz_entw_adult <- 0;
 	int anz_wanderer_juvenil <- 0;
 	int anz_wanderer_adult <- 0;
+	int anz_bewohnte_gewaesser <- 0;
 	
 	init{
 		create bb from:shp_bb with:[
@@ -80,6 +82,9 @@ global {
 			}
 		}
 		display_jahreszeit <- jahreszeiten[aktuelleJahreszeit];
+	}
+	reflex berechnung {
+		anz_bewohnte_gewaesser <- count(bb,each.anzahl_km>0);
 	}
 }
 
@@ -200,8 +205,8 @@ species juvenil {
 			}
 			do die;
 		}
-		// wandernde Juvenile, nur zur passenden Jahreszeit
-		else if aktuelleJahreszeit = 3 { 
+		// wandernde Juvenile, nicht im Winter
+		else if aktuelleJahreszeit !=4 { 
 			if flip(wanderJuvenil/100) and self.wandern {
 				create migrant number:1 {
 					self.juvenil <- true;
@@ -275,30 +280,36 @@ species migrant skills: [moving]{
 				do die;
 			}
 		}
+		// im Winter wird eine Pause eingelegt
+		if aktuelleJahreszeit = 3 {
+			
+		}
 		// normale Wanderbewegung
 		else if wandern {
 			do kurswechsel;
 		}
 		
-	//Brechnung ob ein Gebäude im Weg steht
-		self.zielpunkt <- {self.location.x + (cos(self.ziel)*tempo) ,self.location.y+(sin(self.ziel)*tempo)};
-		self.korridor <- line(self.location,zielpunkt);
-		bb barriere <- first(where(bb,intersects(each,line(self.location, zielpunkt)) and each.typ="Gebaeude"));
-		if barriere != nil {
-			self.tempo <- distance_to(self, barriere.shape);
+	//Brechnung ob ein Gebäude im Weg steht, und wandern, Im Winter ist stillstand!
+		if aktuelleJahreszeit!=4 {
+			self.zielpunkt <- {self.location.x + (cos(self.ziel)*tempo) ,self.location.y+(sin(self.ziel)*tempo)};
+			self.korridor <- line(self.location,zielpunkt);
+			bb barriere <- first(where(bb,intersects(each,line(self.location, zielpunkt)) and each.typ="Gebaeude"));
+			if barriere != nil {
+				self.tempo <- distance_to(self, barriere.shape);
+			}
+			if !self.wandern and self.tempo = 5 {
+				self.ziel <- towards(self.location,heimisches_gewaesser.location);
+				self.tempo <- 5.0 + rnd(20.0);
+			}		
+			if self.tempo < 0.5 {
+				self.ziel <- self.ziel + 30;
+				self.tempo <- 5.0;
+			}
+			do move speed: tempo #m/#day heading: self.ziel;	
 		}
-		if !self.wandern and self.tempo = 5 {
-			self.ziel <- towards(self.location,heimisches_gewaesser.location);
-			self.tempo <- 5.0 + rnd(20.0);
-		}		
-		if self.tempo < 0.5 {
-			self.ziel <- self.ziel + 30;
-			self.tempo <- 5.0;
-		}
-		do move speed: tempo #m/#day heading: self.ziel;
 	}
 	
-	//Wanderbewegungen sind nicht gradlinig, sondern schwankend 
+	//Wanderbewegungen sind nicht gradlinig, sondern taumelnd 
 	action kurswechsel {
 		float kurswechsel <- rnd(30.0);
 		float links_rechts <- flip(0.5) ? 1.0: -1.0;
@@ -331,9 +342,9 @@ species kammmolch skills: [moving]{
 	
 	reflex jahreszeit {
 		if aktuelleJahreszeit = 2{
-			if letzte_fortpflanzung = nil or (current_date - self.letzte_fortpflanzung)/3600/24 >=500 {
-					do fortpflanzen;
-				}
+			if letzte_fortpflanzung = nil or (self.letzte_fortpflanzung add_years fortpflanzungPause < current_date) {
+				do fortpflanzen;
+			}
 		}
 		else if aktuelleJahreszeit = 3 {
 			//	Wandern
@@ -380,8 +391,6 @@ species kammmolch skills: [moving]{
 		}
 	}
 }
-
-
 
 experiment komplett {
 	list<bb> kmProGewaesser;
@@ -467,39 +476,40 @@ experiment komplett {
 		monitor Wanderer value: count(migrant,true) color:#brown; 
 	}	
 }
-//
-//experiment dichte_larven {
-//	list<nachwuchs> larven;
-//	list<bb> larvengewaesser;
-//	list<float> gewaesser_flaeche;
-//	reflex zahlen {
-//		larven <- where(nachwuchs,!each.ei);
-//		larvengewaesser  <- inter( list(bb), collect(larven,each.heimisches_gewaesser) );
-//		gewaesser_flaeche  <- collect(larvengewaesser,each.flaeche);
-//	}
-//	output {
-//		display grafik {
-//			chart "larvendichte" type:series {
-//				datalist ["Anz. Larvengewaesser","Anz.Larven","Gewaesserflaeche"]
-//				color: [#black,#green,#orange]
-//				value: [count(larvengewaesser,each.color!=nil), sum(collect(larven, each.anzahl)),sum(gewaesser_flaeche)]
-//				marker: false;
-//			}
-//		}
-//	}
-//}
-//experiment kalibration_sterblichkeit_larve type:batch repeat:1 until:cycle=1000{
-//	parameter koeffizient var:dichtekoeffizient among:[0.001,0.01,0.1];
-////	float sterb_ei <- 0.0;
-//	float sterb_larve <- 0.0;
-////	float sterb_juvenil <- 0.0;
-//	reflex count_stadien {
+
+experiment kalibration type:batch repeat:3 until:cycle=7300 {
+	parameter koeffizient var:dichtekoeffizient among:[0.005,0.01,0.1]; 
+	reflex count_stadien {
+		ask simulations {
+			save [
+				current_date,
+				self.name,
+				dichtekoeffizient,
+				self.anz_gelegte_eier,
+				self.anz_geschluepfte_larven,
+				self.anz_entw_juvenil,
+				self.anz_entw_adult,
+				self.anz_wanderer_juvenil,
+				self.anz_wanderer_adult,
+				self.anz_bewohnte_gewaesser
+			] to:"./result/kalibration.csv" type:"csv" rewrite:self.name='Simulation 0' ? true : false;
+		}	
+	}
+	permanent {
+		monitor Anzahl_gelegte_Eier value:anz_gelegte_eier color:#grey;
+		monitor Anzahl_geschluepfte_Larven value:anz_geschluepfte_larven color:#green;
+		monitor Anzahl_entwickelte_Juvenile value: anz_entw_juvenil color:#red;
+		monitor Anzahl_entwickelte_Adulte value: anz_entw_adult color:#aqua;
+		monitor Anzahl_bewohnte_Gewaesser value: anz_bewohnte_gewaesser color:#blue;
+	}
+}
 //		int anz_larven <- sum(collect(where(nachwuchs,!each.ei),each.anzahl));
 ////		self.sterb_ei <- (anz_geschluepfte_larven != 0 and anz_gelegte_eier != 0) ? 1- anz_geschluepfte_larven / (anz_gelegte_eier- sum(collect(where(nachwuchs,each.ei),each.anzahl))) : 0;
-//		self.sterb_larve <- (anz_entw_juvenil != 0 and anz_geschluepfte_larven !=0) ? 1-anz_entw_juvenil / (anz_geschluepfte_larven - anz_larven): 0;
+////		self.sterb_larve <- (anz_entw_juvenil != 0 and anz_geschluepfte_larven !=0) ? 1-anz_entw_juvenil / (anz_geschluepfte_larven - anz_larven +1): 0;
 ////		self.sterb_juvenil <- (anz_entw_adult !=0 and anz_entw_juvenil != 0) ? 1-anz_entw_adult / anz_entw_juvenil : 0;
 //		write "anz lebende Larven: " + anz_larven + ", Sterberate: " + sterb_larve;
 //		string pfad <- "./result/" + "sterblichkeit.csv";
+//		bool neueDatei <- current_date=starting_date ? true : false;
 //			ask simulation {
 //				save [
 //					current_date,
@@ -513,7 +523,7 @@ experiment komplett {
 ////					myself.sterb_ei,
 //					myself.sterb_larve
 ////					myself.sterb_juvenil
-//				] to:pfad type: "csv" rewrite:false;
+//				] to:pfad type: "csv" rewrite:neueDatei;
 //			}
 //		}
 //	//}
@@ -537,24 +547,24 @@ experiment komplett {
 //					anz_entw_adult
 //				] marker: false;
 //			}
-//			chart "Sterblichkeit" type:series size:{1,0.5} position:{0,0.5}{
-//				datalist [
-////					"Überleben Eier",
-//					"Sterberate Larve"
-////					"Überleben Juvenile"
-////					"Anzahl Entwickelte Adulte"
-//				] color: [
-////					#grey,
-//					#green
-////					#red
-////					#aqua
-//				] value: [
-////					self.sterb_ei,
-//					self.sterb_larve
-////					self.sterb_juvenil
-////					anz_entw_adult
-//				] marker: false;
-//			}
+////			chart "Sterblichkeit" type:series size:{1,0.5} position:{0,0.5}{
+////				datalist [
+//////					"Überleben Eier",
+////					"Sterberate Larve"
+//////					"Überleben Juvenile"
+//////					"Anzahl Entwickelte Adulte"
+////				] color: [
+//////					#grey,
+////					#green
+//////					#red
+//////					#aqua
+////				] value: [
+//////					self.sterb_ei,
+////					self.sterb_larve
+//////					self.sterb_juvenil
+//////					anz_entw_adult
+////				] marker: false;
+////			}
 //		}
 //		monitor Datum value:current_date color:jahreszeit_color;
 //		monitor Anzahl_gelegte_Eier value:anz_gelegte_eier color:#grey;
@@ -564,4 +574,3 @@ experiment komplett {
 //		monitor Sterblickeit_Larven value: (anz_entw_juvenil != 0 and anz_geschluepfte_larven !=0) ? sterb_larve : 0 color:#green;
 //		monitor Sterblickeit_Juvenile value: (anz_entw_adult !=0 and anz_entw_juvenil != 0) ? 1-anz_entw_adult / anz_entw_juvenil : 0 color:#red;
 //	}
-//}
