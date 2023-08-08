@@ -118,12 +118,12 @@ Ab dem Modelldatum 1.1.2020 werden Bekämpfungsmassnahmen simuliert. Es ist beka
 
 
 ### Parameter
-Das Modell definiert insgesamt 14 Parameter. Diese sind in Tabelle \@ref(tab:para) aufgelistet.
+Das Modell definiert insgesamt 15 Parameter. Diese sind in Tabelle \@ref(tab:para) aufgelistet.
 ```{r tab_parameter, echo=FALSE}
-Bezeichnung <- c('Anzahl Kammmolche zu Beginn','Start Datum','Überlebensrate Eier','Überlebensrate Larven','Überlebensrate Juvenile','Überlebensrate Adulte, jährlich','Larvendichte','Abhängigkeit Larvendichte/Larvensterblichkeit','Rate der Wanderer Adult','Rate der Wanderer Juvenil','Dauer der Wandertätigkeit','Entwicklungsdauer Ei','Entwicklungsdauer Larve','Entwicklungsdauer Juvenil', 'Gelegegrösse')
+Bezeichnung <- c('Anzahl Kammmolche zu Beginn','Start Datum','Überlebensrate Eier','Überlebensrate Larven','Überlebensrate Juvenile','Überlebensrate Adulte, jährlich','Larvendichte','Abhängigkeit Larvendichte/Larvensterblichkeit','Rate der Wanderer Adult','Rate der Wanderer Juvenil','Dauer der Wandertätigkeit','Entwicklungsdauer Ei','Entwicklungsdauer Larve','Entwicklungsdauer Juvenil', 'Gelegegrösse', 'Jahre ohne Fortpflanzung')
 Einheit <- c('Stk.','-','-','-','-','-','Stk./m2','-','%','%','Tage','Tage','Tage','Tage','Eier/Weibchen')
-Wert <- c('50','1.1.2000','0.5','0.4','0.4','0.5','1.0','0.01','1.2','37.3','30','1.5','90','730','300')
-Herkunft <- c('Annahme','Annahme','Literatur','Literatur','Literatur','Literatur','Literatur','Annahme','Literatur','Literatur','Literatur','Literatur','Literatur','Literatur','Literatur')
+Wert <- c('50','1.1.2000','0.5','0.4','0.4','0.5','1.0','0.01','1.2','37.3','30','1.5','90','730','300','2')
+Herkunft <- c('Annahme','Annahme','Literatur','Literatur','Literatur','Literatur','Literatur','Annahme','Literatur','Literatur','Literatur','Literatur','Literatur','Literatur','Literatur','Literatur')
 tab<-cbind(Bezeichnung,Einheit,Wert, Herkunft)
 knitr::kable(tab,caption='Im Modell verwendete Parameter',label='para')
 ```
