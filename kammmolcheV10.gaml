@@ -477,8 +477,8 @@ experiment komplett {
 	}	
 }
 
-experiment kalibration type:batch repeat:3 until:cycle=7300 {
-	parameter koeffizient var:dichtekoeffizient among:[0.005,0.01,0.1]; 
+experiment kalibration type:batch repeat:1 until:current_date=date("20030101") {
+	parameter koeffizient var:dichtekoeffizient among:[0.005,0.005,0.005,0.01,0.01,0.01,0.1,0.1,0.1]; 
 	reflex count_stadien {
 		ask simulations {
 			save [
@@ -503,74 +503,3 @@ experiment kalibration type:batch repeat:3 until:cycle=7300 {
 		monitor Anzahl_bewohnte_Gewaesser value: anz_bewohnte_gewaesser color:#blue;
 	}
 }
-//		int anz_larven <- sum(collect(where(nachwuchs,!each.ei),each.anzahl));
-////		self.sterb_ei <- (anz_geschluepfte_larven != 0 and anz_gelegte_eier != 0) ? 1- anz_geschluepfte_larven / (anz_gelegte_eier- sum(collect(where(nachwuchs,each.ei),each.anzahl))) : 0;
-////		self.sterb_larve <- (anz_entw_juvenil != 0 and anz_geschluepfte_larven !=0) ? 1-anz_entw_juvenil / (anz_geschluepfte_larven - anz_larven +1): 0;
-////		self.sterb_juvenil <- (anz_entw_adult !=0 and anz_entw_juvenil != 0) ? 1-anz_entw_adult / anz_entw_juvenil : 0;
-//		write "anz lebende Larven: " + anz_larven + ", Sterberate: " + sterb_larve;
-//		string pfad <- "./result/" + "sterblichkeit.csv";
-//		bool neueDatei <- current_date=starting_date ? true : false;
-//			ask simulation {
-//				save [
-//					current_date,
-////					anz_gelegte_eier,
-////					anz_geschluepfte_larven,
-//					anz_larven,
-//					anz_entw_juvenil,
-////					anz_entw_adult,
-////					anz_wanderer_juvenil,
-////					anz_wanderer_adult,
-////					myself.sterb_ei,
-//					myself.sterb_larve
-////					myself.sterb_juvenil
-//				] to:pfad type: "csv" rewrite:neueDatei;
-//			}
-//		}
-//	//}
-//	output {
-//		display Grafik {
-//			chart "Summierte Stadien" type:series size:{1,0.5} position:{0,0}{
-//				datalist [
-//					"Anzahl gelegte Eier",
-//					"Anzahl geschlüpfte Larve",
-//					"Anzahl Entwickelte Juvenile",
-//					"Anzahl Entwickelte Adulte"
-//				] color: [
-//					#grey,
-//					#green,
-//					#red,
-//					#aqua
-//				] value: [
-//					anz_gelegte_eier,
-//					anz_geschluepfte_larven,
-//					anz_entw_juvenil,
-//					anz_entw_adult
-//				] marker: false;
-//			}
-////			chart "Sterblichkeit" type:series size:{1,0.5} position:{0,0.5}{
-////				datalist [
-//////					"Überleben Eier",
-////					"Sterberate Larve"
-//////					"Überleben Juvenile"
-//////					"Anzahl Entwickelte Adulte"
-////				] color: [
-//////					#grey,
-////					#green
-//////					#red
-//////					#aqua
-////				] value: [
-//////					self.sterb_ei,
-////					self.sterb_larve
-//////					self.sterb_juvenil
-//////					anz_entw_adult
-////				] marker: false;
-////			}
-//		}
-//		monitor Datum value:current_date color:jahreszeit_color;
-//		monitor Anzahl_gelegte_Eier value:anz_gelegte_eier color:#grey;
-//		monitor Anzahl_geschluepfte_Larven value:anz_geschluepfte_larven color:#green;
-//		monitor Anzahl_entwickelte_Juvenile value: anz_entw_juvenil color:#red; 
-//		monitor Sterblichkeit_Eier value:(anz_geschluepfte_larven != 0 and anz_gelegte_eier != 0) ? 1-anz_geschluepfte_larven / anz_gelegte_eier : 0 color:#grey;
-//		monitor Sterblickeit_Larven value: (anz_entw_juvenil != 0 and anz_geschluepfte_larven !=0) ? sterb_larve : 0 color:#green;
-//		monitor Sterblickeit_Juvenile value: (anz_entw_adult !=0 and anz_entw_juvenil != 0) ? 1-anz_entw_adult / anz_entw_juvenil : 0 color:#red;
-//	}
