@@ -15,11 +15,11 @@ description: "Masterarbeit von Philipp Franke"
 toc-title: "Inhaltsverzeichnis"
 ---
 ```{r, include=FALSE}
-options(tinytex.verbose = FALSE)
+options(tinytex.verbose = TRUE)
 ```
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 # Das ist das erste Kapitel?
-## das freut einen alten Roldaten
+## das freut einen alten "R"-oldaten

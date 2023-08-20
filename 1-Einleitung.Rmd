@@ -1,4 +1,3 @@
 # Einleitung
-
 ## Eingeschleppte Arten
 Eingeschleppte Arten gehören gemäss @clavero2005invasive zu den stärksten Gefährdungsursachen bei Tieren auf der roten Liste der internationeln Union zur Bewahrung der Natur (IUCN). Dabei werden für 54% der untersuchten, ausgestorbenen Arten zumindest eine teilweise Ursache in standortfremden Arten ermittelt. @blackburn2019alien ermittelt invasive Spezies als Hauptursache für das Aussterben von 25.5% von kürzlich ausgestorbenen Pflanzenarten und 33.4% für die untersuchten Tierarten. Die effektive Bekämpfung von invasiven Species ist demnach eine notwendige Massnahme um dem Aussterben von Arten entgegen zu wirken.
