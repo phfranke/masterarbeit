@@ -1,14 +1,14 @@
 ---
 title: "Untersuchung der Dynamik einer Population der invasiven Italienischer Kammmolche (Triturus carnifex) in Allschwil und Überprüfung der Wirksamkeit von Bekämpfungsmethoden anhand eines agentenbasierten Modellansatzes"
 author: "Philipp Franke"
-date: "2023-02-07"
-output:  bookdown::pdf_document2
-language:
-  label:
-    fig: "Abbildung "
-    tab: "Tabelle "
-    
-bibliography: literatur.bib
+date: "`r Sys.Date()`"
+
+output:
+  bookdown::pdf_document2
+
+lang: de
+
+bibliography: ../literatur/literatur.bib
 
 toc-title: "Inhaltsverzeichnis"
 
@@ -80,12 +80,12 @@ Untersuchung der Populationsdynamik des Italienischen Kammmolchs (Triturus carni
 # Material und Methoden
 ## Untersuchungsgebiet {#untersuchungsgebiet}
 Das Untersuchungsgebiet besteht aus einem 8 * 8 km grossen Quadrat in der Nordwestecke der Schweiz. Es reicht bis an die Kantonsgrenze zu Basel-Stadt im Norden sowie an die Landesgrenze zu Frankreich im Westen. Es deckt auf Schweizer Seite die Gemeinden Allschwil, Biel-Benken, Binningen, Bottmingen und Oberwil teilweise ab. Am Rand des Untersuchungsgebietes liegen Basel-Stadt und Frankreich. Die Lage des Untersuchungsgebietes ist auf der Übersichtkarte in Abbildung \@ref(fig:uebersichtskarte) gut erkennbar. Diese Gebiete werden grösstenteils ausgeschlossen. Sie liegen peripher und dürften für den Untersuchungszweck eine untergeordnete Rolle spielen. Ausnahme ist die französische Gemeinde Neuwiller. Diese liegt zwischen den Gemeinden Allschwil und Biel-Benken und könnte somit in der Ausbreitung der Kammmolche eine Rolle spielen. Das Ausschliessen dieser Gemeinde könnte die Aussagekraft des Modells stark einschränken. Aus diesem Grund wurde diese Gemeinde in das Modell integriert. Die benötigten Oberflächendaten wurden hier anhand der 1:25'000 er Landeskarte der Schweiz von Hand grob abdigitalisiert. Erkennbare Strukturen, wie Gebäude, Siedlung, Strassen, Wälder, Landwirtschaftsland und Gewässer wurden dabei berücksichtigt. Die Körnung ist deutlich gröber wie die Daten der amtlichen Vermessung.
-```{r  uebersichtskarte, echo=FALSE, out.width="90%",fig.cap="Das Untersuchungsgebiet (schwarz umrandet) auf der Landeskarte im Massstab 1:100'000. Massstab 1:100'000"}
-knitr::include_graphics(c("bilder/Uebersicht100.jpg"))
+```{r  'uebersichtskarte',echo=FALSE,out.width="90%",fig.cap="Das Untersuchungsgebiet (schwarz umrandet) auf der Landeskarte im Massstab 1:100'000. Massstab 1:100'000"}
+knitr::include_graphics(c("../bilder/Uebersicht100.jpg"))
 ```
-Die beobachteten Kammmolche beschränken sich auf wenige Gewässer innerhalb des Untersuchungsgebietes, siehe Abbildung \@ref(fig:talbekämpfung). Es kann davon ausgegangen werden, dass von diesen Gewässern eine Ausbreitung stattfinden könnte, weshalb das Untersuchungsgebiet deutlich grösser angelegt wurde.
-```{r  talbekämpfung, echo=FALSE, out.width="90%",fig.cap="Die Gewässer, in welchem Kammmolche gefunden wurden sind rot umrandet."}
-knitr::include_graphics(c("bilder/Tal_Bekämpfungsgewässer.jpg"))
+Die beobachteten Kammmolche beschränken sich auf wenige Gewässer innerhalb des Untersuchungsgebietes, siehe Abbildung \@ref(fig:talbekaempfung). Es kann davon ausgegangen werden, dass von diesen Gewässern eine Ausbreitung stattfinden könnte, weshalb das Untersuchungsgebiet deutlich grösser angelegt wurde.
+```{r  'talbekaempfung',echo=FALSE,out.width="90%",fig.cap="Die Gewässer, in welchem Kammmolche gefunden wurden sind rot umrandet."}
+knitr::include_graphics(c("../bilder/Tal_Bekämpfungsgewässer.jpg"))
 ```
 
 ## Modell
