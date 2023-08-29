@@ -1,0 +1,91 @@
+---
+title: "markdowntest"
+author: "Philipp Franke"
+date: "2023-01-16"
+output:
+  pdf_document: default
+  
+toc: true
+
+bibliography: literatur.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+# Einleitung
+```{r, include=FALSE}
+options(tinytex.verbose = TRUE)
+```
+
+
+# Einleitung
+## Situation
+In Allschwil ist die Hölle los!
+Vielleicht nützt eine MOdellierung des Genflusses?
+
+## Neobiota
+schon @arntzen1999italian zeigt: das ist Mist
+bla [@arntzen1999italian]
+
+Invasive eingeführte Arten, die Neobiota, führen in vielen Fällen zur Verdrängung von einheimischen Arten und wird deshalb als Gefährdung der Biodiversität angesehen. Wie schon @clavero2005invasive zeigte.[@clavero2005invasive]
+
+Generell sind invasive Arten problematisch [@dufresnes2016massive]
+
+Andere Aussagen bestätigen das durch das Band [@clavero2005invasive]
+
+## Modellierung
+asdfae
+
+# Material und Methoden
+## Modell
+asdfasdf
+
+## Parameter
+asdfd
+
+## Validierung
+asdfoijof
+
+# Resultate
+
+
+
+# Schlussforgerungen
+
+
+
+
+# Literatur
+
+
+südliche populationsgrenzen von zwei molcharten. wassertemperatur inziziiert fortpflanzung.
+* (i) how do the population dynamics of these two populations vary over their breeding period?
+* (ii) How do environmental covariates (i.e., ground and water temperature, precipitation and photoperiod) affect the breeding-migration patterns in each species? And
+* (iii) do individual traits, such as sex, body condition and body size (which can be considered a proxy for fecundity) influence these breeding-migration patterns? [@mettouris2018breeding]
+
+nördliche KM kommen jedes Jahr ins Fortpflanzungsgewässer. Erwachsen mit >2 Jahren (nur wenn schnell gewachsen) sind eher mit 3 oder 4. Überleben zwischen den Jahren zwischen 33-57 Prozent [@arntzen1993six]
+
+Untersuchungen in Bonn, 3 natürliche Weiher, 3 neu geschaffene, Weiher eingezäunt mit "drift fences"
+adulte sind sehr weiher-treu, juvenile wandern <86m [@kupfer2000population]

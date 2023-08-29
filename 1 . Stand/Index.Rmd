@@ -1,0 +1,24 @@
+---
+title: Untersuchung der Dynamik einer Population der invasiven Italienischer Kammmolche
+  (Triturus carnifex) in Allschwil und Überprüfung der Wirksamkeit von Bekämpfungsmethoden
+  anhand eines agentenbasierten Modellansatzes
+author: "Philipp Franke"
+date: "`r Sys.Date()`"
+output: pdf_document
+documentclass: book
+bibliography: ./literatur/literatur.bib
+biblio-style: apalike
+link-citations: yes
+description: Masterarbeit von Philipp Franke
+toc-title: Inhaltsverzeichnis
+site: "bookdown::bookdown-site"
+---
+```{r, include=FALSE}
+options(tinytex.verbose = TRUE)
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Das ist das erste Kapitel?
+## das freut einen alten "R"-oldaten
