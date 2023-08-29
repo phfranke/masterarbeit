@@ -78,23 +78,25 @@ Dazu werden jeweils Anfang Jahr die Weiher mit den beobachteten Vorkommen mit Am
 Untersuchung der Populationsdynamik des Italienischen Kammmolchs (Triturus carnifex) im Mühlebachtal in Allschwil anhand agentenbasierter Modellierung und Abschätzung der Erfolgsaussichten der bestehenden Bekämpfungsstrategie.
 
 ### operative Teilfragen
-- Erstellung eines agentenbasierten Modells
-- Kalibrierung des Modells anhand bestehender Daten
-- Durchführen von Experimenten
+- Erstellen und Validieren des Modells
+- Formulieren von Szenarien unterschiedlich effizienter Bekämpfungsmethoden
+- Untersuchen der Populationsentwicklung bis zum Jahre 2050 mit den formulierten Szenarien
+
+<!--
 - Ist es möglich die Population an Italienischen Kammmolchen im Mühlebachtal in Allschwil mit der jetzigen Bekämpfungsmethode wieder auszurotten?
 - Wie entwickelt sich die Population unter der Annahme, dass durch die Bekämpfung nur ein Teil der Individuen entfernt wird?
 - Wie lange muss die Bekämpfung aufrecht erhalten bleiben, bis die Italienischen Kammmolche komplett verschwunden sind?
+-->
 
 # Material und Methoden
 ## Untersuchungsgebiet {#untersuchungsgebiet}
-Das Untersuchungsgebiet besteht aus einem 8 * 8 km grossen Quadrat in der Nordwestecke der Schweiz. Es reicht bis an die Kantonsgrenze zu Basel-Stadt im Norden sowie an die Landesgrenze zu Frankreich im Westen. Es deckt auf Schweizer Seite die Gemeinden Allschwil, Biel-Benken, Binningen, Bottmingen und Oberwil teilweise ab. Am Rand des Untersuchungsgebietes liegen Basel-Stadt und Frankreich. Die Lage des Untersuchungsgebietes ist auf der Übersichtkarte in Abbildung \@ref(fig:uebersichtskarte) gut erkennbar. Diese Gebiete werden grösstenteils ausgeschlossen. Sie liegen peripher und dürften für den Untersuchungszweck eine untergeordnete Rolle spielen. Ausnahme ist die französische Gemeinde Neuwiller. Diese liegt zwischen den Gemeinden Allschwil und Biel-Benken und könnte somit in der Ausbreitung der Kammmolche eine Rolle spielen. Das Ausschliessen dieser Gemeinde könnte die Aussagekraft des Modells stark einschränken. Aus diesem Grund wurde diese Gemeinde in das Modell integriert. Die benötigten Oberflächendaten wurden hier anhand der 1:25'000 er Landeskarte der Schweiz von Hand grob abdigitalisiert. Erkennbare Strukturen, wie Gebäude, Siedlung, Strassen, Wälder, Landwirtschaftsland und Gewässer wurden dabei berücksichtigt. Die Körnung ist deutlich gröber wie die Daten der amtlichen Vermessung.
-```{r  'uebersichtskarte',echo=FALSE,out.width="90%",fig.cap="Das Untersuchungsgebiet (schwarz umrandet) auf der Landeskarte im Massstab 1:100'000. Massstab 1:100'000"}
+Das Untersuchungsgebiet besteht aus einem 8 * 8 km grossen Quadrat in der Nordwestecke der Schweiz. Es reicht bis an die Kantonsgrenze zu Basel-Stadt im Norden sowie an die Landesgrenze zu Frankreich im Westen. Es deckt auf Schweizer Seite die Gemeinden Allschwil, Biel-Benken, Binningen, Bottmingen und Oberwil teilweise ab. Am Rand des Untersuchungsgebietes liegen Basel-Stadt und Frankreich. Die Lage des Untersuchungsgebietes ist auf der Übersichtkarte in Abbildung \@ref(fig:uebersichtskarte) gut erkennbar. Diese Gebiete werden grösstenteils ausgeschlossen. Sie liegen peripher und dürften für den Untersuchungszweck eine untergeordnete Rolle spielen. Ausnahme ist die französische Gemeinde Neuwiller. Diese liegt zwischen den Gemeinden Allschwil und Biel-Benken und könnte somit in der Ausbreitung der Kammmolche eine Rolle spielen. Das Ausschliessen dieser Gemeinde könnte die Aussagekraft des Modells stark einschränken. Aus diesem Grund wurde diese Gemeinde in das Modell integriert.
+```{r  'uebersichtskarte',echo=FALSE,out.width="100%",fig.cap="Das Untersuchungsgebiet (schwarz umrandet) auf der Landeskarte im Massstab 1:100'000. Massstab 1:100'000"}
 knitr::include_graphics(c("./bilder/Uebersicht100.jpg"))
 ```
-Die beobachteten Kammmolche beschränken sich auf wenige Gewässer innerhalb des Untersuchungsgebietes, siehe Abbildung \@ref(fig:talbekaempfung). Es kann davon ausgegangen werden, dass von diesen Gewässern eine Ausbreitung stattfinden könnte, weshalb das Untersuchungsgebiet deutlich grösser angelegt wurde.
-```{r  'talbekaempfung',echo=FALSE,out.width="90%",fig.cap="Die Gewässer, in welchem Kammmolche gefunden wurden sind rot umrandet."}
-knitr::include_graphics(c("./bilder/Tal_Bekämpfungsgewässer.jpg"))
-```
+Die tatsächlich beobachteten Vorkommen der Kammmolche sind isoliert im Mühlebachtal in Allschwil im Untersuchungsgebiet (blaues Rechteck in Abbildung \@ref(fig:gebietbb)) und umfassen wenige Gewässer. Das Untersuchungsgebiet wurde bewusst recht gross gewählt, um zu verhindern, dass die Agenten an die Ränder stossen und so möglicherweise die Aussagkraft beeinträchtigen.
+
+
 
 ## Modell
 In den folgenden Absätzen, wird die Funktionsweise des Modells beschrieben. Die Beschreibung des konzeptionellen Modells erfolgt zusätzlich im ODD- Protokoll (siehe Anhang). Das Modell wird auf einem handelsüblichen Laptop ausgeführt. Das Modell berechnet gleichzeitig tausende von Agenten, was die Arbeitsspeicher des Computers stark beansprucht. Um die Funktionsfähigkeit des Modells zu erhalten und zu beschleunigen, werden viele Lebensabschnitte der Kammmolche vereinfacht dargestellt. So sind räumliche Berechnungen ressourcenintensiv, weshalb sie im Modell auf ein Minimum reduziert werden. Das Modell ist stringent auf die beschriebenen Ziele (siehe Kapitel \@ref(fragestellung)) ausgerichtet und vernachlässigt Verhaltensweisen, welche für diese Ziele nicht relevant sind. 
@@ -149,9 +151,7 @@ knitr::kable(tab,caption='Im Modell verwendete Parameter',label='para')
 
 ## Verwendete Daten
 ### Bodenbedeckung
-Zu Darstellung der Umgebung werden Daten mit Informationen zur Bodenbedeckung verwendet. diese werden vom Kanton Basel-Landschaft erhoben und konstenlos über einen Downloaddienst zur Verfügung gestellt. Diese Informationen dienen der Steuerung von Wanderbewegungen (siehe Kapitel \@ref(wanderung)) und zur farblichen Darstellung der Landschaft im Modell. Die Vektordaten sind in einer hohen Genauigkeit erfasst und klassifiziert. Die Kategorien sind in Tabelle \@ref(tab:bobe) aufgelistet. Die Landesgrenze beschreibt im Untersuchungsgebiet einen Bogen tief ins Landesinnere. Die Daten zur Bodenbedeckung sind nur auf Gebieten des Kantons Basel-Landschaft erfasst. In der erwähnten Lücke auf dem Boden der Gemeinde Neuwiller in Frankreich besteht ein Loch. Es kann jedoch nicht ausgeschlossen werden, dass Kammmolche ebenfalls durch diese Gebiete wandern. Deshalb wurde die Bodenbedeckung von in dieser Stelle von Hand ergänzt. Dies geschah anhand einer Landkarte im Massstab 1:25'000. Es wurden die Strukturen grob nachgezeichnet, dabei wurden alle Gewässer, Wälder und Hecken übernommen. Häuser wurden nicht mit dem realistischen Grundriss nachgezeichnet sondern durch ein standardisiertes Rechteck von ca. 100m2 ersetzt. Der Siedlungsraum wurde insgesamt als Gartenanlage modelliert. Das restliche Offenlad wurde dem Typ "Acker, Wiese, Weide" zugeordnet.
-
-Als mögliche Brutgewässer werden alle Oberflächenstrukturen angenommen, welche den Typ "stehendes Gewässer" aufweisen. 
+Zu Darstellung der Umgebung werden Daten mit Informationen zur Bodenbedeckung verwendet. diese werden vom Kanton Basel-Landschaft erhoben und konstenlos über einen Downloaddienst zur Verfügung gestellt. Diese Informationen dienen der Steuerung von Wanderbewegungen (siehe Kapitel \@ref(wanderung)) und zur farblichen Darstellung der Landschaft im Modell. Die Vektordaten sind in einer hohen Genauigkeit erfasst und klassifiziert. Die verwendete Darstellung und vorhandene Bodenklassen sind in Abbildung \@ref(fig:gebietbb) ersichtlich. Die Landesgrenze beschreibt im Untersuchungsgebiet einen Bogen tief ins Landesinnere. Die Daten zur Bodenbedeckung sind nur auf Gebieten des Kantons Basel-Landschaft erfasst. In der erwähnten Lücke auf dem Boden der Gemeinde Neuwiller in Frankreich besteht ein Loch. Es kann jedoch nicht ausgeschlossen werden, dass Kammmolche ebenfalls durch diese Gebiete wandern. Die benötigten Oberflächendaten wurden hier anhand der 1:25'000 er Landeskarte der Schweiz von Hand grob abdigitalisiert. Erkennbare Strukturen, wie Gebäude, Siedlung, Strassen, Wälder, Landwirtschaftsland und Gewässer wurden dabei berücksichtigt (siehe Abbildung \@ref(fig:gebietbb)). Häuser wurden nicht mit dem realistischen Grundriss nachgezeichnet sondern durch ein standardisiertes Rechteck von ca. 100m2 ersetzt. Der Siedlungsraum wurde insgesamt als Gartenanlage modelliert. Das restliche Offenlad wurde dem Typ "Acker, Wiese, Weide" zugeordnet. Die Körnung ist deutlich gröber wie die Daten der amtlichen Vermessung 
 
 ```{r tab_bobe, echo=FALSE}
 Code <- c(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)
@@ -160,7 +160,7 @@ tab_bobe<-cbind(Code,Bezeichnung)
 knitr::kable(tab_bobe,caption='Klassifizierung der Bodenoberflaeche',label='bobe')
 ```
 
-Für die Steuerung des Modells wurden die Vektordaten zur Bodenbedeckung mit weiteren Attributen angereichert. Für die Identifizierung der einzelnen Gewässer wurden Nummern verwendet, welche von der Koordinationsstelle für Reptilien und Amphibien Schweiz (karch) vergeben werden. Diese stammen aus dem Datensatz "Weiherinventar" im Geodatenviewer des Kantons Basel-Landschaft (siehe: https://geoview.bl.ch/?map_x=2609487.9992676&map_y=1264906.499939&map_zoom=4&tree_group_layers_Natur%20u.%20Landsch.=weiherinventar&tree_groups=Natur%20u.%20Landsch.).
+Für die Steuerung des Modells wurden die Vektordaten zur Bodenbedeckung mit weiteren Attributen angereichert. Für die Identifizierung der einzelnen Gewässer werden Nummern verwendet, welche von der Koordinationsstelle für Reptilien und Amphibien Schweiz (karch) vergeben werden. Diese stammen aus dem Datensatz "Weiherinventar" im Geodatenviewer des Kantons Basel-Landschaft (siehe: [https://geoview.bl.ch/?map_x=2609487.9992678&map_y=1264906.4997948&map_zoom=4&tree_group_layers_Natur%20u.%20Landsch.=weiherinventar&tree_groups=Natur%20u.%20Landsch.](https://geoview.bl.ch/?map_x=2609487.9992678&map_y=1264906.4997948&map_zoom=4&tree_group_layers_Natur%20u.%20Landsch.=weiherinventar&tree_groups=Natur%20u.%20Landsch.)).
 Mithilfe eines Attributs wurde dasjenige Gewässer markiert, in welchem die Kammmolche mutmasslich ausgesetzt wurden und ein weiteres Attribut zeigt diejenigen Gewässer an, welche für die jährlichen Bekämpfungsaktionen eingezäunt werden.
 
 ### Zähl- und Messdaten
