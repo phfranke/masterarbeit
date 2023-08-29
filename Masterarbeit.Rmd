@@ -11,6 +11,7 @@ biblio-style: apalike
 link-citations: yes
 description: Masterarbeit von Philipp Franke
 toc-title: Inhaltsverzeichnis
+geometry: "left=3cm,right=2cm,top=2cm,bottom=2cm"
 
 ---
 
@@ -23,13 +24,17 @@ Installation TinyTex:
 -->
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
 ```{r, include=FALSE}
 options(tinytex.verbose = TRUE)
 ```
+```{r, include=FALSE}
+source("rSkripte/felddaten.R")
+```
+
 
 # Einleitung
 
@@ -65,14 +70,17 @@ Mehrere Sinne sind an der Orientierung beteiligt. Die geruchliche Wahrnehmung wi
 <!-- Für die Konnektivität reichen wenige Individuuen pro Generation. Seltene Ereignisse sind mit Beobachtungen schwer nachzuvollziehen. die Daten stellen also einen Durschnittswert dar, während einzelne Ausreisser für die Ausbreitung der Art ausreichen und die Erhaltung von Metapopulationen. -->
 
 ## Bekämpfungsprojekt
-In Allschwil wurden seit den frühen 2000er- Jahre Kammmolche festgestellt, welche sich später als Italienische Kammmolche entpuppten. Zum Schutz der bedeutenden Population an Nördlichen Kammmolchen, und wohl auch zum Schutz der bereits in diese Populationen getätigten Investitionen, werden seit dem Jahr 2020 Bekämpfungsmassnahmen ergriffen.
-Dazu werden jeweils Anfang Jahr die Weiher mit den beobachteten Vorkommen mit Amphibienzäunen hermetisch abgeriegelt. Amphibien, welche die Gewässer aufsuchen, stossen nun an diese Zäune und fallen ein Kessel, welche in regelmässigen Abständen an den Zäunen eingelassen sind. Bei täglichen Kontrollen, werden die Tiere in den Kesseln bestimmt und gezählt, die Kammmolche werden später noch gewogen. Diese erhobenen Daten aus den Jahren 2020-2022 stehen für diese Arbeit zur Verfügung (siehe Anhang).
+In Allschwil wurden seit den frühen 2000er- Jahre Kammmolche festgestellt, welche sich später als Italienische Kammmolche entpuppten. Zum Schutz der bedeutenden Population an Nördlichen Kammmolchen, und wohl auch zum Schutz der bereits in diese getätigten Investitionen, werden seit dem Jahr 2020 Bekämpfungsmassnahmen ergriffen.
+Dazu werden jeweils Anfang Jahr die Weiher mit den beobachteten Vorkommen mit Amphibienzäunen hermetisch abgeriegelt. Amphibien, welche die Gewässer aufsuchen, stossen nun an diese Zäune und fallen in Kessel, welche in regelmässigen Abständen an den Zäunen eingelassen sind. Bei täglichen Kontrollen, werden die Tiere in den Kesseln bestimmt und gezählt, die Kammmolche werden später noch gewogen. Diese erhobenen Daten aus den Jahren 2021 und 2022 stehen für diese Arbeit zur Verfügung (siehe Anhang).
 
 ## Fragestellung {#fragestellung}
 ### Forschungsfrage
 Untersuchung der Populationsdynamik des Italienischen Kammmolchs (Triturus carnifex) im Mühlebachtal in Allschwil anhand agentenbasierter Modellierung und Abschätzung der Erfolgsaussichten der bestehenden Bekämpfungsstrategie.
 
 ### operative Teilfragen
+- Erstellung eines agentenbasierten Modells
+- Kalibrierung des Modells anhand bestehender Daten
+- Durchführen von Experimenten
 - Ist es möglich die Population an Italienischen Kammmolchen im Mühlebachtal in Allschwil mit der jetzigen Bekämpfungsmethode wieder auszurotten?
 - Wie entwickelt sich die Population unter der Annahme, dass durch die Bekämpfung nur ein Teil der Individuen entfernt wird?
 - Wie lange muss die Bekämpfung aufrecht erhalten bleiben, bis die Italienischen Kammmolche komplett verschwunden sind?
@@ -141,24 +149,76 @@ knitr::kable(tab,caption='Im Modell verwendete Parameter',label='para')
 
 ## Verwendete Daten
 ### Bodenbedeckung
-Zu Darstellung der Umgebung werden Daten mit Informationen zur Bodenbedeckung verwendet. diese werden vom Kanton Basel-Landschaft erhoben und konstenlos über einen Downloaddienst zur Verfügung gestellt. Diese Informationen dienen hauptsächlich zur farblichen Gestaltung der Umgebung und, in geringem Masse, der Steuerung  von Wanderbewegungen (siehe Kapitel \@ref(wanderung)). Die Vektordaten sind in einer hohen Genauigkeit erfasst und klassifiziert. Die Kategorien sind in Tabelle \@ref(tab:bobe) aufgelistet. Die Landesgrenze beschreibt im Untersuchungsgebiet einen Bogen tief ins Landesinnere. Die Daten zur Bodenbedeckung sind nur auf Gebieten des Kantons Basel-Landschaft erfasst. In der erwähnten Lücke auf dem Boden der Gemeinde Neuwiller in Frankreich besteht ein Loch. Es kann jedoch nicht ausgeschlossen werden, dass Kammmolche ebenfalls durch diese Gebiete wandern. Deshalb wurde die Bodenbedeckung von in dieser Stelle von Hand ergänzt. Dies geschah anhand einer Landkarte im Massstab 1:25'000. Es wurden die Strukturen grob nachgezeichnet, dabei wurden alle Gewässer, Wälder und Hecken übernommen. Häuser wurden nicht mit dem realistischen Grundriss nachgezeichnet sondern durch ein standardisiertes Rechteck von ca. 100m2 ersetzt. Der Siedlungsraum wurde insgesamt als Gartenanlage modelliert. Das restliche Offenlad wurde dem Typ "Acker, Wiese, Weide" zugeordnet.
-
+Zu Darstellung der Umgebung werden Daten mit Informationen zur Bodenbedeckung verwendet. diese werden vom Kanton Basel-Landschaft erhoben und konstenlos über einen Downloaddienst zur Verfügung gestellt. Diese Informationen dienen der Steuerung von Wanderbewegungen (siehe Kapitel \@ref(wanderung)) und zur farblichen Darstellung der Landschaft im Modell. Die Vektordaten sind in einer hohen Genauigkeit erfasst und klassifiziert. Die Kategorien sind in Tabelle \@ref(tab:bobe) aufgelistet. Die Landesgrenze beschreibt im Untersuchungsgebiet einen Bogen tief ins Landesinnere. Die Daten zur Bodenbedeckung sind nur auf Gebieten des Kantons Basel-Landschaft erfasst. In der erwähnten Lücke auf dem Boden der Gemeinde Neuwiller in Frankreich besteht ein Loch. Es kann jedoch nicht ausgeschlossen werden, dass Kammmolche ebenfalls durch diese Gebiete wandern. Deshalb wurde die Bodenbedeckung von in dieser Stelle von Hand ergänzt. Dies geschah anhand einer Landkarte im Massstab 1:25'000. Es wurden die Strukturen grob nachgezeichnet, dabei wurden alle Gewässer, Wälder und Hecken übernommen. Häuser wurden nicht mit dem realistischen Grundriss nachgezeichnet sondern durch ein standardisiertes Rechteck von ca. 100m2 ersetzt. Der Siedlungsraum wurde insgesamt als Gartenanlage modelliert. Das restliche Offenlad wurde dem Typ "Acker, Wiese, Weide" zugeordnet.
 
 Als mögliche Brutgewässer werden alle Oberflächenstrukturen angenommen, welche den Typ "stehendes Gewässer" aufweisen. 
 
 ```{r tab_bobe, echo=FALSE}
 Code <- c(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)
 Bezeichnung <- c('Acker, Wiese, Weide','Bahn','fliessendes Gewässer','Gartenanlage','Gebäude','Reben','stehendes Gewässer','Strasse, Weg','Trottoir','übrige befestigte','übrige bestockte','übrige humusiert','übrige Intensivkultur','Verkehrsinsel', 'Wald', 'Waldstrasse', 'Wasserbecken')
-tab<-cbind(Code,Bezeichnung)
-knitr::kable(tab,caption='Klassifizierung der Bodenoberfläche',label='bobe')
+tab_bobe<-cbind(Code,Bezeichnung)
+knitr::kable(tab_bobe,caption='Klassifizierung der Bodenoberflaeche',label='bobe')
 ```
 
+Für die Steuerung des Modells wurden die Vektordaten zur Bodenbedeckung mit weiteren Attributen angereichert. Für die Identifizierung der einzelnen Gewässer wurden Nummern verwendet, welche von der Koordinationsstelle für Reptilien und Amphibien Schweiz (karch) vergeben werden. Diese stammen aus dem Datensatz "Weiherinventar" im Geodatenviewer des Kantons Basel-Landschaft (siehe: https://geoview.bl.ch/?map_x=2609487.9992676&map_y=1264906.499939&map_zoom=4&tree_group_layers_Natur%20u.%20Landsch.=weiherinventar&tree_groups=Natur%20u.%20Landsch.).
+Mithilfe eines Attributs wurde dasjenige Gewässer markiert, in welchem die Kammmolche mutmasslich ausgesetzt wurden und ein weiteres Attribut zeigt diejenigen Gewässer an, welche für die jährlichen Bekämpfungsaktionen eingezäunt werden.
+
 ### Zähl- und Messdaten
+Seit Frühjahr 2021 werden in den Gewässern mit bekannten Vorkommen Kammmolche abgefangen. Die Tiere werden nach Stadium und Geschlecht bestimmt und gewogen. In den Tabellen \@ref(tab:felddaten21) und \@ref(tab:felddaten22) sind die Fangzahlen aus den Jahren 2021 und 2022 aufgeführt. Auffällig dabei ist, dass im zweiten Jahr beinahe doppelt so viele Tiere abgefangen wurden. Zu erwarten wären eher, dass die Anzahl Tiere zurückgeht. Mit Blick auf den zeitlichen Verlauf der Fangaktion in Abbildung \@ref(fig:felddaten) lässt sich das auch anders einordnen:
+Der erste Fangtag im Jahr 2021 war Anfang März. Bereits am ersten Fangtag wurde eine beträchtliche Anzahl Tiere gefangen. Dies deutet darauf hin, dass die Tiere schon früher mit der Wanderung begonnen hatten und möglicherweise bereits Tiere in die Gewässer gelangten, bevor die Fallen aufgestellt wurden. Im Jahr 2022 begann die Fangaktion bereits Anfang Februar. Im Jahr 2022 wurde vor dem 1.März insgesamt `r sum(catched22$Anzahl[catched22$dayofyear<64],na.rm=TRUE)` Tiere gefangen. Insgesamt kann angenommen werden, dass die Anzahl gefangener Tiere im Jahr 2021 stark unter der Anzahl tatsächlich eingewanderter Tiere liegt.
+Die Gewichtsverteilung ist in Abbildung \@ref(fig:boxplotweight)
 
+
+```{r felddaten, echo=FALSE, fig.cap="Fangzahlen aus den ersten beiden Projektjahren"}
+ggplot() +
+  geom_col(data=eachDay_all[eachDay_all$year==2021,],aes(x=tag,y=Anzahl,fill='transparent'),alpha=0.5,
+           color='black',linewidth=0.2, position='identity') + 
+  geom_col(data=eachDay_all[eachDay_all$year==2022,],aes(x=tag,y=Anzahl,fill='black'),
+           alpha=0.5, position='identity') + 
+  labs(x="Datum",y="Total gefangener Tiere") +
+  scale_x_continuous(breaks=seq(1,200,10),labels=date_label) +
+  theme(axis.text.x = element_text(angle = 45)) +
+  labs(fill = "Legend") +
+  scale_fill_identity(name = "Jahr",
+                       breaks = c("transparent", "black"),
+                       labels = c("2021", "2022"),
+                       guide = "legend")
+
+```
+
+
+```{r boxplotweight, echo=FALSE, fig.cap="Gewicht der gefangenen, adulten Tiere"}
+ggplot(weight_all[weight_all$geschlecht!='J',],aes(x=geschlecht, y=gewicht)) +
+  geom_boxplot() + 
+  labs(x = "Geschlecht",y = "Gewicht") +
+  coord_cartesian(ylim = c(0,15)) +
+  facet_wrap(~year)
+```
+
+``` {r felddaten21, echo=FALSE}
+knitr::kable(tabelle21,caption='Gefangene Tiere 2021',booktabs=TRUE)
+
+```
+``` {r felddaten22, echo=FALSE}
+knitr::kable(tabelle22,caption='Gefangene Tiere 2022',booktabs=TRUE)
+```
 ## Szenarien
+Ziel der Abfangmassnahmen ist es, die Population an italienischen Kammmolchen aus der Umwelt zu entfernen. Die Massnahmen sind so ausgelegt, dass jedes Jahr möglichst viele Tiere vor der Eiablage gefangen werden und die Population so langfristig geschwächt wird. Es kann jedoch angenommen werden, dass die Abfangmethode nicht 100% der Tiere erwischt. Folgende Faktoren sind unbekannt und müssen in den Szenarien berücksichtigt werden:
+
+- Tiere befinden sich möglicherweise bereits in den Gewässern ubevor die Zäune aufgestellt werden
+- Tiere schlüpfen durch die Zäune
+- Tiere legen Eier ausserhalb der eingezäunten Gewässer (seichte Stellen im Bach, temporäre oder sehr kleine Gewässer, ...)
+- Tiere pflanzen sich in Gewässern fort, welche nicht überprüft werden (Gartenteich, Gewässer in Frankreich, ... )  
+
+Diese Möglichkeiten lassen sich nicht quantifizieren. Im Modell sind diese Faktoren nicht in die Verhaltensweise der Agenten eingeflossen, weil sie die Komplexität und damit das chaotische Verhalten des Modells verstärken würden. Dadurch würde die Aussagekraft geschwächt. Diese Faktoren lassen sich zusammen als Effizienz der Fangmethode bezeichnen, da sie alle dazu führen, dass sich Tiere den Abfangzäunen entziehen. Da die Effizienz unbekannt ist, werden hier drei Szenarien angenommen, welche eine realistische Bandbreite abdecken:
+
+1. optimistisches Szenario: 95% der Tiere werden abgefangen
+2. mittleres Szenarion: 75% der Tiere werden abgefangen
+3. pessimistisches Szenario: 50% der Tiere werden abgefangen
 
 
-## Parameter, Sensitivitätsanalyse und Kalibrierung
+
+## Kalibrierung
 ### Dichteabhängigkeit
 Die Larven unterliegen mutmasslich einer dichteabhängigen Sterblichkeit. Quadratische Funktion, Dichte = 5fache maximaldichte führt zu einer Sterblichkeit von 100%. Experimentel ermittelt. Sterblichkeit der Larven über ganzes Modell liegt in der Grössenordnung von 0.4 (Annahme aus Literatur).
 
@@ -167,7 +227,6 @@ Die Larven unterliegen mutmasslich einer dichteabhängigen Sterblichkeit. Quadra
 
 
 
-## Validierung
 
 
 
@@ -176,7 +235,9 @@ Die Larven unterliegen mutmasslich einer dichteabhängigen Sterblichkeit. Quadra
 
 
 # Diskussion
+## Sensitivitätsanalyse
 
+## Validierung
 
 # Schlussfolgerung
 
