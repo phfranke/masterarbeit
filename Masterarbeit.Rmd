@@ -71,7 +71,7 @@ Mehrere Sinne sind an der Orientierung beteiligt. Die geruchliche Wahrnehmung wi
 
 ## Bekämpfungsprojekt
 In Allschwil wurden seit den frühen 2000er- Jahre Kammmolche festgestellt, welche sich später als Italienische Kammmolche entpuppten. Zum Schutz der bedeutenden Population an Nördlichen Kammmolchen, und wohl auch zum Schutz der bereits in diese getätigten Investitionen, werden seit dem Jahr 2020 Bekämpfungsmassnahmen ergriffen.
-Dazu werden jeweils Anfang Jahr die Weiher mit den beobachteten Vorkommen mit Amphibienzäunen hermetisch abgeriegelt. Amphibien, welche die Gewässer aufsuchen, stossen nun an diese Zäune und fallen in Kessel, welche in regelmässigen Abständen an den Zäunen eingelassen sind. Bei täglichen Kontrollen, werden die Tiere in den Kesseln bestimmt und gezählt, die Kammmolche werden später noch gewogen. Diese erhobenen Daten aus den Jahren 2021 und 2022 stehen für diese Arbeit zur Verfügung (siehe Anhang).
+Dazu werden jeweils Anfang Jahr die Weiher mit den beobachteten Vorkommen mit Amphibienzäunen hermetisch abgeriegelt. Amphibien, welche die Gewässer aufsuchen um sich fortzupflanzen, stossen nun an diese Zäune und fallen in Kessel, welche in regelmässigen Abständen an den Zäunen eingelassen sind. Bei täglichen Kontrollen werden die Tiere in den Kesseln bestimmt und gezählt, die Kammmolche werden später noch gewogen. Diese erhobenen Daten aus den Jahren 2021 und 2022 stehen für diese Arbeit zur Verfügung (siehe Anhang).
 
 ## Fragestellung {#fragestellung}
 ### Forschungsfrage
@@ -80,7 +80,7 @@ Untersuchung der Populationsdynamik des Italienischen Kammmolchs (Triturus carni
 ### operative Teilfragen
 - Erstellen und Validieren des Modells
 - Formulieren von Szenarien unterschiedlich effizienter Bekämpfungsmethoden
-- Untersuchen der Populationsentwicklung bis zum Jahre 2050 mit den formulierten Szenarien
+- Untersuchen der Populationsentwicklung bis zum Jahre 2050 anhand der formulierten Szenarien
 
 <!--
 - Ist es möglich die Population an Italienischen Kammmolchen im Mühlebachtal in Allschwil mit der jetzigen Bekämpfungsmethode wieder auszurotten?
@@ -98,7 +98,7 @@ Die tatsächlich beobachteten Vorkommen der Kammmolche sind isoliert im Mühleba
 
 
 ## Modell
-In den folgenden Absätzen, wird die Funktionsweise des Modells beschrieben. Die Struktur folgt dem ODD-Protokoll wie von @grimm2006standard vorgeschlagen. 
+In den folgenden Absätzen, wird die Funktionsweise des Modells beschrieben. Die Struktur folgt dem ODD-Protokoll wie von @grimm2006standard vorgeschlagen und später in @grimm2010odd erweiteret. 
 
 ### Vorbemerkungen
 Das Modell wird auf einem handelsüblichen Laptop ausgeführt. Um die Lauffähigkeit des Modells sicherzustellen wurde es auch auf Ressourceneffizienz optimiert. Deshalb werden einige Lebensabschnitte der Kammmolche vereinfacht dargestellt, ohne die grundsätzliche Funktion zu beeinträchtigen. So sind die ressourcenintensiven, räumlichen Berechnungen auf ein Minimum reduziert. Das Modell ist stringent auf die beschriebenen Ziele (siehe Kapitel \@ref(fragestellung)) ausgerichtet und vernachlässigt Verhaltensweisen, welche für diese Ziele nicht relevant sind. Zur illustration der Vorgehensweise sind hier zwei Beispiele erläutert:
@@ -151,7 +151,12 @@ Wandernde Tiere, unabhängig ob es sich um juvenile oder adulte Tiere handelt, z
 Ab dem Modelldatum 1.1.2020 werden Bekämpfungsmassnahmen simuliert. Es ist bekannt, an welchen Weihern Tiere abgefangen werden. Hier werden an einem einzelnen Tag eine bestimmte Anzahl Tiere aus dem Modell entfernt. Dabei werden lediglich Tiere entfernt, welche mit einem der eingezäunten Gewässer verbunden ist. Für die Validierung werden hier Informationen zu den einzelnen Tieren gespeichert wie Anzahl,Geschlecht und Alter.
 
 ### Dichteanhängige Sterblichkeit der Larven {#dichtesterb}
-wo kommt dieses Kapitel hin?
+Im Larvenstadium wird eine dichteabhängige Sterblichkeitsrate eingeführt. Die Annahme ist, dass mit zunehmender Dichte die Sterblichkeit quadratisch ansteigt. Diese Kurve wird geeicht mittels eines Koeffizienten, dessen Höhe im Kalibrationsprozess bestimmt wird. Die grundlegende Sterblichkeit entspricht der Sterberate bei unbedeutender Larvendichte und wird anhand der Literatur angenommen. Die Sterblichkeit wird bei jedem Modellschritt, also täglich, angewendet. Die Sterblichkeitsrate bezieht sich jedoch auf die gesamte Lebensdauer. Deshalb wird die resultierende Sterblichkeit durch die Entwicklungsdauer in Tagen geteilt. Die schlussendliche ist in Formel \@ref(eq:sterblarve) abgebildet
+
+\begin{equation}
+{Grundsterblichkeit}+(Koeffizient*Dichte)^{2}
+(\#eq:sterblarve)
+\end{equation}
 
 
 
@@ -168,12 +173,15 @@ knitr::kable(tab,caption='Im Modell verwendete Parameter',label='para')
 
 ## Verwendete Daten
 ### Bodenbedeckung
-Zu Darstellung der Umgebung werden Daten mit Informationen zur Bodenbedeckung verwendet. diese werden vom Kanton Basel-Landschaft erhoben und konstenlos über einen Downloaddienst zur Verfügung gestellt. Diese Informationen dienen der Steuerung von Wanderbewegungen (siehe Kapitel \@ref(wanderung)) und zur farblichen Darstellung der Landschaft im Modell. Die Vektordaten sind in einer hohen Genauigkeit erfasst und klassifiziert. Die verwendete Darstellung und vorhandene Bodenklassen sind in Abbildung \@ref(fig:gebietbb) ersichtlich. Die Landesgrenze beschreibt im Untersuchungsgebiet einen Bogen tief ins Landesinnere. Die Daten zur Bodenbedeckung sind nur auf Gebieten des Kantons Basel-Landschaft erfasst. In der erwähnten Lücke auf dem Boden der Gemeinde Neuwiller in Frankreich besteht ein Loch. Es kann jedoch nicht ausgeschlossen werden, dass Kammmolche ebenfalls durch diese Gebiete wandern. Die benötigten Oberflächendaten wurden hier anhand der 1:25'000 er Landeskarte der Schweiz von Hand grob abdigitalisiert. Erkennbare Strukturen, wie Gebäude, Siedlung, Strassen, Wälder, Landwirtschaftsland und Gewässer wurden dabei berücksichtigt (siehe Abbildung \@ref(fig:gebietbb)). Häuser wurden nicht mit dem realistischen Grundriss nachgezeichnet sondern durch ein standardisiertes Rechteck von ca. 100m2 ersetzt. Der Siedlungsraum wurde insgesamt als Gartenanlage modelliert. Das restliche Offenlad wurde dem Typ "Acker, Wiese, Weide" zugeordnet. Die Körnung ist deutlich gröber wie die Daten der amtlichen Vermessung 
+Zu Darstellung der Umgebung werden Daten mit Informationen zur Bodenbedeckung verwendet. diese werden vom Kanton Basel-Landschaft erhoben und konstenlos über einen Downloaddienst zur Verfügung gestellt. Diese Informationen dienen der Steuerung von Wanderbewegungen (siehe Kapitel \@ref(wanderung)) und zur farblichen Darstellung der Landschaft im Modell. Die Vektordaten sind in einer hohen Genauigkeit erfasst und klassifiziert. Die verwendete Darstellung und vorhandene Bodenklassen sind in Abbildung \@ref(fig:gebietbb) ersichtlich. 
+Die Landesgrenze beschreibt im Untersuchungsgebiet einen Bogen tief ins Landesinnere. Die Daten zur Bodenbedeckung sind nur auf Gebieten des Kantons Basel-Landschaft erfasst. In der erwähnten Lücke auf dem Boden der Gemeinde Neuwiller in Frankreich besteht ein Loch. Es kann jedoch nicht ausgeschlossen werden, dass Kammmolche ebenfalls durch diese Gebiete wandern. Die benötigten Oberflächendaten wurden hier anhand der 1:25'000 er Landeskarte der Schweiz von Hand grob abdigitalisiert. Erkennbare Strukturen, wie Gebäude, Siedlung, Strassen, Wälder, Landwirtschaftsland und Gewässer wurden dabei berücksichtigt (siehe Abbildung \@ref(fig:gebietbb)). Häuser wurden nicht mit dem realistischen Grundriss nachgezeichnet sondern durch ein standardisiertes Rechteck von ca. 100m2 ersetzt. Der Siedlungsraum wurde insgesamt als Gartenanlage modelliert. Das restliche Offenlad wurde dem Typ "Acker, Wiese, Weide" zugeordnet. Die Körnung ist deutlich gröber wie die Daten der amtlichen Vermessung.
+
 
 ```{r 'gebietbb',echo=FALSE,out.width="80%",fig.cap="Darstellung der Bodenbedeckung. Die Gewässer mit aktiven Bekämpfungsmassnahmen sind rot umrandet, die Beschriftungen zeigen die Identifikationsnummer der Gewässer. Am unteren, rechten Bildrand ist das Gebiet in Frankreich zu sehen."}
 knitr::include_graphics("./bilder/Tal_Bekämpfungsgewässer.jpg")
 ```
 Für die Steuerung des Modells wurden die Vektordaten zur Bodenbedeckung mit weiteren Attributen angereichert. Für die Identifizierung der einzelnen Gewässer werden Nummern verwendet, welche von der Koordinationsstelle für Reptilien und Amphibien Schweiz (karch) vergeben werden. Diese stammen aus dem Datensatz "Weiherinventar" im Geodatenviewer des Kantons Basel-Landschaft (siehe: [https://geoview.bl.ch/?map_x=2609487.9992678&map_y=1264906.4997948&map_zoom=4&tree_group_layers_Natur%20u.%20Landsch.=weiherinventar&tree_groups=Natur%20u.%20Landsch.](https://geoview.bl.ch/?map_x=2609487.9992678&map_y=1264906.4997948&map_zoom=4&tree_group_layers_Natur%20u.%20Landsch.=weiherinventar&tree_groups=Natur%20u.%20Landsch.)).
+Im Weiherinventar sind zahlreiche Gewässer erfasst, welche in den Daten zur Bodenbedeckung nicht erfasst wurden. Diese Gewässer wurden manuell nacherfasst. Dabei wurde die genaue Form und Lage nicht berücksichtigt, die Fläche wurde hingegen der Angaben aus dem Weiherinventar angepasst.
 Mithilfe eines Attributs wurde dasjenige Gewässer markiert, in welchem die Kammmolche mutmasslich ausgesetzt wurden und ein weiteres Attribut zeigt diejenigen Gewässer an, welche für die jährlichen Bekämpfungsaktionen eingezäunt werden.
 
 ### Zähl- und Messdaten
