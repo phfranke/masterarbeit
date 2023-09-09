@@ -97,11 +97,11 @@ knitr::include_graphics("./bilder/Uebersicht100.jpg")
 Die tatsächlich beobachteten Vorkommen der Kammmolche sind isoliert im Mühlebachtal in Allschwil (blaues Rechteck in Abbildung \@ref(fig:uebersichtskarte)) und umfassen wenige Gewässer. Das Untersuchungsgebiet wurde bewusst recht gross gewählt, um zu verhindern, dass die Agenten an die Ränder stossen und so möglicherweise die Aussagkraft beeinträchtigen.
 
 
-## Modell
+## Modellbeschreibung
 In den folgenden Absätzen, wird die Funktionsweise des Modells beschrieben. Die Struktur folgt dem ODD-Protokoll wie von @grimm2006standard vorgeschlagen und später in @grimm2010odd erweiteret. 
 
 ### Vorbemerkungen
-Das Modell wird auf einem handelsüblichen Laptop ausgeführt. Um die Lauffähigkeit des Modells sicherzustellen wurde es auch auf Ressourceneffizienz optimiert. Deshalb werden einige Lebensabschnitte der Kammmolche vereinfacht dargestellt, ohne die grundsätzliche Funktion zu beeinträchtigen. So sind die ressourcenintensiven, räumlichen Berechnungen auf ein Minimum reduziert. Das Modell ist stringent auf die beschriebenen Ziele (siehe Kapitel \@ref(fragestellung)) ausgerichtet und vernachlässigt Verhaltensweisen, welche für diese Ziele nicht relevant sind. Zur illustration der Vorgehensweise sind hier zwei Beispiele erläutert:
+Das Modell unterhält zeitweise mehrere Tausend Agenten. Um die Lauffähigkeit des Modells sicherzustellen wurde es auch auf Ressourceneffizienz optimiert. Deshalb werden einige Lebensabschnitte der Kammmolche vereinfacht dargestellt, ohne die grundsätzliche Funktion zu beeinträchtigen. So sind die ressourcenintensiven, räumlichen Berechnungen auf ein Minimum reduziert. Das Modell ist stringent auf die beschriebenen Ziele (siehe Kapitel \@ref(fragestellung)) ausgerichtet und vernachlässigt Verhaltensweisen, welche für diese Ziele nicht relevant sind. Die Auswirkungen sind hier an einem Beispiel erläutert:
 
 #### Saisonale Wanderungen
 Kammmolche verbringen grosse Teile des Erwachsenenlebens ausserhalb der Gewässer und kommen lediglich für die Fortpflanzung in die Gewässer. An Land werden grössere Reisen unternommen ohne das angestammte Brutgewässer zu wechseln. Die Landausflüge sind für die Funktionsweise des Modells gänzlich irrelevant. Der Anteil der Population, welcher zur Fortpflanzungszeit in die Gewässer einwandert unbekannt und müsste im Modell angenommen oder in verschiedenen Szenarien abgebildet werden. Im Modell hat die Population in den Gewässern Einfluss auf die Anzahl der im Rahmen der Bekämpfungsmassnahmen gefangenen Tiere. Das Modell belässt die Tiere in den meisten Situationen unbeweglich in den Gewässern, was der tatsächlichen Lebensweise widerspricht. Es werden zwei Techniken angewandt um die Abwesenheit der Tiere zu simulieren, ohne diese tatsächlich wandern lassen zu müssen:
@@ -109,36 +109,122 @@ Kammmolche verbringen grosse Teile des Erwachsenenlebens ausserhalb der Gewässe
 1. Das Datum der letzten Fortpflanzung wird in einer Variabel im jeweiligen Agenten gespeichert. Die Fortpflanzung und die Abfangaktionen greifen nur bei Individuen, welche über eine bestimmte Zeit Fortpflanzungspause einlegten. 
 2. Weitere Unsicherheiten beim Abfangen werden mithilfe von Szenarien untersucht, siehe dazu Kapitel \@ref(szenarien). Hier wird nur ein gewisser Anteil der tatsächlich Fangbaren Individuen abgefangen. Damit werden die oben beschriebenen Unsicherheiten simuliert und weitere Faktoren wie gewisse Undichdigkeit der Fangnetze etc.
 
-#### Entwicklungsstadien mit grosser Anzahl Individuen
-
-
 ### Zweck
-Das Modell bezweckt die Nachstellung der Lebensweise von Italienischen Kammmolchen im Mühlebachtal in Allschwil bei Basel. Anhand des Modells wird ergründet, wie sich die Population entwickelt und ausbreitet und geht der Frage nach ob die aktuell angewendete Bekämpfungsmethode erfolgreich sein wird.
-Die wissenschaftliche Fragestellung ist in Kapitel \@ref(fragestellung) beschrieben. Demnach dient das Modell zur Beantwortung folgender fragen:
+Das Modell bezweckt die Nachstellung der Lebensweise von Italienischen Kammmolchen im Mühlebachtal in Allschwil bei Basel. Die Tiere sind hier standortfremd und werden zum Schutz einheimischer Tiere bekämpft. Anhand des Modells wird ergründet, wie sich die Population der italienischen Kammmolche entwickelt und ausbreitet und geht der Frage nach ob die aktuell angewendete Bekämpfungsmethode erfolgreich sein wird. Das Modell ergründet folgende Leitfragen:
 
 1. Ist es möglich mit der aktuellen Bekämpfungsmethode die Italienischen Kammmolche aus dem Gebiet zu entfernen?
 2. Wie lange müssen die Bekämpfungsmassnahmen durchgeführt werden?
 
-Das Modells wurde so konzipiert, dass es valide ist und zusätzlich auf Ressourceneffizienz optimiert. Deshalb werden einige Lebensabschnitte der Kammmolche vereinfacht dargestellt, ohne die grundsätzliche Funktion zu beeinträchtigen. So sind die ressourcenintensiven, räumlichen Berechnungen auf ein Minimum reduziert. Das Modell ist stringent auf die beschriebenen Ziele ausgerichtet und vernachlässigt Verhaltensweisen, welche für diese Ziele nicht relevant sind. Dabei weicht das Modell stellenweise von der natürlichen Verhaltensweise der modellierten Tierart ab, ohne jedoch die Validität des Modells zu tangieren. 
 
-### zeitliche Auflösung
-Das Modell arbeitet in Zählschritten von einem Tag. Als Beginn wird Zeitpunkt angenommen, an welchem die Kammmolche ins Mühlebachtal kamen. Es handelt sich vermutlich um eine Aussetzung in den frühen 2000'er- Jahren. Für diesen ZWeck wird das Startdatum auf den 1.1.2000 festgelegt. Als Enddatum ist der 31.12.2049. festgelegt. 
+### Räumliche und Zeitliche Auflösung
+Das Modell arbeitet mit Vektordaten und verfügt somit nicht über eine definierte, räumliche Auflösung. Das Untersuchungsgebiet ist 8 x 8km gross und deckt die bekannten Vorkommen der italienischen Kammmolche grosszügig ab. Details zum Untersuchungsgebiet siehe Kapitel \@ref(untersuchungsgebiet).
+Die Zählschritte des Modell betragen einen Tag. Als Startzeitpunkt wird der Moment angenommen, an die Kammmolche ins Mühlebachtal kamen. Es handelt sich vermutlich um eine Aussetzung in den frühen 2000'er- Jahren. Das Startdatum wird auf den 1.1.2000 festgelegt. Als Enddatum ist der 31.12.2049. festgelegt.
 
 ### Agenten {#oddAgenten}
-Das Modell bildet die Entwicklungszyklen und die Stadien der Kammmolche ab. Diese werden in jeweils eigenen Spezies abgebildet, wobei die Stadien "Eier" und "Larven" zusammen in der Spezies "Nachwuchs" modelliert werden. Zudem wird der Agent "Migrant" hinzugefügt, welche die Wanderbewegungen der Kammmolche modelliert.
+Das Modell bildet die Entwicklungszyklen, die Stadien der Kammmolche und spezifische Wanderbewegungen ab. Die Stadien werden in jeweils eigenen Spezies abgebildet, wobei die Stadien "Eier" und "Larven" zusammen in der Spezies "Nachwuchs" modelliert werden. Die Spezies "Migrant" dient der modellierung der Wanderbewegungen und kann Agenten der Spezies Juvenil und Adult aufnehmen. Für die Visualisierung der Umgebung und die Steuerung von Wanderbewegungen werden Daten zur Bodenbedeckung verwendet. Das Modell verfügt über folgende Spezies: 
 
-#### Nachwuchs
-Die ersten beiden Stadien ("Eier" und "Larven") sind an Gewässer gebunden, beinhalten viele Individuen und sind von kurzer Lebensdauer. Diese Stadien werden deshalb nicht nach einem agentenbasierten Modellansatz modelliert, sondern in einem formelbasierten (gemäss @WALLENTIN2017165). Als Schalter für den Wechsel zwischen den Modellparadigmen bietet sich hier der Übergang zwischen den Stadien an. Demnach werden die Anzahl Individuen und ihr Verhalten nicht in eigenen Spezies geführt sondern als Attribute von einem Agenten der Spezies "Nachwuchs", welcher vom Muttertier abstammt. Dieser Agent kann das Stadium "Ei" oder "Larve" annehmen und enthält jeweils ein Attribut, welches die Anzahl Individuen und das Entwicklungsdatum enthält. Legt ein Weibchen 200 Eier, entsteht ein Agent der Spezies "Nachwuchs" mit der Anzahl 200, dem Stadium "Ei" und dem aktuellen Modell- Datum. Nach Ablauf der Entwicklungszeit wird das Stadium auf "Larve" umgestellt, wiederum das aktuelle Datum gespeichert und die Anzahl überlebender Individuen berechnet. Das Stadium "Larve" unterliegt zudem einer dichteabhängigen Sterblichkeit, welche hier auf das Attribut "Anzahl" einwirkt. Die dichteabhängige Sterblichkeit ist in Kapitel \@ref(dichtesterb) genauer beschrieben. Anhand der Sterblichkeit und der vorhandenen Anzahl Larven, entstehen nach Ablauf der Eintwicklungszeit aus jedem Agenten der Spezies "Nachwuchs" einzelne Agenten der Spezies "Juvenil".
+- Bodenbedeckung
+- Nachwuchs
+- Juvenil
+- Adult
+- Migrant
 
-#### Juvenile
-Die Spezies Juvenil erhält die Fähigkeit zu wandern. Ein gewisser Anteil der Population wird dazu erkoren zu wandern. Diese Individuen werden zu Agenten der Spezies "Migrant". Nach Ablauf der Wanderung werden sie wiederum zu Agenten der Spezies "Juvenile", bevor sie sich zu adulten Tieren weiterentwicklen. Die Entwicklung ist wiederum durch den Kalender gesteuert und beinhaltet eine Sterblichkeitsrate.
+Der Übergang zwischen den Stadien wird durch den Kalender bestimmt. Die Dauer der einzelnen Entiwcklungsstadien in Tagen wird in Parametern festgelegt. Beim Übergang wird die Sterblichkeitsrate integriert. Die Individuuen entwicklen sich gestützt auf eine Wahrscheinlichkeit weiter oder sterben. Ausnahme ist Spezies "Adult", hier wird eine jährliche Sterblichkeit implementiert.
 
-#### Migrant
-Die Spezies Migrant kann sowohl Agenten aus der Spezies "Juvenile" als auch aus der Spezies "Adulte" aufnehmen. Diese Spezies ist die einzige die Wanderungen unternimmt. Wanderung im Sinne des Modells bedeutet, dass die Gewässer verlassen werden und am Ende der Wanderzeit ein neues Gewässer als Brutgewässer ausgesucht wird. Die Wanderung selber ist in Kapitel \@ref(wanderung) beschrieben. Nach Ablauf der Wanderzeit wird jedes Individuum in dasjenige Spezies geklont von welchem es stammt ("Juvenile" oder "Adulte").
+### Modellvariabeln
+Für die Steuerung der Agenten und für die Auswertung der Resultate werden zahlreiche Variabeln verwendet. Es wird unterschieden zwischen globalen Variabeln, welche aggregiert werden um Kalibration und Auswertungen vorzunehmen. 
 
-#### Adulte
-Adulte habe die komplexesten Eigenschaften der modellierten Spezies. Sie können viele Jahre alt werden und unterliegen einer jährlichen Sterblichkeitsrate. Sie können Wanderungen unternehmen (Agenten werden als Migrant geklont), und pflanzen sich als einzige Spezies in diesem Modell fort.
 
+Diese Variabeln bilden die eigentliche Aussage des Modells und zeigen wie viele Kammmolche in welchem Stadium zu jedem Zeitschritt vorhanden sind und in welchem Gewässer sie sich befinden. Zudem werden die Anzahl Tiere der einzelnen Stadien über den gesamten Zeitraum aufsummiert um einen Überblick über die Nachwuchs- und Sterblichkeitsrate zu erlangen. Weitere Variabeln dienen der Steuerung der Agenten und transportieren wesentliche Informationen beim Übgergang der einzelnen Stadien. In den folgenden Kapiteln sind die Variabeln aufgelistet, in Klammern ist jeweils der Datentyp angegeben.
+
+#### Globale Variabeln
+
+- Zeitmanagement:
+  - starting_date (Datum)
+  - end_date (Datum)
+  - step (60*60*24 Sekunden = 1 Tag)
+  - seasons (Key-Value-Pairs)
+  - seasonNow (Ganzzahl)
+  - current_date (Datum)
+- Anzahl Tiere pro Zeitschritt:
+  - eggs_tot (Ganzzahlen)
+  - larva_tot (Ganzzahlen)
+  - juv_tot (Ganzzahlen)
+  - adult_tot (Ganzzahlen)
+  - migrantJuv_tot (Ganzzahlen)
+  - migrantAdult_tot (Ganzzahlen)
+  - occupiedPonds_count (Ganzzahlen)
+  - catched_adult (Liste adult)
+  - catched_juvenil (Liste juvenil)
+
+#### Variabeln pro Spezies
+Bei Variabeln, welche nur zwei unterschiedlichen Werte annehmen können, wird jeweils ein Boolscher Datentyp (wahr/falsch) verwendet. Dies vereinfacht die Filterung der entsprechenden Individuuen. So werden weibliche Adulte mit folgenden  pseudcode gefiltert: *if isFemale*. Würde das Geschlecht mit dem Datentyp Text in der Variabel "gender" gespeichert, wäre die Filterung umständlicher zu schreiben (*if gender=="female"*), aufwändiger zu prozessieren und fehleranfälliger. Die Bezeichnung der betreffenden Variabeln zeigt welche Bedeutung die Variabeln annimmt, wenn sie wahr ist. Der andere mögliche Wert wird demnach durch den Wert falsch repräsentiert. Dies betrifft die Variabeln "istEi" (wahr=Ei, falsch=Larve), "istJuvenil" (wahr=juvenil, falsch=adult) und istWeiblich (wahr=weiblich, falsch=männlich). Andere Variabeln enthalten einen Verweis auf einen anderen Agenten. Dies ist der Fall bei der Variabel "heimischesGewässer". Hier wird ein Fremdschlüssel auf den entsprechenden Agenten der Spezies Bodenbedeckung gespeichert. Dies vereinfacht den Zugriff auf Variabeln der Brutgewässer über die Agenten, welche mit dem Gewässer verbunden sind. Folgende Variabeln werden auf Ebene Spezies festgelegt und ausgewertet:
+
+- groundCover:
+  - type (Text)
+  - place_of_exposion (Bool)
+  - catchingNet (Bool)
+  - area (Gleitkommeazahl)
+  - newtCount (Ganzzahl)
+  - densityLarva (Ganzzahl)
+- offspring: 
+  - isEgg (Bool)
+  - count (Ganzzahl)
+  - layDate_egg (Datum)
+  - hatchDate_larva (Datum)
+- juvenil:
+  - nativePond (Fremdschlüssel auf Bodenbedeckung)
+  - isFemale (Bool)
+  - dateDevelopment (Datum)
+- adult:
+  - nativePond (Fremdschlüssel auf Bodenbedeckung)
+  - istFemale (Bool)
+  - maturity (Datum)
+  - lastReproduction (Datum)
+  - isMigrant (bool)
+  - slipped (bool)
+  - location (Koordinaten)
+- migrant:
+  - isJuvenil (Bool)
+  - nativePond (Fremdschlüssel auf Bodenbedeckung)
+  - isFemale (Bool)
+  - dateDevelopment (Datum)
+  - lastReproduction (Datum)
+  - location (Koordinaten)
+
+### Prozesse
+Das Modell berechnet die Anzahl Kammmolche insgesamt und in den Gewässern zu jedem Zeitpunkt. Dazu werden alle Entwicklungsstadien modelliert, Fortpflanzungen, Wanderungen und Todesfälle. Das Modell führt jeweils spezifische Prozesse durch, welche hier erläutert werden.
+
+#### Fortpflanzung und Eier legen
+Weibchen legen Eier in das angestammte Gewässer. Dies ist nicht jederzeit möglich, es müssen eine Reihe von Bedingungen eintreffen, damit Eier abgelegt werden können:
+- Die Jahreszeit: Fortpflanzung findet in einem festgelegten Zeitraum zwischen Februar und Mai statt.
+- Es muss mindestens ein Männchen im gleichen Gewässer vorhanden sein wie das Weibchen.
+- Seit der letzten Fortpflanzung ist die durch Parameter festgelegte Fortpflanzungspause verstrichen.
+
+Beim Eier legen wird ein Agent der Spezies Nachwuchs geschaffen. Dabei werden folgende Variabeln gesetzt:
+- *count*: Gemäss Parameter *clutchSize*
+- *nativePond*: *nativePond* der Mutter
+- *layDate_egg*: aktuelles Modelldatum
+- *location*: *location* der Mutter
+
+
+
+#### Spezies Nachwuchs
+Die ersten beiden Stadien ("Eier" und "Larven") sind an Gewässer gebunden, umfassen viele Individuen und sind von kurzer Lebensdauer. Sie unternehmen keine Wanderungen und erhalten hier lediglich die Aufgabe zu altern und zu sterben. Die einzige Grösse, welche hier transportiert werden muss ist die Anzahl an Überlebenden. Diese Stadien werden deshalb nicht nach einem agentenbasierten Modellansatz modelliert, sondern in einem formelbasierten. Das Modell verfolgt stark vereinfacht die Vorgehensweise, wie sie @WALLENTIN2017165 präsentiert. Agenten der Spezies Nachwuchs stammen von den Muttertieren ab, welche die Eier legen. Iin der ganzen Lebensdauer der Agenten dieser Spezies, werden zwei Arten von Sterblichkeit berechnet. Diese verändern die Variabel "Anzahl" und sind im Detail in den Kapiteln \@ref(dichtesterb) und  REFERENZ AUF KaPITEL STERBLICHKEIT VON EIERN erklärt. Es sind folgende Ereignisse betroffen: 
+
+- Sterblichkeit beim Übergang vom Stadium "Ei" zu "Larve"
+- Dichteabhängige Sterblichkeit der Larven
+
+
+
+##### Juvenile
+Die Spezies Juvenil erhält die Fähigkeit zu wandern. Ein durch Parameter festgelegter Anteil der Juvenilen zu Agenten der Spezies "Migrant". Nach Ablauf der Wanderung werden sie wiederum zu Agenten der Spezies "Juvenile". Die Entwicklung zu Adulten ist wiederum durch den Kalender gesteuert und beinhaltet eine Sterblichkeitsrate.
+
+##### Migrant {#speciesMigrant}
+Die Spezies Migrant kann sowohl Agenten aus der Spezies "Juvenile" als auch aus der Spezies "Adulte" aufnehmen. Dieser Spezies ist die Fähigkeit der Wanderung vorbehalten. Als Wanderung wird hier der Wechsel des Brutgewässers bezeichnet. Die Wanderung selber ist in Kapitel \@ref(wanderung) beschrieben. Nach Ablauf der Wanderzeit wird jedes Individuum in die ursprünglich Spezies zurückverwandelt ("Juvenile" oder "Adulte").
+
+##### Adulte
+Adulte habe die komplexesten Eigenschaften der modellierten Spezies. Sie können viele Jahre alt werden und unterliegen einer jährlichen Sterblichkeitsrate. Sie können Wanderungen unternehmen (siehe Kapitel \@ref(wanderung) und \@ref(speciesMigrant)), und pflanzen sich als einzige Spezies in diesem Modell fort.
 
 
 Der Übergang zwischen den Entwicklungsstadien geschieht nach dem Kalender. Bei Überschreiten der Zeitdauer, welche für jedes Stadium festgelegt ist, gehen die betroffenen Tiere ins nächste Stadium über. Die Sterblichkeit in den Stadien wird ebenfalls hier implementiert. Jedes Individuum wird entweder in das nächste Stadium befördert oder es stirbt. Die Wahrscheinlichkeit mit welcher ein Individuum das nächste Staium erreicht, ist in der Literatur gut abgebildet.
