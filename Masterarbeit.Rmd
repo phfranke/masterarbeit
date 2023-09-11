@@ -35,7 +35,6 @@ options(tinytex.verbose = TRUE)
 source("rSkripte/felddaten.R")
 ```
 
-
 # Einleitung
 
 ## Eingeschleppte Arten
@@ -168,6 +167,7 @@ Bei Variabeln, welche nur zwei unterschiedlichen Werte annehmen können, wird je
   - newtCount (Ganzzahl)
   - densityLarva (Ganzzahl)
 - offspring: 
+  - nativePond (Fremdschlüssel auf Bodenbedeckung)
   - isEgg (Bool)
   - count (Ganzzahl)
   - layDate_egg (Datum)
@@ -201,12 +201,50 @@ Weibchen legen Eier in das angestammte Gewässer. Dies ist nicht jederzeit mögl
 - Es muss mindestens ein Männchen im gleichen Gewässer vorhanden sein wie das Weibchen.
 - Seit der letzten Fortpflanzung ist die durch Parameter festgelegte Fortpflanzungspause verstrichen.
 
-Beim Eier legen wird ein Agent der Spezies Nachwuchs geschaffen. Dabei werden folgende Variabeln gesetzt:
-- *count*: Gemäss Parameter *clutchSize*
-- *nativePond*: *nativePond* der Mutter
-- *layDate_egg*: aktuelles Modelldatum
-- *location*: *location* der Mutter
+Beim Eier legen wird ein Agent der Spezies *offspring* geschaffen. Dabei werden folgende Variabeln gesetzt:
 
+- *isEgg*: true 
+- *count*: Anzahl Eier, Gemäss Parameter *clutchSize*
+- *nativePond*: angestammtes Brutgewässer, ist gleich dem aktuellen Gewässer, wird auf die Variabel *nativePond* der Mutter gesetzt
+- *layDate_egg*: aktuelles Modelldatum
+- *location*: aktueller Aufenthaltsort, wird auf die Variabel *location* der Mutter gesetzt
+
+#### Schlüpfen
+Beim Schlüpfen werden drei Variabeln verändert:
+- *count*: wird anhand der Überlebensrate der Eier berechnet, aktueller Wert mal Parameter *survival_egg*
+- *isEgg*: false
+-  *hatchDate_larva*: aktuelles Modelldatum
+
+#### Dichteanhängige Sterblichkeit der Larven {#dichtesterb}
+Im Larvenstadium wird eine dichteabhängige Sterblichkeitsrate eingeführt. Die Annahme ist, dass mit zunehmender Dichte die Sterblichkeit quadratisch ansteigt. Diese Kurve wird geeicht mittels eines Koeffizienten, dessen Höhe im Kalibrationsprozess bestimmt wird. Die grundlegende Sterblichkeit entspricht der Sterberate bei unbedeutender Larvendichte und wird anhand der Literatur angenommen. Die Sterblichkeit wird bei jedem Modellschritt, also täglich, angewendet. Die Sterblichkeitsrate bezieht sich jedoch auf die gesamte Lebensdauer. Deshalb wird die resultierende Sterblichkeit durch die Entwicklungsdauer in Tagen geteilt. Es resultiert die Formel \@ref(eq:sterblarve).
+
+\begin{equation}
+{Grundsterblichkeit}+(Koeffizient*Dichte)^{2}
+(\#eq:sterblarve)
+\end{equation}
+
+#### Entwicklung von der Larven zum Juvenilen
+Hier findet der Übergang vom formelbasierten zum individuenbasierten Paradigma statt. Beim erreichen des nötigen Alters (Parameter *maxAge_larva*) wird für jede Larve ein Agent der Spezies Juvenil geschaffen. Jeder Agent von *offspring* schafft also soviele Agenten von *juvenil*, wie die Variabel *count* zeigt. Dabei werden eine Reihe Eigenschaften vom kreierenden Agenten (ursprünglich von der Mutter) übernommen. Das Geschlecht wird nach einem zufallsmechanismus festgelegt.  Es werden folgende Variabeln gesetzt: 
+
+- *nativePond*: *nativePond* des kreierenden Agenten
+- *location*: *location* des kreierenden Agenten
+- *isFemale*: if random(1.0) >= 0.5: true, else: false
+- *dateDevelopment*: aktuelles Modelldatum
+- *isMigrant*: true, ansonsten würde die Entscheidung übersprungen, ob eine Wanderschaft angetreten wird oder nicht
+
+Nach dem Übergang vom Larvenstadium ins juvenile Stadium wird der kreierende Agent gelöscht.
+
+#### Wanderungen {#speciesMigrant}
+Sowohl adulte Tiere als auch Juvenile unternehmen Wanderungen. Im vorliegenden Modell werden Wanderungen als ein Wechsel des angestammten Brutgewässers aufgefasst. Der wesentliche Prozess ist das Festlegen eines neuen Brutgewässers. Die Wanderungen beginnen bei Adulten nach der Paarungszeit und bei Juvenilen sofort ab erreichen des Stadiums und dauern bis zum Beginn der nächsten Paarungszeit. Der Anteil an Adulten und Juvenilen, welche sich auf Wanderschaft begibt, ist durch die Parameter *migrationRate_adult* und *migrationRate_juv* festgelegt. Die genannten Parameter geben dabei die Wahrscheinlichkeit an, dass ein Agent auf Wanderschaft geht. Diese Entscheidung findet nur einmal im Leben statt. Wenn das Los gegen Wanderung entscheidet und nach abgeschlossener Wanderung wird die Variabel *isMigrant* auf *false* gesetzt:
+
+```
+if *isMigrant* == true and random(1.0) >= *migrationRate_adult*: 
+create migrant{...}, 
+else: isMigrant <- false
+```
+
+Die Wanderungen selber verlaufen bei beiden Spezies nach gleichem Muster:
+Sie verlassen das Gewässer in einer zufälligen Himmelsrichtung. Bei jedem Schritt weichen sie zufällig +/- 30° vom Kurs ab. Die zurückgelegte Distanz liegt, ebenfalls per Zufallsmechanismus, zwischen 5 und 25 Metern pro Tag. Wenn der Auslöser für die Rückkehr in die Gewässer anschlägt, wählen die wandernden Agenten dasjenige Gewässer, welches ihnen am nächsten liegt (Luftlinie) als neues angestammtes Gewässer. Dieses wird im Attribut *nativePond* festgesetzt. Die Wanderung erfolgt unabhängig vom Untergrund, mit einer Ausnahmen: Tiere können nicht durch Gebäude wandern. Vor jedem Schritt wird vorausgeschaut ob ein Haus im Weg ist und die Wandergeschwindigkeit und Richtung so angepasst, dass die Hindernisse umgangen werden.
 
 
 #### Spezies Nachwuchs
@@ -216,33 +254,15 @@ Die ersten beiden Stadien ("Eier" und "Larven") sind an Gewässer gebunden, umfa
 - Dichteabhängige Sterblichkeit der Larven
 
 
+#### Bekämpfung
+Ab dem Modelldatum 1.1.2021 werden Bekämpfungsmassnahmen simuliert. In der Natur werden Tiere bei der saisonalen Zuwanderung in die Gewässer mithilfe von fest installierten Zäunen gefangen. Weibchen, welche in der Fortpflanzungspause sind, suche mutmasslich keine Gewässer auf und werden auch nicht gefangen. Gewässer, an welchen Zäune installiert werden, sind mit dem Variabeln *catchingNet* == true markiert. Die Tiere, welche abgefangen werden, werden nach folgenden Kriterien gefiltert:
 
-##### Juvenile
-Die Spezies Juvenil erhält die Fähigkeit zu wandern. Ein durch Parameter festgelegter Anteil der Juvenilen zu Agenten der Spezies "Migrant". Nach Ablauf der Wanderung werden sie wiederum zu Agenten der Spezies "Juvenile". Die Entwicklung zu Adulten ist wiederum durch den Kalender gesteuert und beinhaltet eine Sterblichkeitsrate.
+- *nativePond.catchingNet* == true
+- *lastReproductino* + *reproductionBreak* >= current_date
+- *slipped* == false
 
-##### Migrant {#speciesMigrant}
-Die Spezies Migrant kann sowohl Agenten aus der Spezies "Juvenile" als auch aus der Spezies "Adulte" aufnehmen. Dieser Spezies ist die Fähigkeit der Wanderung vorbehalten. Als Wanderung wird hier der Wechsel des Brutgewässers bezeichnet. Die Wanderung selber ist in Kapitel \@ref(wanderung) beschrieben. Nach Ablauf der Wanderzeit wird jedes Individuum in die ursprünglich Spezies zurückverwandelt ("Juvenile" oder "Adulte").
+Tiere erhalten eine Chance (Parameter *probabilityCatch*) um durch die Zäune zu schlüpfen. In diesem Fall wird die Variabel *slipped* auf true gesetzt. Diese Variabel wird jedes Jahr wieder auf False gesetzt.
 
-##### Adulte
-Adulte habe die komplexesten Eigenschaften der modellierten Spezies. Sie können viele Jahre alt werden und unterliegen einer jährlichen Sterblichkeitsrate. Sie können Wanderungen unternehmen (siehe Kapitel \@ref(wanderung) und \@ref(speciesMigrant)), und pflanzen sich als einzige Spezies in diesem Modell fort.
-
-
-Der Übergang zwischen den Entwicklungsstadien geschieht nach dem Kalender. Bei Überschreiten der Zeitdauer, welche für jedes Stadium festgelegt ist, gehen die betroffenen Tiere ins nächste Stadium über. Die Sterblichkeit in den Stadien wird ebenfalls hier implementiert. Jedes Individuum wird entweder in das nächste Stadium befördert oder es stirbt. Die Wahrscheinlichkeit mit welcher ein Individuum das nächste Staium erreicht, ist in der Literatur gut abgebildet.
-
-
-### Wanderungen {#wanderung}
-Wandernde Tiere, unabhängig ob es sich um juvenile oder adulte Tiere handelt, zeigen das gleiche Wanderverhalten. Sie laufen in eine zufällige Himmelsrichtung aus dem Gewässer. Die Wanderrichtung weicht mit jedem Zeitschritt um maximal +/- 30° vom aktuellen Kurs ab. Nach Ablauf der Wandersaison suchen die wandernden Tiere dasjenige Gewässer auf, welches Ihnen am nächsten ist (Luftlinie). Diese nimmt zufällig einen Wert zwischen 5 und 25 Metern pro Tag an. Dieses Gewässer wird dann zum angestammten Gewässer des Individuums. Bei der Berechnung der Wanderrichtung wird auch die Wandergeschwindigkeit für den Zeitschritt festgelegt. Umgebungsdaten bleiben hier weitgehend unberücksichtigt, da konkrete Wanderverhalten der Tiere zu wenig bekannt sind und diese das Modell stark verlangsamen würden. Einzig die Gebäude werden als Hinderniss modelliert, welche von den Kammmolchen nicht durchwandert werden können. Alle anderen Bodenoberflächen können mit gleichbleibender Geschwindigkeit durchschritten.
-
-### Bekämpfung
-Ab dem Modelldatum 1.1.2020 werden Bekämpfungsmassnahmen simuliert. Es ist bekannt, an welchen Weihern Tiere abgefangen werden. Hier werden an einem einzelnen Tag eine bestimmte Anzahl Tiere aus dem Modell entfernt. Dabei werden lediglich Tiere entfernt, welche mit einem der eingezäunten Gewässer verbunden ist. Für die Validierung werden hier Informationen zu den einzelnen Tieren gespeichert wie Anzahl,Geschlecht und Alter.
-
-### Dichteanhängige Sterblichkeit der Larven {#dichtesterb}
-Im Larvenstadium wird eine dichteabhängige Sterblichkeitsrate eingeführt. Die Annahme ist, dass mit zunehmender Dichte die Sterblichkeit quadratisch ansteigt. Diese Kurve wird geeicht mittels eines Koeffizienten, dessen Höhe im Kalibrationsprozess bestimmt wird. Die grundlegende Sterblichkeit entspricht der Sterberate bei unbedeutender Larvendichte und wird anhand der Literatur angenommen. Die Sterblichkeit wird bei jedem Modellschritt, also täglich, angewendet. Die Sterblichkeitsrate bezieht sich jedoch auf die gesamte Lebensdauer. Deshalb wird die resultierende Sterblichkeit durch die Entwicklungsdauer in Tagen geteilt. Die schlussendliche ist in Formel \@ref(eq:sterblarve) abgebildet
-
-\begin{equation}
-{Grundsterblichkeit}+(Koeffizient*Dichte)^{2}
-(\#eq:sterblarve)
-\end{equation}
 
 
 
@@ -259,7 +279,7 @@ knitr::kable(tab,caption='Im Modell verwendete Parameter',label='para')
 
 ## Verwendete Daten
 ### Bodenbedeckung
-Zu Darstellung der Umgebung werden Daten mit Informationen zur Bodenbedeckung verwendet. diese werden vom Kanton Basel-Landschaft erhoben und konstenlos über einen Downloaddienst zur Verfügung gestellt. Diese Informationen dienen der Steuerung von Wanderbewegungen (siehe Kapitel \@ref(wanderung)) und zur farblichen Darstellung der Landschaft im Modell. Die Vektordaten sind in einer hohen Genauigkeit erfasst und klassifiziert. Die verwendete Darstellung und vorhandene Bodenklassen sind in Abbildung \@ref(fig:gebietbb) ersichtlich. 
+Zu Darstellung der Umgebung werden Daten mit Informationen zur Bodenbedeckung verwendet. diese werden vom Kanton Basel-Landschaft erhoben und konstenlos über einen Downloaddienst zur Verfügung gestellt. Diese Informationen dienen der Steuerung von Wanderbewegungen und zur farblichen Darstellung der Landschaft im Modell. Die Vektordaten sind in einer hohen Genauigkeit erfasst und klassifiziert. Die verwendete Darstellung und vorhandene Bodenklassen sind in Abbildung \@ref(fig:gebietbb) ersichtlich. 
 Die Landesgrenze beschreibt im Untersuchungsgebiet einen Bogen tief ins Landesinnere. Die Daten zur Bodenbedeckung sind nur auf Gebieten des Kantons Basel-Landschaft erfasst. In der erwähnten Lücke auf dem Boden der Gemeinde Neuwiller in Frankreich besteht ein Loch. Es kann jedoch nicht ausgeschlossen werden, dass Kammmolche ebenfalls durch diese Gebiete wandern. Die benötigten Oberflächendaten wurden hier anhand der 1:25'000 er Landeskarte der Schweiz von Hand grob abdigitalisiert. Erkennbare Strukturen, wie Gebäude, Siedlung, Strassen, Wälder, Landwirtschaftsland und Gewässer wurden dabei berücksichtigt (siehe Abbildung \@ref(fig:gebietbb)). Häuser wurden nicht mit dem realistischen Grundriss nachgezeichnet sondern durch ein standardisiertes Rechteck von ca. 100m2 ersetzt. Der Siedlungsraum wurde insgesamt als Gartenanlage modelliert. Das restliche Offenlad wurde dem Typ "Acker, Wiese, Weide" zugeordnet. Die Körnung ist deutlich gröber wie die Daten der amtlichen Vermessung.
 
 
