@@ -122,13 +122,19 @@ Die Zählschritte des Modell betragen einen Tag. Als Startzeitpunkt wird der Mom
 ### Agenten {#oddAgenten}
 Das Modell bildet die Entwicklungszyklen, die Stadien der Kammmolche und spezifische Wanderbewegungen ab. Die Stadien werden in jeweils eigenen Spezies abgebildet, wobei die Stadien "Eier" und "Larven" zusammen in der Spezies "Nachwuchs" modelliert werden. Die Spezies "Migrant" dient der modellierung der Wanderbewegungen und kann Agenten der Spezies Juvenil und Adult aufnehmen. Für die Visualisierung der Umgebung und die Steuerung von Wanderbewegungen werden Daten zur Bodenbedeckung verwendet. Das Modell verfügt über folgende Spezies: 
 
-- Bodenbedeckung
-- Nachwuchs
-- Juvenil
-- Adult
-- Migrant
+- `groundCover`
+- `offspring`
+- `juvenil`
+- `adult`
+- `migrant`
 
-Der Übergang zwischen den Stadien wird durch den Kalender bestimmt. Die Dauer der einzelnen Entiwcklungsstadien in Tagen wird in Parametern festgelegt. Beim Übergang wird die Sterblichkeitsrate integriert. Die Individuuen entwicklen sich gestützt auf eine Wahrscheinlichkeit weiter oder sterben. Ausnahme ist Spezies "Adult", hier wird eine jährliche Sterblichkeit implementiert.
+
+#### Formelbasierte Simulationen des Nachwuchs, Spezies `offspring`
+Die ersten beiden Stadien (Eier und Larven) sind an die Gewässer gebunden, umfassen sehr viele Individuen und sind von kurzer Lebensdauer. Sie unternehmen keine Wanderungen und erhalten im Modell lediglich die Aufgabe zu altern und zu sterben. Diese Stadien werden deshalb nicht nach einem agentenbasierten Modellansatz modelliert, sondern in einem formelbasierten. Das Modell verfolgt stark vereinfacht die Vorgehensweise, wie sie @WALLENTIN2017165 präsentiert. Die einzelnen Individuen werden demnach nicht als eigenständige Agenten geführt, sondern durch Attribute eines grösseren Agenten repräsentiert. Beim Eier legen (siehe Kapitel: \@ref(reproduction)) entsteht pro Weibchen ein Agent der Spezies `offspring`. Dieser beinhaltet die Anzahl Nachfahren im Attribut `count`. In der ganzen Lebensdauer der Agenten dieser Spezies, werden zwei Arten von Sterblichkeit berechnet. Diese verändern die Variabel `count` und sind im Detail in den Kapiteln \@ref(dichtesterb) und in @horner1985normal erklärt. Es sind folgende Ereignisse betroffen: 
+
+- Sterblichkeit beim Übergang vom Stadium "Ei" zu "Larve"
+- Dichteabhängige Sterblichkeit der Larven
+
 
 ### Modellvariabeln
 Für die Steuerung der Agenten und für die Auswertung der Resultate werden zahlreiche Variabeln verwendet. Es wird unterschieden zwischen globalen Variabeln, welche aggregiert werden um Kalibration und Auswertungen vorzunehmen. 
@@ -139,25 +145,25 @@ Diese Variabeln bilden die eigentliche Aussage des Modells und zeigen wie viele 
 #### Globale Variabeln
 
 - Zeitmanagement:
-  - starting_date (Datum)
-  - end_date (Datum)
-  - step (60*60*24 Sekunden = 1 Tag)
-  - seasons (Key-Value-Pairs)
-  - seasonNow (Ganzzahl)
-  - current_date (Datum)
-- Anzahl Tiere pro Zeitschritt:
-  - eggs_tot (Ganzzahlen)
-  - larva_tot (Ganzzahlen)
-  - juv_tot (Ganzzahlen)
-  - adult_tot (Ganzzahlen)
-  - migrantJuv_tot (Ganzzahlen)
-  - migrantAdult_tot (Ganzzahlen)
-  - occupiedPonds_count (Ganzzahlen)
-  - catched_adult (Liste adult)
-  - catched_juvenil (Liste juvenil)
+  - `starting_date` (Datum)
+  - `end_date` (Datum)
+  - `step = 60* 60* 24 Sekunden = 1 Tag`
+  - `seasons` (Key-Value-Pairs)
+  - `seasonNow` (Ganzzahl)
+  - `current_date` (aktuelles Modelldatum)
+- Anzahl Tiere:
+  - `eggs_tot` (Ganzzahlen)
+  - `larva_tot` (Ganzzahlen)
+  - `juv_tot` (Ganzzahlen)
+  - `adult_tot` (Ganzzahlen)
+  - `migrantJuv_tot` (Ganzzahlen)
+  - `migrantAdult_tot` (Ganzzahlen)
+  - `occupiedPonds_count` (Ganzzahlen)
+  - `catched_adult` (Liste adult)
+  - `catched_juvenil` (Liste juvenil)
 
 #### Variabeln pro Spezies
-Bei Variabeln, welche nur zwei unterschiedlichen Werte annehmen können, wird jeweils ein Boolscher Datentyp (wahr/falsch) verwendet. Dies vereinfacht die Filterung der entsprechenden Individuuen. So werden weibliche Adulte mit folgenden  pseudcode gefiltert: *if isFemale*. Würde das Geschlecht mit dem Datentyp Text in der Variabel "gender" gespeichert, wäre die Filterung umständlicher zu schreiben (*if gender=="female"*), aufwändiger zu prozessieren und fehleranfälliger. Die Bezeichnung der betreffenden Variabeln zeigt welche Bedeutung die Variabeln annimmt, wenn sie wahr ist. Der andere mögliche Wert wird demnach durch den Wert falsch repräsentiert. Dies betrifft die Variabeln "istEi" (wahr=Ei, falsch=Larve), "istJuvenil" (wahr=juvenil, falsch=adult) und istWeiblich (wahr=weiblich, falsch=männlich). Andere Variabeln enthalten einen Verweis auf einen anderen Agenten. Dies ist der Fall bei der Variabel "heimischesGewässer". Hier wird ein Fremdschlüssel auf den entsprechenden Agenten der Spezies Bodenbedeckung gespeichert. Dies vereinfacht den Zugriff auf Variabeln der Brutgewässer über die Agenten, welche mit dem Gewässer verbunden sind. Folgende Variabeln werden auf Ebene Spezies festgelegt und ausgewertet:
+Bei Variabeln, welche nur zwei unterschiedlichen Werte annehmen können, wird jeweils ein Boolscher Datentyp (wahr/falsch) verwendet. Dies vereinfacht die Filterung der entsprechenden Individuuen. So werden weibliche Adulte mit folgenden  pseudcode gefiltert: `if isFemale`. Würde das Geschlecht mit dem Datentyp Text in der Variabel "gender" gespeichert, wäre die Filterung umständlicher zu schreiben (`if gender=="female"`), aufwändiger zu prozessieren und fehleranfälliger. Die Bezeichnung der betreffenden Variabeln zeigt welche Bedeutung die Variabeln annimmt, wenn sie wahr ist. Der andere mögliche Wert wird demnach durch den Wert falsch repräsentiert. Dies betrifft die Variabeln "istEi" (wahr=Ei, falsch=Larve), "istJuvenil" (wahr=juvenil, falsch=adult) und istWeiblich (wahr=weiblich, falsch=männlich). Andere Variabeln enthalten einen Verweis auf einen anderen Agenten. Dies ist der Fall bei der Variabel "heimischesGewässer". Hier wird ein Fremdschlüssel auf den entsprechenden Agenten der Spezies Bodenbedeckung gespeichert. Dies vereinfacht den Zugriff auf Variabeln der Brutgewässer über die Agenten, welche mit dem Gewässer verbunden sind. Folgende Variabeln werden auf Ebene Spezies festgelegt und ausgewertet:
 
 - groundCover:
   - type (Text)
@@ -195,27 +201,27 @@ Bei Variabeln, welche nur zwei unterschiedlichen Werte annehmen können, wird je
 ### Prozesse
 Das Modell berechnet die Anzahl Kammmolche insgesamt und in den Gewässern zu jedem Zeitpunkt. Dazu werden alle Entwicklungsstadien modelliert, Fortpflanzungen, Wanderungen und Todesfälle. Das Modell führt jeweils spezifische Prozesse durch, welche hier erläutert werden.
 
-#### Fortpflanzung und Eier legen
+#### Fortpflanzung und Eier legen {#reproduction}
 Weibchen legen Eier in das angestammte Gewässer. Dies ist nicht jederzeit möglich, es müssen eine Reihe von Bedingungen eintreffen, damit Eier abgelegt werden können:
 - Die Jahreszeit: Fortpflanzung findet in einem festgelegten Zeitraum zwischen Februar und Mai statt.
 - Es muss mindestens ein Männchen im gleichen Gewässer vorhanden sein wie das Weibchen.
 - Seit der letzten Fortpflanzung ist die durch Parameter festgelegte Fortpflanzungspause verstrichen.
 
-Beim Eier legen wird ein Agent der Spezies *offspring* geschaffen. Dabei werden folgende Variabeln gesetzt:
+Beim Eier legen wird ein Agent der Spezies `offspring`  geschaffen. Dabei werden folgende Variabeln gesetzt:
 
-- *isEgg*: true 
-- *count*: Anzahl Eier, Gemäss Parameter *clutchSize*
-- *nativePond*: angestammtes Brutgewässer, ist gleich dem aktuellen Gewässer, wird auf die Variabel *nativePond* der Mutter gesetzt
-- *layDate_egg*: aktuelles Modelldatum
-- *location*: aktueller Aufenthaltsort, wird auf die Variabel *location* der Mutter gesetzt
+- `isEgg = true`
+- `count = parameter(clutchSize)`
+- `nativePond =  nativePond* der Mutter`
+- `layDate_egg* =  current_date`
+- `location = *location* der Mutter`
 
 #### Schlüpfen
 Beim Schlüpfen werden drei Variabeln verändert:
-- *count*: wird anhand der Überlebensrate der Eier berechnet, aktueller Wert mal Parameter *survival_egg*
-- *isEgg*: false
--  *hatchDate_larva*: aktuelles Modelldatum
+- `count = count * survival_egg`
+- `isEgg = false`
+- `hatchDate_larva = current_date`
 
-#### Dichteanhängige Sterblichkeit der Larven {#dichtesterb}
+#### Dichteabhängige Sterblichkeit der Larven {#dichtesterb}
 Im Larvenstadium wird eine dichteabhängige Sterblichkeitsrate eingeführt. Die Annahme ist, dass mit zunehmender Dichte die Sterblichkeit quadratisch ansteigt. Diese Kurve wird geeicht mittels eines Koeffizienten, dessen Höhe im Kalibrationsprozess bestimmt wird. Die grundlegende Sterblichkeit entspricht der Sterberate bei unbedeutender Larvendichte und wird anhand der Literatur angenommen. Die Sterblichkeit wird bei jedem Modellschritt, also täglich, angewendet. Die Sterblichkeitsrate bezieht sich jedoch auf die gesamte Lebensdauer. Deshalb wird die resultierende Sterblichkeit durch die Entwicklungsdauer in Tagen geteilt. Es resultiert die Formel \@ref(eq:sterblarve).
 
 \begin{equation}
@@ -223,19 +229,41 @@ Im Larvenstadium wird eine dichteabhängige Sterblichkeitsrate eingeführt. Die 
 (\#eq:sterblarve)
 \end{equation}
 
-#### Entwicklung von der Larven zum Juvenilen
-Hier findet der Übergang vom formelbasierten zum individuenbasierten Paradigma statt. Beim erreichen des nötigen Alters (Parameter *maxAge_larva*) wird für jede Larve ein Agent der Spezies Juvenil geschaffen. Jeder Agent von *offspring* schafft also soviele Agenten von *juvenil*, wie die Variabel *count* zeigt. Dabei werden eine Reihe Eigenschaften vom kreierenden Agenten (ursprünglich von der Mutter) übernommen. Das Geschlecht wird nach einem zufallsmechanismus festgelegt.  Es werden folgende Variabeln gesetzt: 
 
-- *nativePond*: *nativePond* des kreierenden Agenten
-- *location*: *location* des kreierenden Agenten
-- *isFemale*: if random(1.0) >= 0.5: true, else: false
-- *dateDevelopment*: aktuelles Modelldatum
-- *isMigrant*: true, ansonsten würde die Entscheidung übersprungen, ob eine Wanderschaft angetreten wird oder nicht
+#### Entwicklung von der Larven zum Juvenilen
+Hier findet der Übergang vom formelbasierten zum individuenbasierten Paradigma statt. Beim erreichen des nötigen Alters (Parameter `maxAge_larva`) wird für jede Larve ein Agent der Spezies Juvenil geschaffen. Jeder Agent von `offspring` schafft also soviele Agenten von `juvenil`, wie die Variabel `count` zeigt. Dabei werden eine Reihe Eigenschaften vom kreierenden Agenten (ursprünglich von der Mutter) übernommen. Das Geschlecht wird nach einem zufallsmechanismus festgelegt.  Es werden folgende Variabeln gesetzt: 
+
+- `nativePond = nativePond des kreierenden Agenten`
+- `location = location des kreierenden Agenten`
+- `if random(1.0) >= 0.5: isFemale=true, else: isFemale=false`
+- `dateDevelopment = current_date`
+- `isMigrant = true`, ansonsten würde die Entscheidung übersprungen, ob eine Wanderschaft angetreten wird oder nicht
 
 Nach dem Übergang vom Larvenstadium ins juvenile Stadium wird der kreierende Agent gelöscht.
 
+
+#### Entwicklung vom Juvenilen zum Adulten
+Der Übergang von den juvenilen zum erwachsenen Tier wird über den Kalender terminiert. Beim Erreichen des vorbestimmten Alters (in Parameter `maxAge_juv`), wird folgender Prozess ausgelöst: 
+
+```
+if random(1.0) >= survival_juvenil:
+  create adult
+do die
+```
+
+Der juvenile Agent wird in jedem Fall gelöscht. Mit der Zeile `if random(1.0) >= survival_juvenil` wir die natürliche Sterblichkeit simuliert. Ein Zufallsprozess selektiert einen bestimmten Anteil (Parameter `survival_juvenil`) der Population, welcher die Geschlechtsreife erreicht. Die Attribute des neuen Agenten `adult` werden wie folgt gesetzt:
+
+- `nativePond = nativePond des kreierenden Agenten`
+- `location = location des kreierenden Agenten`
+- `isFemale = isFemale des kreierenden Agenten`
+- `maturity = current_date`
+
+#### Jährliche Sterblichkeit der Adulten
+Die Spezies `adult` verfügt als einzige über eine jährliche Sterblichkeitsrate. Diese wird einmal im Jahr berechnet. Als Zeitpunkt für diese Berechnung wird der letzte Tag des Jahres gewählt. Für jeden Agenten wird in einem Zufallsereignis entschieden, ob er überlebt. Die Wahrscheinlichkeit zu überleben wird im Parameter `survival_adult` festgelegt.
+
+
 #### Wanderungen {#speciesMigrant}
-Sowohl adulte Tiere als auch Juvenile unternehmen Wanderungen. Im vorliegenden Modell werden Wanderungen als ein Wechsel des angestammten Brutgewässers aufgefasst. Der wesentliche Prozess ist das Festlegen eines neuen Brutgewässers. Die Wanderungen beginnen bei Adulten nach der Paarungszeit und bei Juvenilen sofort ab erreichen des Stadiums und dauern bis zum Beginn der nächsten Paarungszeit. Der Anteil an Adulten und Juvenilen, welche sich auf Wanderschaft begibt, ist durch die Parameter *migrationRate_adult* und *migrationRate_juv* festgelegt. Die genannten Parameter geben dabei die Wahrscheinlichkeit an, dass ein Agent auf Wanderschaft geht. Diese Entscheidung findet nur einmal im Leben statt. Wenn das Los gegen Wanderung entscheidet und nach abgeschlossener Wanderung wird die Variabel *isMigrant* auf *false* gesetzt:
+Sowohl adulte Tiere als auch Juvenile unternehmen Wanderungen. Im vorliegenden Modell werden Wanderungen als ein Wechsel des angestammten Brutgewässers aufgefasst. Der wesentliche Prozess ist das Festlegen eines neuen Brutgewässers. Die Wanderungen beginnen bei Adulten nach der Paarungszeit und bei Juvenilen sofort ab erreichen des Stadiums und dauern bis zum Beginn der nächsten Paarungszeit. Der Anteil an Adulten und Juvenilen, welche sich auf Wanderschaft begibt, ist durch die Parameter `migrationRate_adult` und `migrationRate_juv` festgelegt. Die genannten Parameter geben dabei die Wahrscheinlichkeit an, dass ein Agent auf Wanderschaft geht. Diese Entscheidung findet nur einmal im Leben statt. Wenn das Los gegen Wanderung entscheidet und nach abgeschlossener Wanderung wird die Variabel `isMigrant` auf `false` gesetzt:
 
 ```
 if *isMigrant* == true and random(1.0) >= *migrationRate_adult*: 
@@ -247,38 +275,61 @@ Die Wanderungen selber verlaufen bei beiden Spezies nach gleichem Muster:
 Sie verlassen das Gewässer in einer zufälligen Himmelsrichtung. Bei jedem Schritt weichen sie zufällig +/- 30° vom Kurs ab. Die zurückgelegte Distanz liegt, ebenfalls per Zufallsmechanismus, zwischen 5 und 25 Metern pro Tag. Wenn der Auslöser für die Rückkehr in die Gewässer anschlägt, wählen die wandernden Agenten dasjenige Gewässer, welches ihnen am nächsten liegt (Luftlinie) als neues angestammtes Gewässer. Dieses wird im Attribut *nativePond* festgesetzt. Die Wanderung erfolgt unabhängig vom Untergrund, mit einer Ausnahmen: Tiere können nicht durch Gebäude wandern. Vor jedem Schritt wird vorausgeschaut ob ein Haus im Weg ist und die Wandergeschwindigkeit und Richtung so angepasst, dass die Hindernisse umgangen werden.
 
 
-#### Spezies Nachwuchs
-Die ersten beiden Stadien ("Eier" und "Larven") sind an Gewässer gebunden, umfassen viele Individuen und sind von kurzer Lebensdauer. Sie unternehmen keine Wanderungen und erhalten hier lediglich die Aufgabe zu altern und zu sterben. Die einzige Grösse, welche hier transportiert werden muss ist die Anzahl an Überlebenden. Diese Stadien werden deshalb nicht nach einem agentenbasierten Modellansatz modelliert, sondern in einem formelbasierten. Das Modell verfolgt stark vereinfacht die Vorgehensweise, wie sie @WALLENTIN2017165 präsentiert. Agenten der Spezies Nachwuchs stammen von den Muttertieren ab, welche die Eier legen. Iin der ganzen Lebensdauer der Agenten dieser Spezies, werden zwei Arten von Sterblichkeit berechnet. Diese verändern die Variabel "Anzahl" und sind im Detail in den Kapiteln \@ref(dichtesterb) und  REFERENZ AUF KaPITEL STERBLICHKEIT VON EIERN erklärt. Es sind folgende Ereignisse betroffen: 
-
-- Sterblichkeit beim Übergang vom Stadium "Ei" zu "Larve"
-- Dichteabhängige Sterblichkeit der Larven
-
-
 #### Bekämpfung
-Ab dem Modelldatum 1.1.2021 werden Bekämpfungsmassnahmen simuliert. In der Natur werden Tiere bei der saisonalen Zuwanderung in die Gewässer mithilfe von fest installierten Zäunen gefangen. Weibchen, welche in der Fortpflanzungspause sind, suche mutmasslich keine Gewässer auf und werden auch nicht gefangen. Gewässer, an welchen Zäune installiert werden, sind mit dem Variabeln *catchingNet* == true markiert. Die Tiere, welche abgefangen werden, werden nach folgenden Kriterien gefiltert:
+Ab dem Modelldatum 1.1.2021 werden Bekämpfungsmassnahmen simuliert. In der Natur werden Tiere bei der saisonalen Zuwanderung in die Gewässer mithilfe von fest installierten Zäunen gefangen. Weibchen, welche in der Fortpflanzungspause sind, suche keine Gewässer auf und können deshalb nicht gefangen werden. Gewässer, an welchen Zäune installiert werden, sind mit der Variabel `catchingNet == true` markiert. Tiere erhalten eine Chance (Parameter `probabilityCatch`) um durch die Zäune zu schlüpfen. In diesem Fall wird die Variabel `slipped` auf true gesetzt. Diese Variabel wird jedes Jahr wieder auf False gesetzt. Nachfolgend sind die Kriterien aufgelistet, nach welchen zu fangenden Tiere selektiert werden:
 
-- *nativePond.catchingNet* == true
-- *lastReproductino* + *reproductionBreak* >= current_date
-- *slipped* == false
+- `nativePond.catchingNet == true`
+- `lastReproduction + reproductionBreak >= current_date`
+- `slipped == false`
+- `random(1.0) >= parameter(probalityCatch)`
 
-Tiere erhalten eine Chance (Parameter *probabilityCatch*) um durch die Zäune zu schlüpfen. In diesem Fall wird die Variabel *slipped* auf true gesetzt. Diese Variabel wird jedes Jahr wieder auf False gesetzt.
+Um Unsicherheiten abzufangen wird die Effektivität der Bekämpfungsmassnahmen in mehreren Szenarien simuliert. Näheres dazu ist in Kapitel \@ref(szenarien) beschrieben. Die Szenarien bestimmen den `parameter(probabilityCatch)`.
 
 
+### Design Koncepte
+#### Grundlegende Prinzipien
+Das Modell versucht äusserst komplexe, natürliche Abläufe abzubilden. Natürliche Prozesse sind nie starr auf einen Parameter ausgerichtet, sondern sind von dutzenden Faktoren abhängig. Das Modell ignoriert bei den meisten Einflussgrössen diese natürliche Bandbreite und legt einen festen Wert dafür fest. Eine Abbildung der Einflussgrössen mit einer zufälligen Schwankung birgt die Gefahr, dass das Modell chaotisch verläuft und die Resultate nicht nachvollziehbar sind. Deshalb basiert das Grundgerüsts des Modells auf starren Abläufen, welche sich nach dem Modelldatum und Parameterwerten richten. Überall wo klare Werte in der Literatur zu finden sind, werden starre Parameter definiert. Dies betrifft hauptsächlich zeitliche Entscheidungen, wie die Entwicklungsdauer der einzelnen Stadien. Ereignisse, welche auf Wahrscheinlichkeiten beruhen, werden mit zufälligen Komponenten simuliert. Beispiele dafür sind die Sterblichkeitsraten, wofür ebenfalls Werte in der Literatur zu finden sind. Die zufälligen Elemente entscheiden hier darüber, welche Individuen von einer Entscheidung betroffen sind. Weitere Elemente Entscheidungen sind nicht eindeutig durch die Literatur belegt und beruhen entweder auf Annahmen, zufälligen Ereignissen  oder werden mit Szenarien in das Modell implementiert. Die dichteabhängige Sterblichkeit der Larven ist ein Beispiel für eine Annahme, die Wanderrichtung wird zufällig ermittelt und Szenarien werden für die Modellierung der Bekämpfungsmassnahmen verwendet.
+
+Die daraus entstehenden Muster variieren von Durchlauf zu Durchlauf und weisen einen natürlichen Charakter auf. Das Design ist jedoch darauf ausgerichtet, dass diese Muster zwar Schwankungen aufweisen, aber dennoch vorhersagbar bleiben und nicht einem chaotischen Muster folgen.
+
+#### Emergenz
+Natürliche Muster entstehen durch zufällige Entscheidungen. Zufällige Entscheidungen mit dem grössten Einfluss dürften in diesem Modell die Wanderungen sein. Die Wanderrichtung basiert auf mehreren Zufallsvariabeln und weist damit bei jedem Modelldurchlauf deutlich andere Abläufe auf. Zugleich sind die Wanderungen ein zentrales Element und führen dazu, dass weitere Gewässer besiedelt werden und die Agenten sich ausbreiten können. Wenn bereits in einem frühen Zeitpunkt mehrere Erwachsenen Kammmolche mit unterschiedlichemn Geschlecht ein neues Gewässer besiedelt, kann dies deutlich unterschiedliches Wachstum der gesamten Population verursachen.
+
+#### Sensing
+Wanderungen basieren zufälligen Ereignissen, richten sich aber auch teilweise nach dem Untergrund. Die Bodenbedeckung weist Elemente auf, welche von Kammmolchen nicht durchschritten werden können. Dies sind namentlich die Gebäude. 
 
 
-### Parameter
-Das Modell definiert insgesamt 15 Parameter. Diese sind in Tabelle \@ref(tab:para) aufgelistet.
+#### Interaction
+fortpflanzung
+
+
+#### Stochasticity
+wanderrichtung
+
+
+#### Observation
+Anzahl Agenten alles Spezies zu jedem Zeitpunkt und aufsummmiert über die ganze Laufzeit.
+Anzahl besetzte Gewässer.
+
+### Initialisierung
+Der Anfangszustands des Modells besteht aus der Bodenbedeckung und einer bestimmten Anzahl Kammmolche in einem bestimmten Gewässer. Die Bodenbedeckung wird aus einem Shape-File geladen und entsprechend ihrer Ausprägung eingefärbt. Über eine Attribut der Bodenbedeckung wird dasjenige Gewässer markiert, wo die Kammmolche sich zu Beginn befinden. Die Anzahl an Kammmolchen (Spezies `adult`) wird durch den Parameter `number_newts_start` festgelegt. Die Variabeln `location` und `nativePond` dieser Agenten werden auf diesen Standort gesetzt.  Während der Initialisierung wird ausserdem das Geschlecht vergeben und eine zufällige Altersspanne zwischen 0 und 500 Tagen festgelegt:
+
+- `if random(1.0) >= 50 : isFemale=true else: isFemale=false`
+- `maturity = starting_date - random(500)`
+- `lastReproduction = maturity`
+
+Das Modell wird durch viele Parameter gesteuert. Diese werden ebenfalls initial festgelegt. Die entsprechenden Werte sind in Tabelle \@ref(tab:para) aufgelistet.
 ```{r tab_parameter, echo=FALSE}
-Bezeichnung <- c('Anzahl Kammmolche zu Beginn','Start Datum','Überlebensrate Eier','Überlebensrate Larven','Überlebensrate Juvenile','Überlebensrate Adulte, jährlich','Larvendichte','Abhängigkeit Larvendichte/Larvensterblichkeit','Rate der Wanderer Adult','Rate der Wanderer Juvenil','Dauer der Wandertätigkeit','Entwicklungsdauer Ei','Entwicklungsdauer Larve','Entwicklungsdauer Juvenil', 'Gelegegrösse', 'Jahre ohne Fortpflanzung')
-Einheit <- c('Stk.','-','-','-','-','-','Stk./m2','-','%','%','Tage','Tage','Tage','Tage','Eier/Weibchen','-')
-Wert <- c('50','1.1.2000','0.5','0.4','0.4','0.5','1.0','0.01','1.2','37.3','30','1.5','90','730','300','2')
-Herkunft <- c('Annahme','Annahme','Literatur','Literatur','Literatur','Literatur','Literatur','Annahme','Literatur','Literatur','Literatur','Literatur','Literatur','Literatur','Literatur','Literatur')
-tab<-cbind(Bezeichnung,Einheit,Wert, Herkunft)
-knitr::kable(tab,caption='Im Modell verwendete Parameter',label='para')
+Parameter <- c('number_newt_start','starting_date','survival_egg','survival_larva','survival_juvenil','survival_adult','density_koeff','migrationRate_adult', 'migrationRate_juv', 'maxAge_egg','maxAge_larva','maxAge_juv','clutchSize','reproductionBreak')
+Bezeichnung <- c('Anzahl Kammmolche zu Beginn','Start Datum','Überlebensrate Eier','Überlebensrate Larven','Überlebensrate Juvenile','Überlebensrate Adulte, jährlich','Abhängigkeit Larvendichte/Sterblichkeit','Rate der Wanderer Adult','Rate der Wanderer Juvenil','Entwicklungsdauer Ei','Entwicklungsdauer Larve','Entwicklungsdauer Juvenil', 'Gelegegrösse', 'Fortpflanzungspause')
+Einheit <- c('Stk.','Datum','-','-','-','-','-','%','%','Tage','Tage','Tage','Eier/Weibchen','Jahr')
+Wert <- c('50','1.1.2000','0.5','0.4','0.4','0.5','0.01','1.2','37.3','15','90','730','300','2')
+Herkunft <- c('Annahme','Annahme','Literatur','Literatur','Literatur','Literatur','Annahme','Literatur','Literatur','Literatur','Literatur','Literatur','Literatur','Literatur')
+tab<-cbind(Parameter,Bezeichnung,Einheit,Wert, Herkunft)
+knitr::kable(tab,caption='Im Modell verwendete Parameter',label='para',"pipe")
 ```
 
-## Verwendete Daten
-### Bodenbedeckung
+### Verwendete Daten, Bodenbedeckung
 Zu Darstellung der Umgebung werden Daten mit Informationen zur Bodenbedeckung verwendet. diese werden vom Kanton Basel-Landschaft erhoben und konstenlos über einen Downloaddienst zur Verfügung gestellt. Diese Informationen dienen der Steuerung von Wanderbewegungen und zur farblichen Darstellung der Landschaft im Modell. Die Vektordaten sind in einer hohen Genauigkeit erfasst und klassifiziert. Die verwendete Darstellung und vorhandene Bodenklassen sind in Abbildung \@ref(fig:gebietbb) ersichtlich. 
 Die Landesgrenze beschreibt im Untersuchungsgebiet einen Bogen tief ins Landesinnere. Die Daten zur Bodenbedeckung sind nur auf Gebieten des Kantons Basel-Landschaft erfasst. In der erwähnten Lücke auf dem Boden der Gemeinde Neuwiller in Frankreich besteht ein Loch. Es kann jedoch nicht ausgeschlossen werden, dass Kammmolche ebenfalls durch diese Gebiete wandern. Die benötigten Oberflächendaten wurden hier anhand der 1:25'000 er Landeskarte der Schweiz von Hand grob abdigitalisiert. Erkennbare Strukturen, wie Gebäude, Siedlung, Strassen, Wälder, Landwirtschaftsland und Gewässer wurden dabei berücksichtigt (siehe Abbildung \@ref(fig:gebietbb)). Häuser wurden nicht mit dem realistischen Grundriss nachgezeichnet sondern durch ein standardisiertes Rechteck von ca. 100m2 ersetzt. Der Siedlungsraum wurde insgesamt als Gartenanlage modelliert. Das restliche Offenlad wurde dem Typ "Acker, Wiese, Weide" zugeordnet. Die Körnung ist deutlich gröber wie die Daten der amtlichen Vermessung.
 
@@ -289,6 +340,10 @@ knitr::include_graphics("./bilder/Tal_Bekämpfungsgewässer.jpg")
 Für die Steuerung des Modells wurden die Vektordaten zur Bodenbedeckung mit weiteren Attributen angereichert. Für die Identifizierung der einzelnen Gewässer werden Nummern verwendet, welche von der Koordinationsstelle für Reptilien und Amphibien Schweiz (karch) vergeben werden. Diese stammen aus dem Datensatz "Weiherinventar" im Geodatenviewer des Kantons Basel-Landschaft (siehe: [https://geoview.bl.ch/?map_x=2609487.9992678&map_y=1264906.4997948&map_zoom=4&tree_group_layers_Natur%20u.%20Landsch.=weiherinventar&tree_groups=Natur%20u.%20Landsch.](https://geoview.bl.ch/?map_x=2609487.9992678&map_y=1264906.4997948&map_zoom=4&tree_group_layers_Natur%20u.%20Landsch.=weiherinventar&tree_groups=Natur%20u.%20Landsch.)).
 Im Weiherinventar sind zahlreiche Gewässer erfasst, welche in den Daten zur Bodenbedeckung nicht erfasst wurden. Diese Gewässer wurden manuell nacherfasst. Dabei wurde die genaue Form und Lage nicht berücksichtigt, die Fläche wurde hingegen der Angaben aus dem Weiherinventar angepasst.
 Mithilfe eines Attributs wurde dasjenige Gewässer markiert, in welchem die Kammmolche mutmasslich ausgesetzt wurden und ein weiteres Attribut zeigt diejenigen Gewässer an, welche für die jährlichen Bekämpfungsaktionen eingezäunt werden.
+
+
+
+## alksdjflajsdf
 
 ### Zähl- und Messdaten
 Seit Frühjahr 2021 werden in den Gewässern mit bekannten Vorkommen Kammmolche abgefangen. Die Tiere werden nach Stadium und Geschlecht bestimmt und gewogen. In der Tabelle \@ref(tab:tablecatches) sind die Fangzahlen aus den Jahren 2021 und 2022 aufgeführt. Das Gewässer BL195s wurde im zweiten Jahr nicht mehr für die Bekämpfung berücksichtigt. Andererseits fällt auf, dass im zweiten Jahr beinahe doppelt so viele Tiere abgefangen wurden. Zu erwarten wären eher, dass die Anzahl Tiere zurückgeht. Mit Blick auf den zeitlichen Verlauf der Fangaktion in Abbildung \@ref(fig:felddaten) lässt sich das auch anders einordnen:
@@ -325,7 +380,6 @@ ggplot(weight_all[weight_all$geschlecht!='J',],aes(x=geschlecht, y=gewicht)) +
 ``` {r tablecatches, echo=FALSE}
 opts <- options(knitr.kable.NA = "-")
 knitr::kable(list(tabelle21,tabelle22),caption='Gefangene Tiere 2021 (links) und 2022 (rechts)',booktabs=TRUE,valign=TRUE)
-
 ```
 
 ## Szenarien {#szenarien}
