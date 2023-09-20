@@ -24,7 +24,7 @@ global {
 	//  time management
 	int number_newts_start parameter:"Number of newts at starting date: " category: "System" init:50;
 	date starting_date parameter:"Startdate" category: "System" init:date([2000,1,1,0,0,0.0]);
-	date stop_date parameter: "Enddate" category: "System" init:date([2001,1,2,0,0,0.0]);
+	date stop_date parameter: "Enddate" category: "System" init:date([2020,1,2,0,0,0.0]);
 	float step <- 1 #day;
 	date calibrationEnd parameter: "Enddate of calibration run: " category: "System" init: date([2020,12,31,0,0,0.0]);
 	
@@ -35,13 +35,13 @@ global {
 	float survival_adult parameter: "Survival rate adults, each year (0..1): " category:"Survival Rates" init: 0.5;
 		
 	//larval density
-	float density_koeff parameter: "Koeffizient Dichteabhängige Sterblichkeit: " category: "Survival Rates" init:0.1;
+	float density_koeff parameter: "Coefficient mortality by density: " category: "Survival Rates" init:1;
 	
 	
 	// reproduction and developement
 	int maxAge_egg parameter: "Days to develop from egg to larva : " category: "Development" init:15;
 	int maxAge_larva parameter: "Days to develop from larva to juvenile: " category: "Development" init: 90;
-	int maxAge_juv parameter: "Days to develop from juvenile to adult: " category: "Development" init: 730;
+	int maxAge_juv parameter: "Days to develop from juvenile to adult: " category: "Development" init: 200;
 	int clutchSize parameter: "Clutch size (egg/female): " category: "Development" init: 300;
 	int reproductionBreak parameter: "Years without reproduction : " category: "Development" init: 2;
 	
@@ -185,7 +185,7 @@ species offspring {
 	reflex mortality_by_density {
 		float density <- any(where(groundCover,each=self.nativePond)).densityLarva
 			+ 0.00001;		//prevent of "division by zero"
-		float densityMortalityRate_larva <- (density_koeff*(density)^2 + (1-survival_larva))/maxAge_larva;
+		float densityMortalityRate_larva <- (density_koeff*(density)^2 + (1-survival_larva));
 		ask where(offspring, each.nativePond = self.nativePond and !each.isEgg){ 
 			self.count <- round(self.count * (1-densityMortalityRate_larva));
 		}
@@ -562,7 +562,7 @@ experiment complete {
 }
 
 experiment calibration type:batch repeat:1 until:current_date=calibrationEnd {
-	parameter coeff var:density_koeff among:[0.2]; //,0.01,0.01,0.1,0.1,0.1,0.5,0.5,0.5];
+	parameter coeff var:density_koeff among:[0.5,1,2];
 //	float mean_age_adult;
 //	float min_age_adult;
 //	float max_age_adult;
