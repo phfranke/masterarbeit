@@ -234,22 +234,22 @@ Beim Schlüpfen werden drei Variabeln in der Spezies `offspring` angepasst:
 - `hatchDate_larva = current_date`
 
 #### Dichteabhängige Sterblichkeit der Larven {#dichtesterb}
-Im Larvenstadium wird eine dichteabhängige Sterblichkeitsrate eingeführt. Die Annahme ist, dass mit zunehmender Dichte die Sterblichkeit quadratisch ansteigt. Diese Kurve wird geeicht mittels eines Koeffizienten, dessen Höhe im Kalibrationsprozess bestimmt wird. Die grundlegende Sterblichkeit entspricht der Sterberate bei unbedeutender Larvendichte und wird gestützt auf die Werte aus anderen Stadien  angenommen. Das Resultat aus \@ref(eq:sterblarve) ergibt die Sterblichkeit über die ganze Dauer der Larvalentwicklung. Die Sterblichkeit soll im Modell jedoch täglich angewendet werden, weshalb das Ergebnis durch die Dauer der Larvalentwicklung (`parameter(maxAge_egg)`) geteilt wird. Es gilt dabei:
+Im Larvenstadium wird eine dichteabhängige Sterblichkeitsrate eingeführt. Die Annahme ist, dass mit zunehmender Dichte die Sterblichkeit quadratisch ansteigt. Die grundlegende Sterblichkeit entspricht der Sterberate bei unbedeutender Larvendichte und wird gestützt auf die Werte aus anderen Stadien  als 0.6 angenommen. Dies entspricht einer Überlebenswahrscheinlichkeit von 0.4. In der Grundformel $y=a*x^2 + b*x + c$ ist $y$ die Sterberate der Larven, $x$ ist die Larvendichte, $b$ wird auf 0 gesetzt, und $c$ entspricht der Grundsterblichkeit von 0.6. Der Koeffizient $a$, welcher die Öffnung der Kurve und somit die Auswirkung der Dichte auf die Sterblichkeit bestimmt, wird im Kalibrationsprozess ermittelt. Das Ergebnis beschreibt die Überlebenswahrscheinlichkeit der Larven über die ganze Lebensdauer. Es resultiert die Formel \@ref(eq:sterblarve) , wobei gilt:
 
 - $S$=Sterblichkeit pro Tag
 - $S_{grund}$ = Grundsterblichkeit
-- ${Koeff}$=Koeffizient
-- ${Dichte}_{aktuell}$ = aktuelle Larvendichte in $\frac{Anzahl}{m^2}$
+- ${Koeff}$ = Koeffizient
+- ${Dichte}$ = aktuelle Larvendichte in $\frac{Anzahl}{m^2}$
 
 
 \begin{equation}
-{S = \frac{S_{grund}+({Koeff}*{Dichte}_{aktuell})^2}{Anzahl Tage}}
+{S = {Koeff}*{Dichte}^2+S_{grund}}
 (\#eq:sterblarve)
 \end{equation}
 
 
-#### Entwicklung von der Larven zum Juvenilen
-Hier findet der Übergang vom formelbasierten zum individuenbasierten Paradigma statt. Beim erreichen des nötigen Alters (Parameter `maxAge_larva`) wird für jede Larve ein Agent der Spezies Juvenil geschaffen. Jeder Agent von `offspring` schafft also soviele Agenten von `juvenil`, wie die Variabel `count` zeigt. Dabei werden eine Reihe Eigenschaften vom kreierenden Agenten (ursprünglich von der Mutter) übernommen. Das Geschlecht wird nach einem zufallsmechanismus festgelegt.  Es werden folgende Variabeln gesetzt: 
+#### Entwicklung der Larven zu Juvenilen
+Hier findet der Übergang vom formelbasierten zum individuenbasierten Paradigma statt. Beim erreichen des nötigen Alters (Parameter `maxAge_larva`) wird für jede überlebende Larve (ausgedrückt durch die Variabel `count`) ein Agent der Spezies Juvenil geschaffen. Wieviele Larven das nächste Stadium erreichen, wird über die dichteanhängige Sterblichkeitsrate bestimmt, siehe vorheriges Kapitel. Bei der Entwicklung zum Juvenilen werden eine Reihe Eigenschaften vom kreierenden Agenten (ursprünglich von der Mutter) übernommen. Das Geschlecht wird nach einem Zufallsmechanismus festgelegt. Es werden folgende Variabeln gesetzt: 
 
 - `nativePond = nativePond des kreierenden Agenten`
 - `location = location des kreierenden Agenten`
@@ -414,14 +414,10 @@ Diese Möglichkeiten lassen sich nicht quantifizieren. Im Modell sind diese Fakt
 
 
 ## Kalibrierung
-### Dichteabhängigkeit
-Die Larven unterliegen mutmasslich einer dichteabhängigen Sterblichkeit. Quadratische Funktion, Dichte = 5fache maximaldichte führt zu einer Sterblichkeit von 100%. Experimentel ermittelt. Sterblichkeit der Larven über ganzes Modell liegt in der Grössenordnung von 0.4 (Annahme aus Literatur).
+Die dichteabhängige Sterblichkeit der Larven ist der einzige Parameter, welcher gänzlich unbekannt ist und durch Kalibration bestimmt werden muss. Für die Kalibration wird das Modell viele Male mit unterschiedlichen Parameterwerten durchgeführt und anhand der Resultate ein möglichst passender Wert für den Parameter bestimmt. Der Prozess der dichteabhängigen Sterblichkeit ist im Kapitel \@ref(dichtesterb) eingehend beschrieben, ebenso die zugrundeliegende quadratische Gleichung. Der zu bestimmende Parameter ist der Koeffizient ($a$), welcher die Öffnung der quadratischen Funktion bestimmt. ($y = a*x^2 + bx + c$)
 
 
-### Wanderverhalten
-
-
-
+Die Larven unterliegen mutmasslich einer dichteabhängigen Sterblichkeit. Quadratische Funktion, Dichte = 5fache maximaldichte führt zu einer Sterblichkeit von 100%. Experimentel ermittelt. Sterblichkeit der Larven über ganzes Modell liegt in der Grössenordnung von 0.6 (Annahme aus Literatur).
 
 
 
