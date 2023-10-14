@@ -1,10 +1,7 @@
-current_date,self.name,density_koeff,self.eggs_tot,self.larva_tot,self.juv_tot,self.adult_tot,self.migrantJuv_tot,self.migrantAdult_tot,migrant count each.isJuvenil,migrant count !each.isJuvenil,self.occupiedPonds_count,myself.mean_age_adult,myself.min_age_adult,myself.max_age_adult,myself.sd_age_adult,myself.median_age_adult
-date ('2000-06-01 00:00:00'),Simulation 0,0.01,0,0,0,50,0,0,0,0,1,334.6,102.0,575.0,126.82271089990152,329.5
-date ('2000-06-01 00:00:00'),Simulation 1,0.01,0,0,0,50,0,0,0,0,1,305.14,100.0,592.0,154.06505249406823,274.5
-date ('2000-06-01 00:00:00'),Simulation 2,0.01,0,0,0,50,0,0,0,0,1,363.26,115.0,588.0,137.58412844510812,381.5
-date ('2000-06-01 00:00:00'),Simulation 3,0.1,0,0,0,50,0,0,0,0,1,354.74,118.0,592.0,139.16246764124298,348.0
-date ('2000-06-01 00:00:00'),Simulation 4,0.1,0,0,0,50,0,0,0,0,1,332.24,107.0,588.0,146.04568600270258,286.5
-date ('2000-06-01 00:00:00'),Simulation 5,0.1,0,0,0,50,0,0,0,0,1,320.72,119.0,582.0,146.6180125359773,287.0
-date ('2000-06-01 00:00:00'),Simulation 6,0.5,0,0,0,50,0,0,0,0,1,338.44,97.0,587.0,155.74802213832444,333.5
-date ('2000-06-01 00:00:00'),Simulation 7,0.5,0,0,0,50,0,0,0,0,1,327.1,98.0,593.0,142.97052143711304,318.0
-date ('2000-06-01 00:00:00'),Simulation 8,0.5,0,0,0,50,0,0,0,0,1,324.02,97.0,564.0,141.23023613943298,313.5
+current_date,self.name,density_koeff,self.eggs_tot,self.larva_tot,self.juv_tot,self.adult_tot,self.migrantJuv_tot,self.migrantAdult_tot,migrant count each.isJuvenil,migrant count !each.isJuvenil,self.catched_adult,self.catched_juvenil,self.occupiedPonds_count,offspring count each.isEgg,offspring count !each.isEgg,juvenil count true,adult count true,myself.mean_age_adult,myself.min_age_adult,myself.max_age_adult,myself.sd_age_adult,myself.median_age_adult
+date ('2020-12-31 00:00:00'),Simulation 0,0.1,681300,340650,340650,3823,3910,0,385,0,[],[],16,0,0,678,301,629.3533834586466,3.0,2918.0,486.7976791063092,367.0
+date ('2020-12-31 00:00:00'),Simulation 1,0.1,934800,467400,467400,5439,5642,0,616,0,[],[],23,0,0,771,411,629.3533834586466,3.0,2918.0,486.7976791063092,367.0
+date ('2020-12-31 00:00:00'),Simulation 2,0.1,522300,261150,261150,3114,3345,0,523,0,[],[],16,0,0,837,266,629.3533834586466,3.0,2918.0,486.7976791063092,367.0
+date ('2020-12-31 00:00:00'),Simulation 3,0.01,5327400,2663700,2663700,30805,34001,0,5410,0,[],[],58,0,0,8867,3683,597.0409789413774,3.0,4017.0,399.34742659894044,364.0
+date ('2020-12-31 00:00:00'),Simulation 4,0.01,4149000,2074500,2074500,24218,25293,0,3065,0,[],[],43,0,0,4469,2457,597.0409789413774,3.0,4017.0,399.34742659894044,364.0
+date ('2020-12-31 00:00:00'),Simulation 5,0.01,4423500,2211750,2211750,26216,29292,0,5083,0,[],[],53,0,0,8309,3514,597.0409789413774,3.0,4017.0,399.34742659894044,364.0
