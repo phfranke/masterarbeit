@@ -414,10 +414,7 @@ Diese Möglichkeiten lassen sich nicht quantifizieren. Im Modell sind diese Fakt
 
 
 ## Kalibrierung
-Die dichteabhängige Sterblichkeit der Larven ist der einzige Parameter, welcher gänzlich unbekannt ist und durch Kalibration bestimmt werden muss. Für die Kalibration wird das Modell viele Male mit unterschiedlichen Parameterwerten durchgeführt und anhand der Resultate ein möglichst passender Wert für den Parameter bestimmt. Der Prozess der dichteabhängigen Sterblichkeit ist im Kapitel \@ref(dichtesterb) eingehend beschrieben, ebenso die zugrundeliegende quadratische Gleichung. Der zu bestimmende Parameter ist der Koeffizient ($a$), welcher die Öffnung der quadratischen Funktion bestimmt. ($y = a*x^2 + bx + c$)
-
-
-Die Larven unterliegen mutmasslich einer dichteabhängigen Sterblichkeit. Quadratische Funktion, Dichte = 5fache maximaldichte führt zu einer Sterblichkeit von 100%. Experimentel ermittelt. Sterblichkeit der Larven über ganzes Modell liegt in der Grössenordnung von 0.6 (Annahme aus Literatur).
+Die dichteabhängige Sterblichkeit der Larven ist der einzige Parameter, welcher gänzlich unbekannt ist und durch Kalibration bestimmt werden muss. Für die Kalibration wird das Modell mehrere Male mit unterschiedlichen Parameterwerten durchgeführt und anhand der Resultate ein möglichst passender Wert für den Parameter bestimmt. Der Prozess der dichteabhängigen Sterblichkeit ist im Kapitel \@ref(dichtesterb) eingehend beschrieben, ebenso die zugrundeliegende quadratische Gleichung. Der zu bestimmende Parameter ist der Koeffizient ($a$), welcher die Öffnung der quadratischen Funktion bestimmt. ($y = a*x^2 + bx + c$)
 
 
 
