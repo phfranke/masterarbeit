@@ -360,10 +360,12 @@ Im Weiherinventar sind zahlreiche Gewässer erfasst, welche in den Daten zur Bod
 Mithilfe der  Variabel `place_of_exposion` ist dasjenige Gewässer markiert, in welchem die Kammmolche mutmasslich ausgesetzt wurden und die Variabel `catchingNet` zeigt diejenigen Gewässer an, welche für die jährlichen Bekämpfungsaktionen eingezäunt werden.
 
 
-### Zähl- und Messdaten
+### Zähl- und Messdaten {#daten}
 Seit Frühjahr 2021 werden in den Gewässern mit bekannten Vorkommen Kammmolche abgefangen. Die Tiere werden nach Stadium und Geschlecht bestimmt und gewogen. In der Tabelle \@ref(tab:tablecatches) sind die Fangzahlen aus den Jahren 2021 und 2022 aufgeführt. Das Gewässer BL195s wurde im zweiten Jahr nicht mehr für die Bekämpfung berücksichtigt. Andererseits fällt auf, dass im zweiten Jahr beinahe doppelt so viele Tiere abgefangen wurden. Zu erwarten wären eher, dass die Anzahl Tiere zurückgeht. Mit Blick auf den zeitlichen Verlauf der Fangaktion in Abbildung \@ref(fig:felddaten) lässt sich das auch anders einordnen:
 Der erste Fangtag im Jahr 2021 war Anfang März. Bereits am ersten Fangtag wurde eine beträchtliche Anzahl Tiere gefangen. Dies deutet darauf hin, dass die Tiere schon früher mit der Wanderung begonnen hatten und möglicherweise bereits Tiere in die Gewässer gelangten, bevor die Fallen aufgestellt wurden. Im Jahr 2022 begann die Fangaktion bereits Anfang Februar. Im Jahr 2022 wurde vor dem 1.März insgesamt `r sum(catched22$Anzahl[catched22$dayofyear<64],na.rm=TRUE)` Tiere gefangen. Insgesamt kann angenommen werden, dass die Anzahl gefangener Tiere im Jahr 2021 stark unter der Anzahl tatsächlich eingewanderter Tiere liegt.
-Die Gewichtsverteilung ist in Abbildung \@ref(fig:boxplotweight)
+Die Gewichtsverteilung ist in Abbildung \@ref(fig:boxplotweight).
+
+
 
 
 ```{r felddaten, echo=FALSE, fig.cap="Fangzahlen aus den ersten beiden Projektjahren"}
@@ -412,9 +414,27 @@ Diese Möglichkeiten lassen sich nicht quantifizieren. Im Modell sind diese Fakt
 3. pessimistisches Szenario: 50% der Tiere werden abgefangen
 
 
-
 ## Kalibrierung
-Die dichteabhängige Sterblichkeit der Larven ist der einzige Parameter, welcher gänzlich unbekannt ist und durch Kalibration bestimmt werden muss. Für die Kalibration wird das Modell mehrere Male mit unterschiedlichen Parameterwerten durchgeführt und anhand der Resultate ein möglichst passender Wert für den Parameter bestimmt. Der Prozess der dichteabhängigen Sterblichkeit ist im Kapitel \@ref(dichtesterb) eingehend beschrieben, ebenso die zugrundeliegende quadratische Gleichung. Der zu bestimmende Parameter ist der Koeffizient ($a$), welcher die Öffnung der quadratischen Funktion bestimmt. ($y = a*x^2 + bx + c$)
+Die dichteabhängige Sterblichkeit der Larven ist der einzige Parameter, welcher gänzlich unbekannt ist und durch Kalibration bestimmt werden muss. Für die Kalibration wird das Modell mehrere Male mit unterschiedlichen Parameterwerten durchgeführt und anhand der Resultate ein möglichst passender Wert für den Parameter bestimmt. Von den 
+Der Prozess der dichteabhängigen Sterblichkeit ist im Kapitel \@ref(dichtesterb) eingehend beschrieben, ebenso die zugrundeliegende quadratische Gleichung. Der zu bestimmende Parameter ist der Koeffizient ($a$), welcher die Öffnung der quadratischen Funktion bestimmt. ($y = a*x^2 + bx + c$)
+
+Für die Kalibrierung werden die Daten aus der Fangaktion 2021 verwendet. Es können drei Aspekte aus den Fangzahlen verwendet werden:
+- Anzahl besiedelte Gewässer
+- Anzahl gefangene Tiere (adulte und juvenile)
+- Gewichtsverteilung der Tiere (adulte)
+
+Die Anzahl besiedelte Gewässer sind stabil. Gemäss Aussgen der Projektleitung, werden Gewässer in der Umgebung regelmässig auf die Präsenz von Kammmolchen hin getestet. Wir gehen hier also davon aus, dass die Anzahl besetzte Gewässer zwischen den Jahren 2020 und 2022 stabil bei 5 lag. Dabei wird das Gewässer mit der Nummer BL195s mitgezählt. Hier sind die Dichten zwar so gering, dass die Bekämpfung eingestellt wurde, trotzdem wurden hier Kammmolche gesichtet.
+
+Die Gewichtsverteilung ist nur mässig geeignet für die Kalibration, da das Gewicht der Kammmmolche nicht modelliert wird. Geht man davon aus, dass die Gewichstzunahme linear erfolgt, kann zwar die Gewichtsverteilung aus den Fangdaten mit der Altersverteilung aus dem Modell verglichen werden. Daraus aber einen geeigneten Parameterwert für die Sterblichkeit der Larven abzuleiten, erscheint nicht sinnvoll.
+Die Anzahl gefangene Tiere sind aus zwei Gründen ebenfalls nur bedingt geeignet für die Kalibration:
+- Die Daten aus dem Jahr 2021 sind nicht repräsentativ für die ganze Fortpflanzungssaison, da die Fangaktion mutmasslich zu spät begonnen wurde (siehe kapitel \@ref(daten)).
+- Die Quote der gefangenen Tiere ist unbekannt und muss im Modell angenommen werden.
+
+Dennoch wird mit Hilfe der Fangzahlen ein sinnvoller Parameterwert ermittelt.
+
+Wir können davon ausgehen, dass die gefangenen Tiere in den ersten beiden Jahren ungefähr gleich hoch sind, da die Tiere nicht jedes Jahr ans Gewässer kommen.
+
+
 
 
 Im Modell wird dieser Koeffizient durch den Parameter `density_koeff` bestimmt. 
