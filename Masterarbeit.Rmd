@@ -415,6 +415,17 @@ Diese Möglichkeiten lassen sich nicht quantifizieren. Im Modell sind diese Fakt
 
 
 ## Kalibrierung
+Das Modell verfügt über viele Parameter, welche zum Grossteil mit Werten aus der Literatur eingestellt werden können. Einzelne Faktoren sind durch die Literatur ungenügend abgedeckt und müssen über die Kalibration ermittelt werden. Dies betrifft die Wanderungen, welche wiederum durch mehrere Parameter bestimmt werden, unddie dichteabhängige Sterblichkeit. Die Wanderungen werden durch u.a. die Wandergeschwindigkeit und die Wanderdauer bestimmt. die Geschwindigkeit kann durch die Literatur bestimmt werden, die Wanderdauer hingegen ist nicht ganz klar. Im Rahmen der Kalibration werden deshlab folgende zwei Parameter ermittelt:
+
+- die Dauer der Wanderungen
+- der Koeffizient der dichteabhängigen Sterblichkeit
+
+### Wanderdauer
+Die Dauer der Wanderungen ist bestimmend für die Fähigkeit der Tiere neue Gewässer zu besiedeln. Es hat sich gezeigt, dass eine zu lange Wanderdauer die Anzahl besiedelter Weiher stark überhöht. Mit einer sehr kurzen Wanderdauer, wird kein neues Gewässer besiedelt. Beide Extremwerte entsprechen nicht der Beobachtung. Um das Modell besser an die Realität abzustimmen, wird deshalb ein erster Kalibrationsdurchlauf durchgeführt, mit welchen die Wanderdauer festgestellt wird. Der zweite unbekannte Parameter (der Dichtekoeffizienz) wird auf den Wert 0.1 festgelegt. Dieser experimentell ermittelte Wert stellt die funktionstauglichkeit des Modells sicher. Als beobachtete Grösse für diese Kalibration wird die Anzahl der besiedelten Gewässer verwendet.
+
+
+### Dichteabhängige Sterblichkeit
+
 Die dichteabhängige Sterblichkeit der Larven ist der einzige Parameter, welcher gänzlich unbekannt ist und durch Kalibration bestimmt werden muss. Für die Kalibration wird das Modell mehrere Male mit unterschiedlichen Parameterwerten durchgeführt und anhand der Resultate ein möglichst passender Wert für den Parameter bestimmt. Von den 
 Der Prozess der dichteabhängigen Sterblichkeit ist im Kapitel \@ref(dichtesterb) eingehend beschrieben, ebenso die zugrundeliegende quadratische Gleichung. Der zu bestimmende Parameter ist der Koeffizient ($a$), welcher die Öffnung der quadratischen Funktion bestimmt. ($y = a*x^2 + bx + c$)
 
