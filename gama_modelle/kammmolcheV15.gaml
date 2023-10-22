@@ -35,7 +35,7 @@ global {
 	float survival_adult parameter: "Survival rate adults, each year (0..1): " category:"Survival Rates" init: 0.5;
 		
 	//larval density
-	float density_koeff parameter: "Coefficient mortality by density: " category: "Survival Rates" init:1;
+	float density_koeff parameter: "Coefficient mortality by density: " category: "Survival Rates" init:0.1;
 	
 	
 	// reproduction and developement
@@ -48,8 +48,8 @@ global {
 	// migration
 	float migrationRate_adult parameter: "Rate of adults which migrate (0..1): " category: "Migration" init: 0.12;
 	float migrationRate_juv parameter: "Rate of juvenile which migrate (0..1): " category: "Migration" init: 0.373;
-	float migration_velocity parameter: "Distance in Meter per Day" category: "Migration" init: 5.0;
-	float migration_time parameter: "Duration of the migration period in days: " category: "Migration" init: 10.0;
+	float migration_velocity parameter: "Distance in Meter per Day" category: "Migration" init: 15.0;
+	float migration_time parameter: "Duration of the migration period in days: " category: "Migration" init: 30.0;
 	
 	// catching
 	int start_catching parameter: "Year in which catching measures start: " category: "Catching" init: 2021;
@@ -63,6 +63,7 @@ global {
 	int migrantJuv_tot <- 0;
 	int migrantAdult_tot <- 0;
 	int occupiedPonds_count <- 0;
+	list<pond> occupiedPonds_list;
 	float min_age_adult;
 	float max_age_adult;
 	float mean_age_adult;
@@ -121,8 +122,15 @@ global {
 	}
 	
 	// calculations
-	reflex count_occuied_ponds {
-		occupiedPonds_count <- count(pond,each.newtCount>0);
+	reflex count_occupied_ponds {
+		occupiedPonds_list <- [];
+		list<pond> occupiedPonds_list1 <- where(pond,each.newtCount > 0);
+		loop pond over: occupiedPonds_list1 {
+			if !contains_all(collect(occupiedPonds_list,each.pondNumber), [pond.pondNumber]){
+				occupiedPonds_list <- occupiedPonds_list + pond;
+			}
+		}
+		occupiedPonds_count <- count(occupiedPonds_list,true);
 	}
 	
 	reflex adult_age {
@@ -211,9 +219,7 @@ species pond {
 	reflex larval_density {
 		// calculation of larval density [number of larvae per m2] in each occupied pond
 		larvaCount <- sum(collect(where(offspring, each.nativePond = self and !each.isEgg),each.count));
-		if (larvaCount > 1000000){
-			error '!!!  Scheissfehler: ' + string(self) + ', anz larven: ' + larvaCount;
-		}
+		
 		self.densityLarva <- larvaCount / self.area;
 	}
 }
@@ -353,10 +359,10 @@ species migrant skills: [moving]{
 	}
 	
 	reflex homing {
-		date end_migration <- beginMigration + migration_time #day; 
+		date end_migration <- add_days(beginMigration, migration_time);
 		// maigration stops when season = "imigration"
 //		if self.isMigrant and seasonNow = 1 {
-		if self.isMigrant and current_date > end_migration {
+		if self.isMigrant and (current_date > end_migration) {
 			self.nativePond <- closest_to(pond,self);
 			self.target <- towards(self.location,nativePond.location); 
 			float left_right <- 1.0;
@@ -536,8 +542,8 @@ experiment complete {
 //		}
 	}
 	reflex calculations {
-		newtsPerPond <- sort(pond,1-each.newtCount);
-		schwelle <- first(collect(newtsPerPond,each.newtCount)[16]);
+//		newtsPerPond <- sort(pond,1-each.newtCount);
+//		schwelle <- first(collect(newtsPerPond,each.newtCount)[16]);
 //		newtsPerPond <- where(newtsPerPond,each.newtCount > schwelle);
 	}
 	reflex output {
@@ -595,9 +601,9 @@ experiment complete {
 				] marker:false;
 			}
 			chart "Ponds" type:histogram size:{0.9,0.5} position:{0,0.5} {
-				datalist [collect(where(newtsPerPond,each.newtCount > schwelle),each.pondNumber)]
+				datalist [collect(occupiedPonds_list,each.pondNumber)]
 				color: [#cornflowerblue]
-				value: [collect(where(newtsPerPond,each.newtCount > schwelle),each.newtCount)]
+				value: [collect(occupiedPonds_list,each.newtCount)]
 				;
 			}
 			chart "Stages" type:histogram size:{0.1,1} position:{0.9,0} style:stack x_serie_labels:""
@@ -677,8 +683,8 @@ experiment calibration_density type:batch repeat:1 parallel: false until:current
 	
 }
 
-experiment calibration_migration type:batch repeat:1 parallel: false until:current_date=calibrationEnd {
-	parameter coeff var:migration_time among:[1.0,10.0,50.0];
+experiment calibration_migration type:batch repeat:3 parallel: false until:current_date=calibrationEnd {
+	parameter coeff var:migration_time among:[30.0,50.0,80.0];
 
 	permanent {
 		monitor laid_eggs value:eggs_tot color:#grey;
@@ -694,15 +700,7 @@ experiment calibration_migration type:batch repeat:1 parallel: false until:curre
 			save [
 				current_date,
 				self.name,
-				density_koeff,
-				self.eggs_tot,
-				self.larva_tot,
-				self.juv_tot,
-				self.adult_tot,
-				self.migrantJuv_tot,
-				self.migrantAdult_tot,
-				count(migrant,each.isJuvenil),
-				count(migrant,!each.isJuvenil),
+				self.migration_time,
 				self.occupiedPonds_count,
 				count(offspring, each.isEgg),
 				count(offspring, !each.isEgg),
