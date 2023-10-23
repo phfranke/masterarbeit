@@ -1,10 +1,16 @@
-current_date,self.name,self.migration_time,self.occupiedPonds_count,offspring count each.isEgg,offspring count !each.isEgg,juvenil count !each.slipped,adult count !each.slipped,self.min_age_adult,self.max_age_adult,self.mean_age_adult,self.median_age_adult,self.sd_age_adult,self.catched_adult_tot,self.catched_juv_tot,self.min_age_adult_catched,self.max_age_adult_catched,self.mean_age_adult_catched
-date ('2015-01-01 00:00:00'),Simulation 0,30.0,4,0,0,156,19,361.0,2192.0,744.2111111111111,729.0,414.14008618781884,190,0,1.0,2923.0,240.63684210526347
-date ('2015-01-01 00:00:00'),Simulation 1,30.0,5,0,0,544,166,2.0,3220.0,626.5882352941177,362.0,496.861343994188,0,0,999999.0,0.0,0.0
-date ('2015-01-01 00:00:00'),Simulation 2,30.0,5,0,0,393,118,359.0,2921.0,659.6521739130435,366.0,457.62034159413133,0,0,999999.0,0.0,0.0
-date ('2015-01-01 00:00:00'),Simulation 3,50.0,7,0,0,332,161,245.0,2482.0,607.8644067796611,362.0,360.3232474201859,0,0,999999.0,0.0,0.0
-date ('2015-01-01 00:00:00'),Simulation 4,50.0,7,0,0,530,185,2.0,2805.0,630.005540166205,722.0,392.8679054148374,0,0,999999.0,0.0,0.0
-date ('2015-01-01 00:00:00'),Simulation 5,50.0,7,0,0,736,188,2.0,3653.0,642.5348837209302,362.0,506.03800637837924,0,0,999999.0,0.0,0.0
-date ('2015-01-01 00:00:00'),Simulation 6,80.0,8,0,0,860,206,2.0,4371.0,714.2652068126521,723.0,539.0869005608904,0,0,999999.0,0.0,0.0
-date ('2015-01-01 00:00:00'),Simulation 7,80.0,8,0,0,512,333,2.0,3885.0,589.7690058479532,362.0,469.1746540451886,0,0,999999.0,0.0,0.0
-date ('2015-01-01 00:00:00'),Simulation 8,80.0,11,0,0,696,354,286.0,4254.0,630.3813559322034,362.0,481.41352168529687,0,0,999999.0,0.0,0.0
+current_date,self.name,self.migration_time,ponds_count,ponds_list
+"date ('2015-01-01 00:00:00'),Simulation 0,20.0,2,""[pond(0),pond(8)]"""
+"date ('2015-01-01 00:00:00'),Simulation 1,20.0,2,""[pond(0),pond(8)]"""
+"date ('2015-01-01 00:00:00'),Simulation 2,20.0,2,""[pond(0),pond(8)]"""
+"date ('2015-01-01 00:00:00'),Simulation 3,20.0,2,""[pond(0),pond(8)]"""
+"date ('2015-01-01 00:00:00'),Simulation 4,20.0,2,""[pond(0),pond(8)]"""
+"date ('2015-01-01 00:00:00'),Simulation 5,30.0,5,""[pond(0),pond(8),pond(9),pond(10),pond(14)]"""
+"date ('2015-01-01 00:00:00'),Simulation 6,30.0,5,""[pond(0),pond(8),pond(9),pond(10),pond(14)]"""
+"date ('2015-01-01 00:00:00'),Simulation 7,30.0,4,""[pond(0),pond(8),pond(10),pond(14)]"""
+"date ('2015-01-01 00:00:00'),Simulation 8,30.0,5,""[pond(0),pond(8),pond(9),pond(10),pond(14)]"""
+"date ('2015-01-01 00:00:00'),Simulation 9,30.0,5,""[pond(0),pond(8),pond(9),pond(10),pond(14)]"""
+"date ('2015-01-01 00:00:00'),Simulation 10,40.0,6,""[pond(0),pond(8),pond(9),pond(10),pond(14),pond(126)]"""
+"date ('2015-01-01 00:00:00'),Simulation 11,40.0,6,""[pond(0),pond(8),pond(10),pond(14),pond(125),pond(126)]"""
+"date ('2015-01-01 00:00:00'),Simulation 12,40.0,6,""[pond(0),pond(8),pond(9),pond(10),pond(15),pond(126)]"""
+"date ('2015-01-01 00:00:00'),Simulation 13,40.0,6,""[pond(0),pond(8),pond(9),pond(10),pond(14),pond(126)]"""
+"date ('2015-01-01 00:00:00'),Simulation 14,40.0,5,""[pond(0),pond(8),pond(9),pond(10),pond(14)]"""

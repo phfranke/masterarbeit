@@ -33,6 +33,8 @@ options(tinytex.verbose = TRUE)
 ```
 ```{r, include=FALSE}
 source("rSkripte/felddaten.R")
+source("rSkripte/kalibration_density.R")
+source("rSkripte/kalibration_migration.R")
 ```
 
 # Einleitung
@@ -363,6 +365,8 @@ Mithilfe der  Variabel `place_of_exposion` ist dasjenige Gewässer markiert, in 
 ### Zähl- und Messdaten {#daten}
 Seit Frühjahr 2021 werden in den Gewässern mit bekannten Vorkommen Kammmolche abgefangen. Die Tiere werden nach Stadium und Geschlecht bestimmt und gewogen. In der Tabelle \@ref(tab:tablecatches) sind die Fangzahlen aus den Jahren 2021 und 2022 aufgeführt. Das Gewässer BL195s wurde im zweiten Jahr nicht mehr für die Bekämpfung berücksichtigt. Andererseits fällt auf, dass im zweiten Jahr beinahe doppelt so viele Tiere abgefangen wurden. Zu erwarten wären eher, dass die Anzahl Tiere zurückgeht. Mit Blick auf den zeitlichen Verlauf der Fangaktion in Abbildung \@ref(fig:felddaten) lässt sich das auch anders einordnen:
 Der erste Fangtag im Jahr 2021 war Anfang März. Bereits am ersten Fangtag wurde eine beträchtliche Anzahl Tiere gefangen. Dies deutet darauf hin, dass die Tiere schon früher mit der Wanderung begonnen hatten und möglicherweise bereits Tiere in die Gewässer gelangten, bevor die Fallen aufgestellt wurden. Im Jahr 2022 begann die Fangaktion bereits Anfang Februar. Im Jahr 2022 wurde vor dem 1.März insgesamt `r sum(catched22$Anzahl[catched22$dayofyear<64],na.rm=TRUE)` Tiere gefangen. Insgesamt kann angenommen werden, dass die Anzahl gefangener Tiere im Jahr 2021 stark unter der Anzahl tatsächlich eingewanderter Tiere liegt.
+
+ 
 Die Gewichtsverteilung ist in Abbildung \@ref(fig:boxplotweight).
 
 
@@ -415,31 +419,33 @@ Diese Möglichkeiten lassen sich nicht quantifizieren. Im Modell sind diese Fakt
 
 
 ## Kalibrierung
-Das Modell verfügt über viele Parameter, welche zum Grossteil mit Werten aus der Literatur eingestellt werden können. Einzelne Faktoren sind durch die Literatur ungenügend abgedeckt und müssen über die Kalibration ermittelt werden. Dies betrifft die Wanderungen, welche wiederum durch mehrere Parameter bestimmt werden, unddie dichteabhängige Sterblichkeit. Die Wanderungen werden durch u.a. die Wandergeschwindigkeit und die Wanderdauer bestimmt. die Geschwindigkeit kann durch die Literatur bestimmt werden, die Wanderdauer hingegen ist nicht ganz klar. Im Rahmen der Kalibration werden deshlab folgende zwei Parameter ermittelt:
+Das Modell verfügt über viele Parameter, welche zum Grossteil mit Werten aus der Literatur eingestellt werden können. Einzelne Faktoren sind durch die Literatur ungenügend abgedeckt und müssen über die Kalibration ermittelt werden. Dies betrifft die Wanderdauer und die dichteabhängige Sterblichkeit. Im Rahmen der Kalibration werden deshalb folgende zwei Parameter ermittelt:
 
 - die Dauer der Wanderungen
 - der Koeffizient der dichteabhängigen Sterblichkeit
 
+Beide Parameter beeinflussen sich gegenseitig vermutlich nicht oder nur gering. Da sie grundsätzlich andere Funktionen haben, welche voneinander abgekoppelt sind, ist es möglich die beiden Parameter zu kalibrieren ohne sämtliche Wertekombinationen auszutesten. Deshalb wird der Dichtekoeffizient in einem ersten Schritt auf einen Wert festgelegt, welcher die stabile Funktionsweise des Modells sicherstellt. Insbesondere müssen genügend wandernde Kammolche entstehen, welche in alle Himmelsrichtungen aus den Weiher wandern. Damit kann sichergestellt werden, dass das Auffinden der Gewässer durch die Wanderdauer beeinflusst wird und nicht durch einen Mangel an Wanderern. Experimentell hat sich ein geeigneter Wert von 0,1 für den Dichtekoeffizient herausgestellt. Nach der Kalibrierung der Wanderdauer wird diese auf den ermittelten Wert fixiert und anschliessend der Dichtekoeffizient kalibriert. 
+
 ### Wanderdauer
-Die Dauer der Wanderungen ist bestimmend für die Fähigkeit der Tiere neue Gewässer zu besiedeln. Es hat sich gezeigt, dass eine zu lange Wanderdauer die Anzahl besiedelter Weiher stark überhöht. Mit einer sehr kurzen Wanderdauer, wird kein neues Gewässer besiedelt. Beide Extremwerte entsprechen nicht der Beobachtung. Um das Modell besser an die Realität abzustimmen, wird deshalb ein erster Kalibrationsdurchlauf durchgeführt, mit welchen die Wanderdauer festgestellt wird. Der zweite unbekannte Parameter (der Dichtekoeffizienz) wird auf den Wert 0.1 festgelegt. Dieser experimentell ermittelte Wert stellt die funktionstauglichkeit des Modells sicher. Als beobachtete Grösse für diese Kalibration wird die Anzahl der besiedelten Gewässer verwendet.
+Als beobachtete Grösse für diese Kalibration wird die Anzahl der besiedelten Gewässer verwendet. Wie im Kapitel \@ref(daten) gezeigt, konnten bisher nur in 5 Gewässern Kammmolche festgestellt werden. ES handelt sich um die Gewässer mit der Indentifikationsnummer BL191, BL195, BL196, BL197 und BL198. Es gilt nun einen Wert für den Parameter der Wanderdauer zu finden, welcher ebenfalls zu einer Besiedelung dieser Gewässern führt. Für die Kalibrierung wurde mit jedem Wert für die Wanderdauer das Modell fünf mal durchgeführt. Als Startdatum dient jeweils der 1.1.2000  und als Enddatum der 1.1. 2022. Die Werte der Kalibrationsdauer wurden experimentell auf den hier verwendeten Wertebereich eingeschränkt. Die Resultate sind in Abbildung \@ref(fig:kaliMigrant) gezeigt. Es zeigt sich, dass sowohl eine Wanderdauer von 30 als auch von 40 Tagen zu einer Besiedelung von 5 Weihern führen kann. Da damit gerechnet werden muss, dass die Kammmolche unendteckt ein Gewässer besiedeln können, wird hier der höhere der beiden Werten als der korrekte Parameterwert gewählt. Für die weiterführenden Arbeiten wird dieser also auf 40 Tage eingestellt. 
+
+
+```{r kaliMigrant, echo=FALSE, fig.cap="Ergebnisse der Kalibration."}
+ponds + geom_hline(yintercept=5, linewidth=1, linetype=2)
+```
 
 
 ### Dichteabhängige Sterblichkeit
 
-Die dichteabhängige Sterblichkeit der Larven ist der einzige Parameter, welcher gänzlich unbekannt ist und durch Kalibration bestimmt werden muss. Für die Kalibration wird das Modell mehrere Male mit unterschiedlichen Parameterwerten durchgeführt und anhand der Resultate ein möglichst passender Wert für den Parameter bestimmt. Von den 
+Für die Kalibrierung des Dichtekoeffizienten wird das Modell mehrere Male mit unterschiedlichen Parameterwerten durchgeführt und anhand der Resultate ein möglichst passender Wert für den Parameter bestimmt. 
 Der Prozess der dichteabhängigen Sterblichkeit ist im Kapitel \@ref(dichtesterb) eingehend beschrieben, ebenso die zugrundeliegende quadratische Gleichung. Der zu bestimmende Parameter ist der Koeffizient ($a$), welcher die Öffnung der quadratischen Funktion bestimmt. ($y = a*x^2 + bx + c$)
 
 Für die Kalibrierung werden die Daten aus der Fangaktion 2021 verwendet. Es können drei Aspekte aus den Fangzahlen verwendet werden:
-- Anzahl besiedelte Gewässer
 - Anzahl gefangene Tiere (adulte und juvenile)
 - Gewichtsverteilung der Tiere (adulte)
 
-Die Anzahl besiedelte Gewässer sind stabil. Gemäss Aussgen der Projektleitung, werden Gewässer in der Umgebung regelmässig auf die Präsenz von Kammmolchen hin getestet. Wir gehen hier also davon aus, dass die Anzahl besetzte Gewässer zwischen den Jahren 2020 und 2022 stabil bei 5 lag. Dabei wird das Gewässer mit der Nummer BL195s mitgezählt. Hier sind die Dichten zwar so gering, dass die Bekämpfung eingestellt wurde, trotzdem wurden hier Kammmolche gesichtet.
-
-Die Gewichtsverteilung ist nur mässig geeignet für die Kalibration, da das Gewicht der Kammmmolche nicht modelliert wird. Geht man davon aus, dass die Gewichstzunahme linear erfolgt, kann zwar die Gewichtsverteilung aus den Fangdaten mit der Altersverteilung aus dem Modell verglichen werden. Daraus aber einen geeigneten Parameterwert für die Sterblichkeit der Larven abzuleiten, erscheint nicht sinnvoll.
-Die Anzahl gefangene Tiere sind aus zwei Gründen ebenfalls nur bedingt geeignet für die Kalibration:
-- Die Daten aus dem Jahr 2021 sind nicht repräsentativ für die ganze Fortpflanzungssaison, da die Fangaktion mutmasslich zu spät begonnen wurde (siehe kapitel \@ref(daten)).
-- Die Quote der gefangenen Tiere ist unbekannt und muss im Modell angenommen werden.
+Die Gewichtsverteilung ist nur mässig geeignet für die Kalibrierung, da das Gewicht der Kammmmolche nicht modelliert wird. Geht man davon aus, dass die Gewichstzunahme linear erfolgt, kann zwar die Gewichtsverteilung aus den Fangdaten mit der Altersverteilung aus dem Modell verglichen werden. Daraus aber einen geeigneten Parameterwert für die Sterblichkeit der Larven abzuleiten, erscheint nicht sinnvoll.
+Für die Kalibrierung des Modells werden nur die Fangdaten aus 2021 berücksichtigt, die Daten von 2022 werden für die Validation benötigt und müssen somit hier ausgeschlossen werden. Die Fangdaten von 2021 haben aber den Makel, das sie wohl nicht vollständig sind. Wie in Kapitel \@ref(daten) beschrieben, wurde die Fangaktion vermutlich erst gestartet als bereits viele Tiere in den Gewässern waren. Deshalb müssen diese Zahlen noch korrigiert werden. Im selben Kapitel wurde gezeigt, dass über die gleiche Zeitspanne aber sehr gut korrespondieren. Deshalb kann davon ausgegangen werden, dass auch die Summe der Tiere ungefähr übereinstimmen muss.
 
 Dennoch wird mit Hilfe der Fangzahlen ein sinnvoller Parameterwert ermittelt.
 

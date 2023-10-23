@@ -1,10 +1,23 @@
 library(tidyverse)
 
-data <- read.table("excel/kalibration_migration.csv",sep=',', fill=TRUE, header=TRUE)
-colnames(data) <- c("Modelldatum","simulation", "migrationsdauer", "pondCount", "eggCount", "larvaCount", "juvenilCount", "adultCount", "min_age", "max_age", "mean_age", "median_age", "sd_age", "catchedAdult_count", "catchedJuv_count", "min_age_catched", "max_age_catched", "mean_age_catched")
-str(data)
+time <- c(20,20,20,20,20,30,30,30,30,30,40,40,40,40,40)
+ponds_count <- c(2,2,2,2,2,5,5,4,5,5,6,6,6,6,5)
 
-levels <- as.numeric(levels(as.factor(data$migrationsdauer)))
+mittel_2 <- mean(c(5,5,4,5,5))
+mittel_3 <- mean(c(6,6,6,6,5))
+data <- data.frame(
+  time = c(20,30,40),
+  mean = c(2,mittel_2,mittel_3),
+  max = c(2,5,6),
+  min = c(2,4,5)
+)
 
-bp_pond <- ggplot(data, aes(group= migrationsdauer, x=migrationsdauer, y=pondCount)) + geom_boxplot()
-bp_pond + scale_x_continuous(trans='log2', breaks=levels, name="Migrationsdauer (Tage)") + scale_y_continuous(name="Anzahl besiedelte Weiher")
+levels <- as.numeric(levels(as.factor(data$time)))
+
+bp_pond <- ggplot(data, aes(time, mean))
+ponds <- bp_pond + geom_linerange(aes(ymin=min, ymax=max)) +
+ scale_x_continuous(breaks=c(20,30,40), name="Wanderdauer (Tage)") +
+ scale_y_continuous(name="Anzahl besiedelte Weiher") +
+ geom_point()
+
+ponds + geom_hline(yintercept=5, linewidth=1, linetype=2)

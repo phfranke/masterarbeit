@@ -34,27 +34,7 @@ plotFangzahlen <- ggplot() +
                        breaks = c("transparent", "black"),
                        labels = c("2021", "2022"),
                        guide = "legend")
-
-
-# 
-# 
-#   scale_fill_manual(values=c('grey','black'))
-# 
-# ggplot(data=eachDay_all, aes(x=tag,y=Anzahl,fill=year)) + 
-#   geom_bar(stat="identity",position="dodge",width=1) + 
-#   scale_fill_manual(values=c('darkgrey','black')) + 
-#   scale_x_continuous(breaks=seq(1,200,10),labels=datum_label) +
-#   theme(
-#     panel.background = element_rect('white','lightgrey'),
-#     panel.grid.major.x = element_line(size=0.25,colour='black', linetype = "dotted"),
-#     panel.grid.major.y = element_line(size=0.25,colour='darkgrey', linetype = "solid"),
-#   )
-
-# tables
-# catched21 %>% group_by('Gewässer-Nr.'=gewaesser, 'Geschlecht'=Geschlecht) %>% summarize(Anzahl=sum(Anzahl))
-# catched22 %>% group_by('Gew-Nr.'=gewaesser, 'Geschlecht'=Geschlecht) %>% summarize(Anzahl=sum(Anzahl))
-# filter(catched22,'dayofyear'<64)
-# 
+ 
 
 gewaesser21 <- c(levels(factor(catched21$gewaesser)),'Total')
 gewaesser22 <- c(levels(factor(catched22$gewaesser)), 'Total')
@@ -112,6 +92,7 @@ tabelle22 <- cbind(gewaesser22,fem22[,2]+mal22[,2],juv22[,2],tot22[,2]) %>%
 colnames(tabelle22) <- c('Gewässer','Adulte','Juvenile','Summe')
 # tabelle22[is.na(tabelle22)]<- '-'
 # tabelle22 <- tabelle22[,2:4]
+
 
 
 ## Weight and Length
