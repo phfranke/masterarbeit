@@ -26,7 +26,7 @@ global {
 	date starting_date parameter:"Startdate" category: "System" init:date([2000,1,1,0,0,0.0]);
 	date stop_date parameter: "Enddate" category: "System" init:date([2020,1,2,0,0,0.0]);
 	float step <- 1 #day;
-	date calibrationEnd parameter: "Enddate of calibration run: " category: "System" init: date([2015,1,1,0,0,0.0]);
+	date calibrationEnd parameter: "Enddate of calibration run: " category: "System" init: date([2022,1,1,0,0,0.0]);
 	
 	//  survivale rates of each stage
 	float survival_egg parameter: "Survival rate eggs (0..1): " category:"Survival Rates" init: 0.5;
@@ -49,7 +49,7 @@ global {
 	float migrationRate_adult parameter: "Rate of adults which migrate (0..1): " category: "Migration" init: 0.12;
 	float migrationRate_juv parameter: "Rate of juvenile which migrate (0..1): " category: "Migration" init: 0.373;
 	float migration_velocity parameter: "Distance in Meter per Day" category: "Migration" init: 15.0;
-	float migration_time parameter: "Duration of the migration period in days: " category: "Migration" init: 30.0;
+	float migration_time parameter: "Duration of the migration period in days: " category: "Migration" init: 40.0;
 	
 	// catching
 	int start_catching parameter: "Year in which catching measures start: " category: "Catching" init: 2021;
@@ -373,7 +373,7 @@ species migrant skills: [moving]{
 		else if !isMigrant and overlaps(self.location,buffer(self.nativePond,20)) {
 			if self.isJuvenil {
 				// juveniles are catched while entering a pond with net
-				if current_date.year >= start_catching and self.nativePond.catchingNet and between(current_date.month,2,5) {
+				if current_date.year >= start_catching and self.nativePond.catchingNet and between(current_date.month,2,5) and flip(probabilityCatch) {
 					catched_juv_tot <- catched_juv_tot + 1;
 					do die;
 				}
@@ -383,6 +383,7 @@ species migrant skills: [moving]{
 					self.dateDevelopment <- myself.dateDevelopment;
 					self.location <- myself.nativePond.location;
 					self.isMigrant <- false;
+					self.slipped <- true;
 				}
 				do die;
 			}
@@ -528,43 +529,33 @@ species adult skills: [moving]{
 
 
 //  ****** experiments ********  //
-experiment complete {
+experiment complete type:batch repeat:1 parallel: false until:current_date=stop_date {
+	parameter catching_probability var:probabilityCatch among:[0.95,0.8,0.5];
 	list<pond> newtsPerPond;
 	int schwelle;
 	
-	reflex stop_experiment {
-		if (current_date = stop_date) {
-			write 'Ende der Simulation erreicht! Datum: ' + current_date; 
-			error 'Ende der Simulation erreicht!';
-		}
-//		if (sum(collect(where(offspring,!each.isEgg),each.count)) <0 or sum(collect(where(offspring,!each.isEgg),each.count)) > 1000000) {
-//			write string(current_date) + ', ' + max(collect(offspring, each.densityMortalityRate_larva));
-//		}
-	}
-	reflex calculations {
-//		newtsPerPond <- sort(pond,1-each.newtCount);
-//		schwelle <- first(collect(newtsPerPond,each.newtCount)[16]);
-//		newtsPerPond <- where(newtsPerPond,each.newtCount > schwelle);
-	}
 	reflex output {
 		string filePath <- "./result/" + "resultate.csv";
 		bool newFile <- current_date.year = starting_date.year ? true : false; 
 		ask simulation {
-			if current_date.month=1 and current_date.day=1 {
+			if current_date.day_of_year =1 {
 				save [
-					current_date.year,
+					current_date,
+					probabilityCatch,
 					sum(collect(where(offspring,each.isEgg),each.count)),
 					sum(collect(where(offspring,!each.isEgg),each.count)),
 					count(juvenil,true) + count(migrant, each.isJuvenil),
 					count(adult,true) + count(migrant, !each.isJuvenil),
-					density_koeff,
+					count(adult,each.slipped),
+					count(adult,!each.slipped),
+					self.catched_adult_tot,
+					self.catched_juv_tot,
 					self.eggs_tot,
 					self.larva_tot,
 					self.juv_tot,
 					self.adult_tot,
 					self.migrantJuv_tot,
-					self.migrantAdult_tot,
-					count(myself.newtsPerPond, each.newtCount>0)
+					self.migrantAdult_tot
 				] to:filePath type: "csv" rewrite:newFile;	
 			}
 		}
@@ -633,20 +624,12 @@ experiment complete {
 		monitor Juvenile value: (count(juvenil,true) + count(migrant,each.isJuvenil)) color:#red;
 		monitor Adults value: (count(adult,true) + count(migrant,!each.isJuvenil)) color:#aqua;
 		monitor Migrants value: count(migrant,true) color:#brown;
-	}	
+	}
 }
 
-experiment calibration_density type:batch repeat:1 parallel: false until:current_date=calibrationEnd {
-	parameter coeff var:density_koeff among:[0.07,0.07,0.07,0.05,0.05,0.05,0.02,0.02,0.02];
+experiment calibration_density type:batch repeat:3 parallel: false until:current_date=calibrationEnd {
+	parameter coeff var:density_koeff among:[0.01, 0.008, 0.006];
 
-	permanent {
-		monitor laid_eggs value:eggs_tot color:#grey;
-		monitor hatched_larvae value:larva_tot color:#green;
-		monitor developed_juvenile value: juv_tot color:#red;
-		monitor developed_adults value: adult_tot color:#aqua;
-		monitor occupied_ponds value: occupiedPonds_count color:#blue;
-	}
-	
 	reflex save_results {
 	
 		ask simulations {
@@ -665,8 +648,14 @@ experiment calibration_density type:batch repeat:1 parallel: false until:current
 				self.occupiedPonds_count,
 				count(offspring, each.isEgg),
 				count(offspring, !each.isEgg),
-				count(juvenil,!each.slipped),
-				count(adult,!each.slipped),
+				count(juvenil,true),
+				count(adult,true),
+				count(adult, each.slipped),
+				count(adult, !each.slipped),
+				count(juvenil, each.slipped),
+				count(juvenil, !each.slipped),
+				self.catched_adult_tot,
+				self.catched_juv_tot,
 				self.min_age_adult,
 				self.max_age_adult,
 				self.mean_age_adult,
@@ -683,8 +672,8 @@ experiment calibration_density type:batch repeat:1 parallel: false until:current
 	
 }
 
-experiment calibration_migration type:batch repeat:3 parallel: false until:current_date=calibrationEnd {
-	parameter coeff var:migration_time among:[30.0,50.0,80.0];
+experiment calibration_migration type:batch repeat:5 parallel: false until:current_date=calibrationEnd {
+	parameter coeff var:migration_time among:[20.0,30.0,40.0];
 
 	permanent {
 		monitor laid_eggs value:eggs_tot color:#grey;
@@ -702,20 +691,7 @@ experiment calibration_migration type:batch repeat:3 parallel: false until:curre
 				self.name,
 				self.migration_time,
 				self.occupiedPonds_count,
-				count(offspring, each.isEgg),
-				count(offspring, !each.isEgg),
-				count(juvenil,!each.slipped),
-				count(adult,!each.slipped),
-				self.min_age_adult,
-				self.max_age_adult,
-				self.mean_age_adult,
-				self.median_age_adult,
-				self.sd_age_adult,
-				self.catched_adult_tot,
-				self.catched_juv_tot,
-				self.min_age_adult_catched,
-				self.max_age_adult_catched,
-				self.mean_age_adult_catched
+				self.occupiedPonds_list
 			] to:"./result/kalibration_migration.csv" type:"csv" rewrite:self.name='Simulation 0' ? true : false;
 		}	
 	}

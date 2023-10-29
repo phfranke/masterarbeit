@@ -454,9 +454,14 @@ Wir können davon ausgehen, dass die gefangenen Tiere in den ersten beiden Jahre
 
 
 
-Im Modell wird dieser Koeffizient durch den Parameter `density_koeff` bestimmt. 
+Im Modell wird dieser Koeffizient durch den Parameter `density_koeff` bestimmt. Für die Kalibrierung deises Parameters wurde das Modell mit jedem Wert 3 mal durchlauffen lassen. Die Auswirkungen des Dichtekoeffizienten sind in Abbildung \@ref(fig:kaliDichte) veranschaulicht. Sowohl die Streuung der Resultate als auch die Anzahl der gefangenen Kammmolche nimmt mit wachsendem Koeffizienten. Wie in Kapitel \@ref(daten) beschrieben, sind die Fangzahlen aus dem ersten Jahr wohl nicht repräsentativ. Die Fangsaison war wahrscheinlich zu kurz und die Anzahl gefangener Individuuen, wäre wohl ungefähr doppelt so hoch ausgefallen, wenn das Abfangen schon früher begonnen hätte. Die Streuung der modellierten Fänge ist auch recht hoch, weshalb das Modell in diesem Fall mit einer schätzenden herangehensweise kalibriert wird.
+Als Zielwert für die Kalibrierung wird hier eine Zahl zwischen 500 und 1200 angestrebt. Die Kalibrierungsläufe des Modells liefern für den `Koeffizienten = 0.008` ein gut passendes Resultat. Die Streuung liegt praktisch innerhalb des angestrebten Bereichs. Der Parameter `density_koeff` wird also auf den Wert `0.008` festgelegt.
 
 
+```{r kaliDichte, echo=FALSE, fig.cap="Die modellierten, gefangenen Kammmolche in Abhängigkeit des Dichtekoeffizienten"}
+bp_print
+
+```
 
 # Resultate
 

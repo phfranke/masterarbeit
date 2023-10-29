@@ -9,7 +9,7 @@ koeff_levels <- as.numeric(levels(as.factor(data$koeff)))
 bp_adult <- ggplot(data, aes(group= koeff, x=koeff, y=catched_adult_tot)) + geom_boxplot()
 bp_adult + scale_x_continuous(trans='log2')
 bp_adult + scale_x_continuous(trans='log2') + scale_y_continuous(trans='log2')
-bp_adult + scale_x_continuous(trans='log2', breaks=koeff_levels, name="Koeffizient") + scale_y_continuous(name="Anzahl gefangene Adulte")
+bp_print <- bp_adult + scale_x_continuous(trans='log2', breaks=koeff_levels, name="Koeffizient") + scale_y_continuous(name="Anzahl gefangene Adulte")
 
 bp_pond <- ggplot(data, aes(group= koeff, x=koeff, y=count_pond)) + geom_boxplot()
 bp_pond + scale_x_continuous(trans='log2', breaks=koeff_levels, name="Koeffizient") + scale_y_continuous(name="Anzahl besiedelte Weiher")
