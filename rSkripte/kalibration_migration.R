@@ -12,11 +12,11 @@ data <- data.frame(
   min = c(2,4,5)
 )
 
-levels <- as.numeric(levels(as.factor(data$time)))
+time_levels <- as.numeric(levels(as.factor(data$time)))
 
 bp_pond <- ggplot(data, aes(time, mean))
 ponds <- bp_pond + geom_linerange(aes(ymin=min, ymax=max)) +
- scale_x_continuous(breaks=c(20,30,40), name="Wanderdauer (Tage)") +
+ scale_x_continuous(breaks=c(time_levels), name="Wanderdauer (Tage)") +
  scale_y_continuous(name="Anzahl besiedelte Weiher") +
  geom_point()
 
