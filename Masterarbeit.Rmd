@@ -322,7 +322,7 @@ Ab dem Modelldatum 1.1.2021 werden Bekämpfungsmassnahmen simuliert. In der Natu
 Um Unsicherheiten abzufangen wird die Effektivität der Bekämpfungsmassnahmen in mehreren Szenarien simuliert. Näheres dazu ist in Kapitel \@ref(szenarien) beschrieben. Die Szenarien bestimmen den `parameter(probabilityCatch)`.
 
 
-### Design Koncepte
+### Design Konzepte
 #### Grundlegende Prinzipien
 Das Modell versucht äusserst komplexe, natürliche Abläufe abzubilden. Natürliche Prozesse sind nie starr auf einen Parameter ausgerichtet, sondern sind von dutzenden Faktoren abhängig. Das Modell ignoriert bei den meisten Einflussgrössen diese natürliche Bandbreite und legt einen festen Wert dafür fest. Eine Abbildung der Einflussgrössen mit einer zufälligen Schwankung birgt die Gefahr, dass das Modell chaotisch verläuft und die Resultate nicht nachvollziehbar sind. Deshalb basiert das Grundgerüsts des Modells auf starren Abläufen, welche sich nach dem Modelldatum und Parameterwerten richten. Wo immer möglich werden die Parameter anhand Angaben aus der Literatur festgelegt. Es wird bewusst darauf verzichtet, Schwankungsbereiche aus der Literatur mit zufälligen Ereignissen nachzubilden um ein möglichst eindeutiges Modell zu erhalten und chaotisches Verhalten zu verhindern. Dies betrifft zeitliche Entscheidungen, wie die Entwicklungsdauer der einzelnen Stadien, die Anzahl gelegter Eier sowie die Wandergeschwindigkeit. Die Sterblichkeitsrate wird ebenfalls als fester Wert implementiert, die Entscheidung ob ein Individuum stirbt ist hingegen ein zufälliges Ereigniss. Es wird eine Zufallszahl zwischen `0` und `1` generiert. Ist diese Zahl grösser als die Sterblichkeitsrate, stirbt das Individuum. Weitere Entscheidungen sind nicht eindeutig durch die Literatur belegt und beruhen entweder auf Annahmen, werden durch experimente bestimmt (siehe \@ref(kalibration))  oder werden mit Szenarien in das Modell implementiert (siehe Kapitel \@ref(szenarien)). Die Wandergeschwindigkeit basiert auf einer Annahme, die dichteabhängige Sterblichkeit sowie die Dauer der Wanderungen werden kalibriert, die Wanderrichtung basiert auf einem Zufallsereignis und Szenarien werden für Fangwahrscheinlichkeit der Bekämpfung verwendet.
 
@@ -365,26 +365,23 @@ knitr::kable(tab_parameter,caption='Im Modell verwendete Parameter',label='para'
 ```
 
 ### Verwendete Daten, Bodenbedeckung {#bobe}
-Zu Darstellung der Umgebung werden Daten mit Informationen zur Bodenbedeckung verwendet. diese werden vom Kanton Basel-Landschaft erhoben und konstenlos über einen Downloaddienst zur Verfügung gestellt. Diese Informationen dienen der Steuerung von Wanderbewegungen und zur farblichen Darstellung der Landschaft im Modell. Die Vektordaten sind in einer hohen Genauigkeit erfasst und klassifiziert. Die verwendete Darstellung und vorhandene Bodenklassen sind in Abbildung \@ref(fig:gebietbb) ersichtlich. 
+Zu Darstellung der Umgebung werden Geodaten vom Kanton Basel-Landschaft mit Informationen zur Bodenbedeckung verwendet. Diese werden vom Kanton Basel-Landschaft erhoben und kostenlos über einen Downloaddienst zur Verfügung gestellt. Diese Informationen dienen der Steuerung von Wanderbewegungen und zur farblichen Darstellung der Landschaft im Modell. Die Vektordaten sind in einer hohen Genauigkeit erfasst und klassifiziert. Die verwendete Darstellung und vorhandene Bodenklassen sind in Abbildung \@ref(fig:gebietbb) ersichtlich. 
 Die Landesgrenze beschreibt im Untersuchungsgebiet einen Bogen tief ins Landesinnere. Die Daten zur Bodenbedeckung sind nur auf Gebieten des Kantons Basel-Landschaft erfasst. In der erwähnten Lücke auf dem Boden der Gemeinde Neuwiller in Frankreich besteht ein Loch. Es kann jedoch nicht ausgeschlossen werden, dass Kammmolche ebenfalls durch diese Gebiete wandern. Die benötigten Oberflächendaten wurden hier anhand der 1:25'000 er Landeskarte der Schweiz von Hand grob abdigitalisiert. Erkennbare Strukturen, wie Gebäude, Siedlung, Strassen, Wälder, Landwirtschaftsland und Gewässer wurden dabei berücksichtigt (siehe Abbildung \@ref(fig:gebietbb)). Häuser wurden nicht mit dem realistischen Grundriss nachgezeichnet sondern durch ein standardisiertes Rechteck von ca. 100m2 ersetzt. Der Siedlungsraum wurde insgesamt als Gartenanlage modelliert. Das restliche Offenlad wurde dem Typ "Acker, Wiese, Weide" zugeordnet. Die Körnung ist deutlich gröber wie die Daten der amtlichen Vermessung.
 
 
 ```{r 'gebietbb',echo=FALSE,out.width="80%",fig.cap="Darstellung der Bodenbedeckung. Die Gewässer mit aktiven Bekämpfungsmassnahmen sind rot umrandet, die Beschriftungen zeigen die Identifikationsnummer der Gewässer. Am unteren, rechten Bildrand ist das Gebiet in Frankreich zu sehen."}
 knitr::include_graphics("./bilder/Tal_Bekämpfungsgewässer.jpg")
 ```
-Für die Steuerung des Modells wurden die Vektordaten zur Bodenbedeckung mit weiteren Attributen angereichert. Für die Identifizierung der einzelnen Gewässer werden Nummern verwendet, welche von der Koordinationsstelle für Reptilien und Amphibien Schweiz (karch) vergeben werden. Diese stammen aus dem Datensatz "Weiherinventar" im Geodatenviewer des Kantons Basel-Landschaft (siehe: [https://geoview.bl.ch/?map_x=2609487.9992678&map_y=1264906.4997948&map_zoom=4&tree_group_layers_Natur%20u.%20Landsch.=weiherinventar&tree_groups=Natur%20u.%20Landsch.](https://geoview.bl.ch/?map_x=2609487.9992678&map_y=1264906.4997948&map_zoom=4&tree_group_layers_Natur%20u.%20Landsch.=weiherinventar&tree_groups=Natur%20u.%20Landsch.)).
+Für die Steuerung des Modells wurden die Vektordaten zur Bodenbedeckung mit weiteren Attributen angereichert. Für die Identifizierung der einzelnen Gewässer werden Nummern verwendet, welche von der Koordinationsstelle für Reptilien und Amphibien Schweiz (karch) vergeben werden. Diese stammen aus dem Datensatz "Weiherinventar" im Geodatenviewer des Kantons Basel-Landschaft (siehe: [https://geoview.bl.ch/?map_x=2609487.9992678&map_y=1264906.4997948&map_zoom=4&tree_group_layers_Natur%20u.%20Landsch.=weiherinventar&tree_groups=Natur%20u.%20Landsch.](https://geoview.bl.ch/?map_x=2609487.9992678&map_y=1264906.4997948&map_zoom=4&tree_group_layers_Natur%20u.%20Landsch.=weiherinventar&tree_groups=Natur%20u.%20Landsch.)). Die Gewässer sind in der Abbildung \@ref(fig:gebietbb) mit der entsprechenden Nummer angeschrieben.
 Im Weiherinventar sind zahlreiche Gewässer erfasst, welche in den Daten zur Bodenbedeckung nicht erfasst wurden. Diese Gewässer wurden manuell nacherfasst. Dabei wurde die genaue Form und Lage nicht berücksichtigt, die Fläche wurde hingegen der Angaben aus dem Weiherinventar angepasst.
-Mithilfe der  Variabel `place_of_exposion` ist dasjenige Gewässer markiert, in welchem die Kammmolche mutmasslich ausgesetzt wurden und die Variabel `catchingNet` zeigt diejenigen Gewässer an, welche für die jährlichen Bekämpfungsaktionen eingezäunt werden.
+Mithilfe der  Variabel `place_of_exposion` ist dasjenige Gewässer markiert, in welchem die Kammmolche mutmasslich ausgesetzt wurden (BL191) und die Variabel `catchingNet` zeigt diejenigen Gewässer an, welche für die jährlichen Bekämpfungsaktionen eingezäunt werden (in der Karte rot umrandet).
 
 
 ### Zähl- und Messdaten {#daten}
 Seit Frühjahr 2021 werden in den Gewässern mit bekannten Vorkommen Kammmolche abgefangen. Die Tiere werden nach Stadium und Geschlecht bestimmt und gewogen. In der Tabelle \@ref(tab:tablecatches) sind die Fangzahlen aus den Jahren 2021 und 2022 aufgeführt. Das Gewässer BL195s wurde im zweiten Jahr nicht mehr für die Bekämpfung berücksichtigt. Andererseits fällt auf, dass im zweiten Jahr beinahe doppelt so viele Tiere abgefangen wurden. Zu erwarten wären eher, dass die Anzahl Tiere zurückgeht. Mit Blick auf den zeitlichen Verlauf der Fangaktion in Abbildung \@ref(fig:felddaten) lässt sich das auch anders einordnen:
 Der erste Fangtag im Jahr 2021 war Anfang März. Bereits am ersten Fangtag wurde eine beträchtliche Anzahl Tiere gefangen. Dies deutet darauf hin, dass die Tiere schon früher mit der Wanderung begonnen hatten und möglicherweise bereits Tiere in die Gewässer gelangten, bevor die Fallen aufgestellt wurden. Im Jahr 2022 begann die Fangaktion bereits Anfang Februar. Im Jahr 2022 wurde vor dem 1.März insgesamt `r sum(catched22$Anzahl[catched22$dayofyear<64],na.rm=TRUE)` Tiere gefangen. Insgesamt kann angenommen werden, dass die Anzahl gefangener Tiere im Jahr 2021 stark unter der Anzahl tatsächlich eingewanderter Tiere liegt.
 
- 
-Die Gewichtsverteilung ist in Abbildung \@ref(fig:boxplotweight).
-
-
+Die Gewichtsverteilung der gefangenen Adulten ist in Abbildung \@ref(fig:boxplotweight). Die Tiere scheinen im zweiten Fangjahr eher etwas leichter gewesen zu sein, als im ersten. Das könnte darauf hindeuten, dass bereits viele alten und grossen Tiere abgefangen wurden. Allerdings könnte das auch mit dem verzögerten Beginn der Fangsaison zusammenhängen.
 
 
 ```{r felddaten, echo=FALSE, fig.cap="Fangzahlen aus den ersten beiden Projektjahren"}
@@ -421,7 +418,7 @@ knitr::kable(list(tabelle21,tabelle22),caption='Gefangene Tiere 2021 (links) und
 ## Szenarien {#szenarien}
 Ziel der Abfangmassnahmen ist es, die Population an italienischen Kammmolchen aus der Umwelt zu entfernen. Die Massnahmen sind so ausgelegt, dass jedes Jahr möglichst viele Tiere vor der Eiablage gefangen werden und die Population so langfristig geschwächt wird. Es kann jedoch angenommen werden, dass die Abfangmethode nicht 100% der Tiere erwischt. Folgende Faktoren sind unbekannt und müssen in den Szenarien berücksichtigt werden:
 
-- Tiere befinden sich möglicherweise bereits in den Gewässern ubevor die Zäune aufgestellt werden
+- Tiere befinden sich möglicherweise bereits in den Gewässern bevor die Zäune aufgestellt werden
 - Tiere schlüpfen durch die Zäune
 - Tiere legen Eier ausserhalb der eingezäunten Gewässer (seichte Stellen im Bach, temporäre oder sehr kleine Gewässer, ...)
 - Tiere pflanzen sich in Gewässern fort, welche nicht überprüft werden (Gartenteich, Gewässer in Frankreich, ... )  
@@ -436,15 +433,15 @@ Diese Möglichkeiten lassen sich nicht quantifizieren. Im Modell sind diese Fakt
 ## Kalibrierung {#kalibration}
 Das Modell verfügt über viele Parameter, welche zum Grossteil mit Werten aus der Literatur eingestellt werden können. Einzelne Faktoren sind durch die Literatur ungenügend abgedeckt und müssen über die Kalibration ermittelt werden. Dies betrifft die Wanderdauer und die dichteabhängige Sterblichkeit. Im Rahmen der Kalibration werden deshalb folgende zwei Parameter ermittelt:
 
-- die Dauer der Wanderungen
-- der Koeffizient der dichteabhängigen Sterblichkeit
+- die Dauer der Wanderungen (Parameter `migration_time`)
+- der Koeffizient der dichteabhängigen Sterblichkeit (Parameter `density_koeff`)
 
-Beide Parameter beeinflussen sich gegenseitig nicht wesentlich, da sie grundsätzlich unterschiedliche Funktionen im Modell übernehmen. Für die Kalibrierung der Wanderdauer wird ein Wert für den Dichtekoeffizienten angenommen. Dieser Wert muss sicherstellen, dass genügend Kammmolche in alle Himmelsrichtungen wandern. Damit kann sichergestellt werden, dass das Auffinden der Gewässer durch die Wanderdauer beeinflusst wird und nicht durch einen Mangel an wandernden Individuuen. Experimentell hat sich ein geeigneter Wert von 0,1 für den Dichtekoeffizient herausgestellt. Nach der Kalibrierung der Wanderdauer wird diese auf den ermittelten Wert fixiert und anschliessend der Dichtekoeffizient kalibriert.
+Beide Parameter beeinflussen sich gegenseitig nicht wesentlich, da sie grundsätzlich unterschiedliche Funktionen im Modell übernehmen. Daher können die beiden Parameter nacheinander kalibriert werden, ohne jede Kombination der beiden Parameter testen zu müssen. Für die Kalibrierung der Wanderdauer wird ein Wert für den Dichtekoeffizienten angenommen. Dieser Wert muss so eingestellt sein, dass genügend Kammmolche schlüpfen um in der Wanderphase in alle Himmelsrichtungen loszuwandern. Damit kann sichergestellt werden, dass das Auffinden der Gewässer durch die Wanderdauer beeinflusst wird und nicht durch einen Mangel an wandernden Individuuen. Experimentell hat sich ein geeigneter Wert von 0,1 für den Dichtekoeffizient herausgestellt. Nach der Kalibrierung der Wanderdauer wird diese auf den ermittelten Wert fixiert und anschliessend der Dichtekoeffizient kalibriert.
 
 Die Funktion des ganzen Modells ist es, die Populationsentwicklung abzubilden und die Wirkungsweise der Fangaktionen zu untersuchen. Es ist deshalb sinnvoll, bei der Kalibrierung eher ein Worst-Case-Szenario anzunehmen. Die zu kalibrierenden Werte werden im Zweifelsfall also eher mit einem Wert eingestellt, mit welchen die Kammmolche sich stärker vermehren und verbreiten.
 
 ### Wanderdauer {#kali_dauer}
-Als beobachtete Grösse für diese Kalibration wird die Anzahl der besiedelten Gewässer verwendet. Wie im Kapitel \@ref(daten) gezeigt, konnten bisher nur in 5 Gewässern Kammmolche festgestellt werden. Es handelt sich um die Gewässer mit der Indentifikationsnummer BL191, BL195, BL196, BL197 und BL198. Es gilt nun, einen Wert für den Parameter der Wanderdauer zu finden, welcher ebenfalls zu einer Besiedelung dieser Gewässer führt. Für die Kalibrierung wurde mit jedem Wert für die Wanderdauer das Modell fünf mal durchgeführt. Als Startdatum dient jeweils der 1.1.2000  und als Enddatum der 1.1. 2022. Die Parameterwerte der Wanderdauer wurden experimentell auf den hier verwendeten Wertebereich eingeschränkt (`r time_levels`). Die Resultate sind in Abbildung \@ref(fig:kaliMigrant) gezeigt. Die senkrechten Linien zeigen dabei die Spanne, die Punkte den Mittelwert der Anzahl besiedelter Gewässer. Es zeigt sich, dass sowohl eine Wanderdauer von 30 als auch von 40 Tagen zu einer Besiedelung von 5 Weihern führen kann. Da damit gerechnet werden muss, dass die Kammmolche unendteckt ein Gewässer besiedeln können, wird hier der höhere der beiden Werten als der korrekte Parameterwert gewählt. Für die weiterführenden Arbeiten wird dieser Parameter also auf 40 Tage eingestellt. 
+Als beobachtete Grösse für diese Kalibrierung wird die Anzahl der besiedelten Gewässer verwendet. Wie im Kapitel \@ref(daten) gezeigt, konnten bisher nur in 5 Gewässern Kammmolche festgestellt werden. Es handelt sich um die Gewässer mit der Indentifikationsnummer BL191, BL195, BL196, BL197 und BL198. Es gilt nun, einen Wert für den Parameter der Wanderdauer zu finden, welcher ebenfalls zu einer Besiedelung dieser Gewässer führt. Für die Kalibrierung wurde mit jedem Wert für die Wanderdauer das Modell fünf mal durchgeführt. Als Startdatum dient jeweils der 1.1.2000  und als Enddatum der 1.1. 2022. Die Parameterwerte der Wanderdauer in Tagen wurden experimentell auf den hier verwendeten Wertebereich eingeschränkt (`r time_levels`). Die Resultate sind in Abbildung \@ref(fig:kaliMigrant) gezeigt. Die senkrechten Linien zeigen dabei die Spanne, die Punkte den Mittelwert der Anzahl besiedelter Gewässer für jeden der drei Parameterwerte. Es zeigt sich, dass sowohl eine Wanderdauer von 30 als auch von 40 Tagen zu einer Besiedelung von 5 Weihern führen kann. Da damit gerechnet werden muss, dass die Kammmolche unentdeckt ein Gewässer besiedeln können, wird hier der höhere der beiden Werten als der korrekte Parameterwert gewählt. Für die weiterführenden Arbeiten wird dieser Parameter also auf 40 Tage eingestellt. 
 
 
 ```{r kaliMigrant, echo=FALSE, fig.cap="Ergebnisse der Kalibration."}
@@ -459,9 +456,8 @@ Für die Kalibrierung des Dichtekoeffizienten wird das Modell mehrere Male mit u
 
 Das Modell wird anhand der Daten der Fangaktion 2021 kalibriert (siehe Kapitel \@ref(daten) und Tabelle \@ref(tab:tablecatches)). 
 
-Im Modell wird dieser Koeffizient durch den Parameter `density_koeff` bestimmt. Für die Kalibrierung dieses Parameters wurde das Modell mit unterschieldichen Werten jeweils 3 Mal durchgeführt. Der verwendete Wertebereich (`r koeff_levels`) wurde experimentel ermittelt. Die Auswirkungen des Dichtekoeffizienten sind in Abbildung \@ref(fig:kaliDichte) veranschaulicht. Es ist ersichtlich, dass sowohl die Streuung der Resultate als auch die absolute Anzahl der gefangenen Kammmolche mit grösserem Koeffizienten abnimmt. 
-Wie in Kapitel \@ref(daten) beschrieben, sind die Fangzahlen aus dem ersten Jahr wohl nicht repräsentativ. Die Fangsaison war mutmasslich zu kurz und die Anzahl gefangener Individuuen wäre wohl ungefähr doppelt so hoch ausgefallen, wenn das Abfangen schon früher begonnen hätte. Die Streuung der modellierten Fänge ist ebenfalls recht hoch, weshalb das Modell in diesem Fall mit einer schätzenden herangehensweise kalibriert wird.
-Als Zielwert für die Kalibrierung wird hier eine Zahl zwischen 700 und 1200 angestrebt. Die Kalibrierungsläufe des Modells liefern für den `Koeffizienten = 0.008` ein gut passendes Resultat. Die Streuung liegt praktisch innerhalb des angestrebten Bereichs. Der Parameter `density_koeff` wird also auf den Wert `0.008` festgelegt.
+Im Modell wird dieser Koeffizient durch den Parameter `density_koeff` bestimmt. Für die Kalibrierung dieses Parameters wurde das Modell mit unterschieldichen Werten jeweils 5 Mal durchgeführt. Der verwendete Wertebereich (`r koeff_levels`) wurde experimentel ermittelt. Die Auswirkungen des Dichtekoeffizienten sind in Abbildung \@ref(fig:kaliDichte) veranschaulicht. Es ist ersichtlich, dass sowohl die Streuung der Resultate als auch die absolute Anzahl der gefangenen Kammmolche mit grösserem Koeffizienten abnimmt. 
+Wie in Kapitel \@ref(daten) beschrieben, sind die Fangzahlen aus dem ersten Jahr wohl nicht repräsentativ. Die Fangsaison war mutmasslich zu kurz und die Anzahl gefangener Individuuen wäre wohl ungefähr doppelt so hoch ausgefallen, wenn das Abfangen schon früher begonnen hätte. Als Zielwert für die Kalibrierung wird hier eine Zahl zwischen 700 und 1200 angestrebt. Die Kalibrierungsläufe des Modells liefern für den `Koeffizienten = 0.008` ein gut passendes Resultat. Die Streuung liegt praktisch innerhalb des angestrebten Bereichs. Der Parameter `density_koeff` wird also auf den Wert `0.008` festgelegt.
 
 
 ```{r kaliDichte, echo=FALSE, fig.cap="Die modellierten, gefangenen Kammmolche in Abhängigkeit des Dichtekoeffizienten"}
@@ -474,22 +470,41 @@ graph
 
 
 # Diskussion
+Wie die nachfolgenden kapitel zeigen, kann das Modell grundsätzlich als valide bezeichnet werden. Das heisst die vom Modell berechnetetn Vorhersagen entsprechen, soweit das überprüft werden kann, den realen Umständen.
 
-## Validierung
 
 Das Ziel eines jeden Modells ist es, gewisse Aspekte der realen Welt adäquat nachzubilden. Mit der Validierung wird überprüft, ob dies gelungen ist. Dazu werden hier zwei unterschieldiche Ansätze verfolgt. Die qualitative Validierung fokussiert auf das konzeptionelle Modell und stütz sich auf die Meinung von Experten ab. In diesem Fall wird die generelle Funktionsweise des Modells in Textform einer Expertin vorgelegt.
+
 Die quantitative Validierung hingegen vergleicht Messdaten aus der realen Situation mit den Äquivalenten aus dem Modell. Die einzigen Messdaten, welche vorliegen, sind die Zahlne aus den Fangaktionen. Während die Daten für das Jahr 2021 bereits für die Kalibrierung genutzt wurden, dienen die Fangzahlen aus dem Jahr 2022 für die Validierung.
 
-### Qualitative Validierung
+## Qualitative Validierung
 
 
 
-### Quanitative Validierung
-Für die 
+## Quanitative Validierung
+
+Die Validität des Modells wird hier anhand der Fangzahlen aus dem Jahr 2022 überprüft. Signifikant?
 
 
+
+## Wanderungen
+Es gibt durchaus Hinweise, das Kammmolche in Einzelfällen grössere Strecken zurücklegen. Damit können auch Gewässer besiedelt werden, welche die üblichen Kapazitäten der Tiere übersteigen. Dieser Mechanismus wurde im Modell nicht nachgebildet. Die Resultate wären damit etwas weniger vorhersagbar geworden, hätten dadurch vielleicht aber auch die natürliche Variabilität besser abgebildet.
+Zudem sind die Wanderungen sehr einfach modelliert und entsprechen vermutlich nicht der Realität. Im Modell wandern die Kammmolche gleich schnell und gleich lang, unabhängig vom Gelände und von der Bodenbedeckung. Es ist jedoch anzunehmen, dass die Amphibien sich in schattiger Umgebungen (Wald, Gehölze, Gräben, ...) länger aufhalten und weiter wandern können. Ebenso ist es einleuchtend, dass die Steigung einen Einfluss auf das Wanderverhalten ausübt. Die Wanderungen sind aber zu wenig detailliert erforscht, und es können keine adäquaten Annahmen für das Modell erstellt werden.
+
+## Umweltfaktoren
+Im Modell gänzlich unberücksichtigt bleiben Umweltfaktoren. Es werden nicht alle Gewässer gleich schnell und dicht besiedelt. Der Bewuchs innerhalb der Gewässer spielt sicher eine Rolle, da die Kammmolch-Weibchen die Eier in Blätter von Unterwasserpflanzen einrollen (QUELLE). Für die Fortbewegung ausserhalb der Gewässer sind sicherlich auch Mikrohabitate massgebend. Verstecke, Bewuchsdichte und Bodenbeschaffenheit spielen möglicherweise eine wichtige Rolle in der Entscheidung in welche Richtung und wie weit ein Kammmmolch sich fortbewegt. Zusätzlich sind die Einflüsse des Wetters zu nennen. In aussergewöhnlich niederschlagsreichen Jahren iust die Fortbewegung an Land sicherlich für Amphibien einfacher als in sehr trockenen Jahren. Solche eher seltenen  Wetterereignisse könnte in der Verbreitung von Kammmolchen ein wichtige Rolle spielen.
+
+Die möglichen Einflussquellen sind zahlreich. Oft ist unbekannt ob überhaupt ein Zusammenhang besteht wie stark dieser Zusammenhang ist. Aufgrund der grossen Unsicherheit wurden Umweltfaktoren hier gänzlich ignoriert.
 
 # Schlussfolgerung
+Das Modell zeigt .....
+
+Ein Gewässer wird dauerhaft besiedelt, sobald einmal in diesem Gewässer Eier abgelegt werden. Durch die grosse Anzahl an Eiern, werden immer auch einige fortpflanzungsfähige Nachfahren heranwachsen, welche in diesem Gewässer verbleiben. Dieser Mechanismus dürfte in der Realität sehr ähnlich sein. Hier si
+
+
+Es ist grundsätzlich möglich das natürliche Verhalten von Lebenwesen in einem technischen Modell nachzubilden und damit Vorhersagen zu treffen.
+
+
 
 
 
