@@ -24,7 +24,7 @@ global {
 	//  time management
 	int number_newts_start parameter:"Number of newts at starting date: " category: "System" init:50;
 	date starting_date parameter:"Startdate" category: "System" init:date([2000,1,1,0,0,0.0]);
-	date stop_date parameter: "Enddate" category: "System" init:date([2020,1,2,0,0,0.0]);
+	date stop_date parameter: "Enddate" category: "System" init:date([2049,12,31,0,0,0.0]);
 	float step <- 1 #day;
 	date calibrationEnd parameter: "Enddate of calibration run: " category: "System" init: date([2022,1,1,0,0,0.0]);
 	
@@ -37,7 +37,6 @@ global {
 	//larval density
 	float density_koeff parameter: "Coefficient mortality by density: " category: "Survival Rates" init:0.1;
 	
-	
 	// reproduction and developement
 	int maxAge_egg parameter: "Days to develop from egg to larva : " category: "Development" init:15;
 	int maxAge_larva parameter: "Days to develop from larva to juvenile: " category: "Development" init: 90;
@@ -48,8 +47,9 @@ global {
 	// migration
 	float migrationRate_adult parameter: "Rate of adults which migrate (0..1): " category: "Migration" init: 0.12;
 	float migrationRate_juv parameter: "Rate of juvenile which migrate (0..1): " category: "Migration" init: 0.373;
-	float migration_velocity parameter: "Distance in Meter per Day" category: "Migration" init: 15.0;
-	float migration_time parameter: "Duration of the migration period in days: " category: "Migration" init: 40.0;
+	float migration_velocity_adult parameter: "Migration Distance of Adults in Meter per Day: " category: "Migration" init: 10.0;
+	float migration_velocity_juv parameter: "Migration Distance of Juveniles in Meter per Day: " category: "Migration" init: 15.0;
+	float migration_time parameter: "Duration of the migration period in days: " category: "Migration" init: 20.0;
 	
 	// catching
 	int start_catching parameter: "Year in which catching measures start: " category: "Catching" init: 2021;
@@ -143,6 +143,29 @@ global {
 			sd_age_adult <- standard_deviation(age_adult);
 		}
 	}
+//	reflex save_to_file {
+//		if current_date.day_of_year =2 {
+//			bool newFile <- current_date.year = starting_date.year ? true : false;
+//			save [
+//				current_date,
+//					probabilityCatch,
+//				sum(collect(where(offspring,each.isEgg),each.count)),
+//				sum(collect(where(offspring,!each.isEgg),each.count)),
+//				count(juvenil,true) + count(migrant, each.isJuvenil),
+//				count(adult,true) + count(migrant, !each.isJuvenil),
+//				count(adult,each.slipped),
+//				count(adult,!each.slipped),
+//				catched_adult_tot,
+//				catched_juv_tot,
+//				eggs_tot,
+//				larva_tot,
+//				juv_tot,
+//				adult_tot,
+//				migrantJuv_tot,
+//				migrantAdult_tot
+//			] to:"./result/" + "resultate.csv" type: "csv" rewrite:newFile;	
+//		}
+//	}
 }
 
 //  ****** Background ********  //
@@ -326,7 +349,7 @@ species juvenil {
 					self.location <- myself.location;
 					self.isMigrant <- true;
 					self.target <- rnd(359.9);
-					self.velocity <- flip(0.1) ? 3*migration_velocity: migration_velocity;
+					self.velocity <- flip(0.01) ? 5*migration_velocity_juv: migration_velocity_juv;
 				}
 				migrantJuv_tot <- migrantJuv_tot +1;
 				do die;
@@ -357,7 +380,7 @@ species migrant skills: [moving]{
 		draw migrationSteps_line color: #black;
 		draw targetPoint color: #purple;
 	}
-	
+
 	reflex homing {
 		date end_migration <- add_days(beginMigration, migration_time);
 		// maigration stops when season = "imigration"
@@ -414,6 +437,7 @@ species migrant skills: [moving]{
 			}
 			if !self.isMigrant {
 				self.target <- towards(self.location,self.nativePond.location);
+				self.velocity_real <- self.velocity;
 			}
 			if self.velocity_real < 0.5 {
 				self.target <- self.target + 30;
@@ -430,7 +454,7 @@ species migrant skills: [moving]{
 		self.target <- self.target + left_right*deviation;
 		self.target <- self.target > 360 ? self.target-360 : self.target;
 		self.target <- self.target < 0 ? self.target+360 : self.target;
-		self.speed <- self.velocity #m/#day;
+		self.velocity_real <- self.velocity;
 	}
 }
 
@@ -473,7 +497,7 @@ species adult skills: [moving]{
 					self.location <- myself.location;
 					self.isMigrant <- true;
 					self.target <- rnd(359.9);
-					self.velocity <- flip(0.1) ? 3*migration_velocity: migration_velocity;
+					self.velocity <- flip(0.01) ? 5*migration_velocity_adult: migration_velocity_adult;
 				}
 				do die;
 				migrantAdult_tot <- migrantAdult_tot + 1;
@@ -484,7 +508,7 @@ species adult skills: [moving]{
 			}
 		}
 		else if current_date.day_of_year = 365 {
-			// die
+			self.slipped <- false;
 			if flip(1-survival_adult){
 				do die;
 			}
@@ -529,16 +553,14 @@ species adult skills: [moving]{
 
 
 //  ****** experiments ********  //
-experiment complete type:batch repeat:1 parallel: false until:current_date=stop_date {
-	parameter catching_probability var:probabilityCatch among:[0.95,0.8,0.5];
-	list<pond> newtsPerPond;
-	int schwelle;
-	
+experiment complete 
+//	type:batch repeat:3 parallel: false until:current_date=stop_date {
+//	parameter catching_probability var:probabilityCatch among:[0.95,0.8,0.5];
+{	
 	reflex output {
-		string filePath <- "./result/" + "resultate.csv";
-		bool newFile <- current_date.year = starting_date.year ? true : false; 
-		ask simulation {
-			if current_date.day_of_year =1 {
+		bool newFile <- current_date = starting_date ? true : false;
+//		ask simulation {
+//			if current_date.day_of_year =2 {
 				save [
 					current_date,
 					probabilityCatch,
@@ -548,17 +570,17 @@ experiment complete type:batch repeat:1 parallel: false until:current_date=stop_
 					count(adult,true) + count(migrant, !each.isJuvenil),
 					count(adult,each.slipped),
 					count(adult,!each.slipped),
-					self.catched_adult_tot,
-					self.catched_juv_tot,
-					self.eggs_tot,
-					self.larva_tot,
-					self.juv_tot,
-					self.adult_tot,
-					self.migrantJuv_tot,
-					self.migrantAdult_tot
-				] to:filePath type: "csv" rewrite:newFile;	
-			}
-		}
+					catched_adult_tot,
+					catched_juv_tot,
+					eggs_tot,
+					larva_tot,
+					juv_tot,
+					adult_tot,
+					migrantJuv_tot,
+					migrantAdult_tot
+				] to:"./result/" + "resultate.csv" type: "csv" rewrite:newFile;	
+//			}
+//		}
 	}
 	output {
 		display Map {
@@ -627,8 +649,8 @@ experiment complete type:batch repeat:1 parallel: false until:current_date=stop_
 	}
 }
 
-experiment calibration_density type:batch repeat:3 parallel: false until:current_date=calibrationEnd {
-	parameter coeff var:density_koeff among:[0.01, 0.008, 0.006];
+experiment calibration_density type:batch repeat:5 parallel: false until:current_date=calibrationEnd {
+	parameter coeff var:density_koeff among:[0.02, 0.01, 0.005];
 
 	reflex save_results {
 	
@@ -637,12 +659,6 @@ experiment calibration_density type:batch repeat:3 parallel: false until:current
 				current_date,
 				self.name,
 				density_koeff,
-				self.eggs_tot,
-				self.larva_tot,
-				self.juv_tot,
-				self.adult_tot,
-				self.migrantJuv_tot,
-				self.migrantAdult_tot,
 				count(migrant,each.isJuvenil),
 				count(migrant,!each.isJuvenil),
 				self.occupiedPonds_count,
@@ -673,7 +689,7 @@ experiment calibration_density type:batch repeat:3 parallel: false until:current
 }
 
 experiment calibration_migration type:batch repeat:5 parallel: false until:current_date=calibrationEnd {
-	parameter coeff var:migration_time among:[20.0,30.0,40.0];
+	parameter coeff var:migration_time among:[5.0,15.0,25.0];
 
 	permanent {
 		monitor laid_eggs value:eggs_tot color:#grey;
