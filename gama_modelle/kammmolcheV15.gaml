@@ -49,7 +49,7 @@ global {
 	float migrationRate_juv parameter: "Rate of juvenile which migrate (0..1): " category: "Migration" init: 0.373;
 	float migration_velocity_adult parameter: "Migration Distance of Adults in Meter per Day: " category: "Migration" init: 10.0;
 	float migration_velocity_juv parameter: "Migration Distance of Juveniles in Meter per Day: " category: "Migration" init: 15.0;
-	float migration_time parameter: "Duration of the migration period in days: " category: "Migration" init: 20.0;
+	float migration_time parameter: "Duration of the migration period in days: " category: "Migration" init: 13.0;
 	
 	// catching
 	int start_catching parameter: "Year in which catching measures start: " category: "Catching" init: 2021;
