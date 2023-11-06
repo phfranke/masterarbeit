@@ -12,6 +12,7 @@ link-citations: yes
 description: Masterarbeit von Philipp Franke
 toc-title: Inhaltsverzeichnis
 geometry: "left=3cm,right=2cm,top=2cm,bottom=2cm"
+urlcolor: blue
 
 ---
 
@@ -36,6 +37,7 @@ source("rSkripte/tab_parameter.R")
 source("rSkripte/felddaten.R")
 source("rSkripte/kalibration_density.R")
 source("rSkripte/kalibration_migration.R")
+source("rSkripte/resultate.R")
 ```
 
 # Einleitung
@@ -112,7 +114,7 @@ Kammmolche verbringen grosse Teile des Erwachsenenlebens ausserhalb der Gewässe
 2. Weitere Unsicherheiten beim Abfangen werden mithilfe von Szenarien untersucht, siehe dazu Kapitel \@ref(szenarien). Hier wird nur ein gewisser Anteil der tatsächlich Fangbaren Individuen abgefangen. Damit werden die oben beschriebenen Unsicherheiten simuliert und weitere Faktoren wie gewisse Undichdigkeit der Fangnetze etc.
 
 ### Begriffe
-In dieser Arbeit werden Begriffe aus der Biologie und aus der Modellierung verwendet. Hier werden die verwendeten Begriff kurz erläutert:
+In dieser Arbeit werden Begriffe aus der Biologie und aus der Modellierung verwendet. Hier werden die verwendeten Begriffe kurz erläutert:
 
 - Agenten: In den meisten Fällen entspricht ein Agent im Modell einem Individum der realen Welt. Es handelt sich um eine Entität einer definierten Spezies. In Spezialfällen kann ein Agent viele Individuen beinhalten.
 - Spezies: Definition der Agenten. Hier werden die Regeln festgelegt, wie sich die einzelnen Agenten zu verhalten haben.
@@ -312,7 +314,7 @@ Ab dem Modelldatum 1.1.2021 werden Bekämpfungsmassnahmen simuliert. In der real
 - `slipped == false`
 - `random(1.0) >= parameter(probalityCatch)`
 
-Die Wahrscheinlichkeit, mit welcher ein Agent gefangen wird, kann nicht festgelegt werden, da dazu Zahlen fehlen. Deshalb werden drei Szenarien formuliert, anhand welcher Unsicherheiten bezüglich der Fangwahrscheinlichkeit getestet werden. Näheres dazu ist in Kapitel \@ref(szenarien) beschrieben. Die Szenarien bestimmen den Parameter `probabilityCatch`.
+Die Wahrscheinlichkeit, mit welcher ein Agent gefangen wird, kann nicht eindeutig festgelegt werden, da dazu Zahlen fehlen. Deshalb werden drei Szenarien formuliert, anhand welcher Unsicherheiten bezüglich der Fangwahrscheinlichkeit getestet werden. Näheres dazu ist in Kapitel \@ref(szenarien) beschrieben. Die Szenarien bestimmen den Parameter `probabilityCatch`.
 
 
 ### Design Konzepte
@@ -321,11 +323,12 @@ Das Modell versucht äusserst komplexe, natürliche Abläufe abzubilden. Natürl
 Dennoch ist es wünschenswert ein naturnahes Verhalten zu erreichen und gewisse Schwankungen in den Resultaten zuzulassen. Dies ermöglicht das Entstehen von unerwarteten Mustern (\@ref(emergenz)) und kann zum besseren Verständnis der realien Gegebenheiten führen.
 
 #### Emergenz {#emergenz}
-In natürlichen Prozessen verfügen alle Entscheidungen über gewisse Schwankungsbereiche. Über viele Individuen und längere Zeit ergeben sich aber eindeutige Muster, welche aus der summe aller Entscheidungen resultieren und nicht unbedingt mit einzelnen Faktoren erklärbar sein müssen. Auch dieses Modell versucht das natürliche Verbreitungsmuster der Italienischen Kammmmolche zu ergründen und nachzubilden.
+In natürlichen Prozessen verfügen alle Entscheidungen über gewisse Schwankungsbereiche. Über viele Individuen und längere Zeit ergeben sich aber eindeutige Muster, welche aus der Summe aller Entscheidungen resultieren und nicht unbedingt nur mit einzelnen Faktoren erklärbar sein müssen. 
+Dieses Modell versucht das natürliche Verbreitungsmuster der Italienischen Kammmmolche zu ergründen und nachzubilden ohne dabei die individuellen Spielräume exakt abzubilden. Dies würde die Gefahr beinhalten, dass das Modell sehr chaotisch reagiert und die Resultate sehr grosse Schwankungen aufweist. Dadurch wäre eine Kalibrierung des Modells und die Interpretation der Daten sehr schwierig wenn nicht sogar unmöglich.
 
 Die Treiber der Emergenz ist in diesem Modell hauptsächlich der Wanderprozess. Dieser verfügt über mehrere zufällige Elemente. Die vom Modell produzierten Resultate sind unter anderem die Anzahl der lebenden Individuen und die Anzahl der besetzten Gewässer. Jedes Gewässer kann nur eine begrenzte Anzahl Individuen pro Jahr hervorbringen. Dies ist durch die dichteabhängige Sterblichkeit der Larven vorgegeben. Das führt dazu, dass Populationswachstum ab einer gewissen Schwelle nur erreicht werden kann, wenn neue Gewässer besiedelt werden. Die Emergenz drückt sich also praktisch nur über die besiedelten Gewässer aus.
 
-Der Wanderprozess ist in recht starern Regeln definiert. Die Wandergeschwindigkeit und die Wanderdauer sind fest hinterlegt. Damit lässt sich bereits erahnen, dass immer die gleichen Gewässer innerhalb eines gewissen Radius besiedelt werden. Gewässer welche weiter als dieser Radius von bereits besiedelten Gewässern liegen, sind unerreichbar. Dies entspricht nicht der Realität und ist auch in dem Modell nicht wünschbar. Die Emergenz entsteht hier dadurch, das sehr selten ein Individum die Fähigkeit erhält viel weiter zu wandern als andere. Dadurch ist die temporäre Besiedelung entfernter GEwässer sehr wahrscheinlich und sogar die dauerhafte Besiedelung möglich. Dies ist jedoch auch stark vom Zufall abhängig, da sich zwei Agenten mit unterschiedlichen Geschlechtern in diesem Gewässer begegnen müssen um Nachfahren zu zeugen. Das heisst, dass ein Agent ein Gewässer besiedeln muss und dann genug lang überlebt bis ein zweiter Agent anderen Geschlechts das gleiche Gewässer besucht.
+Der Wanderprozess ist in recht starren Regeln definiert. Die Wandergeschwindigkeit und die Wanderdauer sind fest hinterlegt. Damit lässt sich bereits erahnen, dass immer die gleichen Gewässer innerhalb eines gewissen Radius besiedelt werden. Gewässer welche weiter als dieser Radius von bereits besiedelten Gewässern liegen, sind unerreichbar. Dies entspricht nicht der Realität und ist auch in dem Modell nicht wünschbar. Die Emergenz entsteht hier dadurch, das sehr selten ein Individum die Fähigkeit erhält viel weiter zu wandern als andere. Dadurch ist die temporäre Besiedelung entfernter GEwässer sehr wahrscheinlich und sogar die dauerhafte Besiedelung möglich. Dies ist jedoch auch stark vom Zufall abhängig, da sich zwei Agenten mit unterschiedlichen Geschlechtern in diesem Gewässer begegnen müssen um Nachfahren zu zeugen. Das heisst, dass ein Agent ein Gewässer besiedeln muss und dann genug lang überlebt bis ein zweiter Agent anderen Geschlechts das gleiche Gewässer besucht.
 
 #### Sensing
 Das Modell beinhaltet einen einzigen Prozess, in dem die Agenten die Umwelt abtasten: die Wanderung. Die Agenten bewegen sich dabei zum grossen Teil unabhängig von Ihrer Umgebung. Die Ausnahme sind die Wanderhindernisse. Gebäude können nicht durchschritten werden, sondern werden umgangen. Bei jedem Schritt auf der Wanderung wird die Linie vorausberechnet auf welcher die Wanderung weiter verläuft. Kreuzt diese Linie ein Gebäude, wird die Wandergeschwindigkeit so angepasst, dass nur bis zum Gebäude hin gelaufen werden kann. Danach ändert die Laufrichtung zufällig bis das Gebäude umgangen ist oder die Wanderrichtung gänzliche angepasst wurde.
@@ -457,7 +460,7 @@ Für die Kalibrierung des Dichtekoeffizienten wird das Modell mehrere Male mit u
 Das Modell wird anhand der Daten der Fangaktion 2021 kalibriert (siehe Kapitel \@ref(daten) und Tabelle \@ref(tab:tablecatches)). 
 
 Im Modell wird dieser Koeffizient durch den Parameter `density_koeff` bestimmt. Für die Kalibrierung dieses Parameters wurde das Modell mit unterschieldichen Werten jeweils 5 Mal durchgeführt. Der verwendete Wertebereich (`r koeff_levels`) wurde experimentel ermittelt. Die Auswirkungen des Dichtekoeffizienten sind in Abbildung \@ref(fig:kaliDichte) veranschaulicht. Es ist ersichtlich, dass sowohl die Streuung der Resultate als auch die absolute Anzahl der gefangenen Kammmolche mit grösserem Koeffizienten abnimmt. 
-Wie in Kapitel \@ref(daten) beschrieben, sind die Fangzahlen aus dem ersten Jahr wohl nicht repräsentativ. Die Fangsaison war mutmasslich zu kurz und die Anzahl gefangener Individuen wäre wohl ungefähr doppelt so hoch ausgefallen, wenn das Abfangen schon früher begonnen hätte. Als Zielwert für die Kalibrierung wird hier eine Zahl zwischen 700 und 1200 angestrebt. Wie in der Abbildung \@ref(fig:kalidichte) ersichtlich, liefert von den getesteten Werten einzig der Dichtekoeffizient` 0.01` einen Wert innerhalb des angestrebten Bereich. Allerdings wird ein Wert gesucht, welcher Resultate eher im oberen Bereich des Zielbereichs liefert. Der Dichtekoeffizient sollte also deutlich grösser sein als `0.005` und kleiner als `0.01`. Es wird hier ein Wert von `0.008` festgelegt.
+Wie in Kapitel \@ref(daten) beschrieben, sind die Fangzahlen aus dem ersten Jahr wohl nicht repräsentativ. Die Fangsaison war mutmasslich zu kurz und die Anzahl gefangener Individuen wäre wohl ungefähr doppelt so hoch ausgefallen, wenn das Abfangen schon früher begonnen hätte. Als Zielwert für die Kalibrierung wird hier eine Zahl zwischen 700 und 1200 angestrebt. Wie in der Abbildung \@ref(fig:kaliDichte) ersichtlich, liefert von den getesteten Werten einzig der Dichtekoeffizient` 0.01` einen Wert innerhalb des angestrebten Bereich. Allerdings wird ein Wert gesucht, welcher Resultate eher im oberen Bereich des Zielbereichs liefert. Der Dichtekoeffizient sollte also deutlich grösser sein als `0.005` und kleiner als `0.01`. Es wird hier ein Wert von `0.008` festgelegt.
 
 
 ```{r kaliDichte, echo=FALSE, fig.cap="Die modellierten, gefangenen Kammmolche in Abhängigkeit des Dichtekoeffizienten"}
@@ -467,10 +470,34 @@ graph
 
 # Resultate
 
+Für die Erhebung der Resultate werden Fangszenarien angenommen, wie weiter oben näher beschrieben (siehe Kapitel \@ref(szenarien)). Das Modell wird auch für die Erhebung der Resultate mehrfach durchgeführt. Für jedes Fangszenario wird das Modell dreimal durchgeführt. Als Resultate wird hier die adulte Kammmolche im gesamten Modell verwendet. In Abbildung \@ref(fig:res) sind diese Resultate dargestellt. Für jedes Jahr ist der Mittelwert (Punkt) und die Spanne (senkrechte Striche) der Anzahl Adulten für die drei Durchläufe dargestellt.
+
+```{r res, echo=FALSE, fig.cap="Entwicklung der adulten Kammmolche unter Berücksichtigung der Fangwahrscheinlichkeit", fig.show="hold", out.width="33%"}
+adult_alt1
+adult_alt2
+adult_alt3
+
+```
+
+Die Kammmolchpopulation konnte hier nicht eingedämmt werden. Die Kurven zeigen sogar erschreckend hohe Werte. Die Analyse der besetzten Gewässer zeigt den Grund. In Abbildung \@ref(fig:karte-bes1) sind die Weiher dargestellt, welche am Ende des Modellzeitraums besetzt waren. Es werden einige Gewässer von Kammmolchen bewohnt, wo keine Abfangtätigkeiten stattfinden. Die Gesamtpopulation kann in diesem Fall recht unbehelligt weiterleben, obwohl an einzelnen Gewässern massiv Tiere abgefangen werden.
+
+```{r karte-bes1,echo=FALSE,out.width="100%",fig.cap="Es sind deutlich mehr Weiher besetzt als angenommen."}
+knitr::include_graphics("./bilder/resultate_besetzte_weiher.jpg")
+```
+
+Es ist möglich und auch plausibel, dass Weiher unbemerkt besiedelt werden. Die Grössenordnung der überlebenden Molche ist recht extrem. Dass Gewässer mit mehreren Hundert Individuuen unbemerkt bleiben, erscheint als unwahrscheinlich. Bei der genauen Kontrolle der Gewässer anhand deren Beschreibung im [Weiherinventar](https://geoview.bl.ch/?map_x=2607459.1724015&map_y=1265883.2999268&map_zoom=7&tree_group_layers_Natur%20u.%20Landsch.=weiherinventar&tree_groups=Natur%20u.%20Landsch.) fällt auf, dass es einen Weiher gar nicht mehr zu geben scheint. Das Gewässer mit der Nummer "BL900" wird hier beschrieben als "nur noch als Mulde im Gelände wahrzunehmen, ohne Wasser".
+
+Die Daten der Bodenbedeckung werden manipuliert, damit dieses Gewässer nicht als Brutgewässer verwendet werden kann und das Modell erneut durchlaufen gelassen.
+
+
+
+
+Zweiter Durchlauf, alle Teiche fangen!
+
 
 
 # Diskussion
-Wie die nachfolgenden kapitel zeigen, kann das Modell grundsätzlich als valide bezeichnet werden. Das heisst die vom Modell berechnetetn Vorhersagen entsprechen, soweit das überprüft werden kann, den realen Umständen.
+Wie die nachfolgenden kapitel zeigen, kann das Modell grundsätzlich als valide bezeichnet werden. Das heisst die vom Modell berechneten Vorhersagen entsprechen, soweit das überprüft werden kann, den realen Umständen.
 
 
 Das Ziel eines jeden Modells ist es, gewisse Aspekte der realen Welt adäquat nachzubilden. Mit der Validierung wird überprüft, ob dies gelungen ist. Dazu werden hier zwei unterschieldiche Ansätze verfolgt. Die qualitative Validierung fokussiert auf das konzeptionelle Modell und stütz sich auf die Meinung von Experten ab. In diesem Fall wird die generelle Funktionsweise des Modells in Textform einer Expertin vorgelegt.
