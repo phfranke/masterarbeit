@@ -1,7 +1,0 @@
-self.name,current_date,probabilityCatch,sum((offspring where each.isEgg) collect each.count),sum((offspring where !each.isEgg) collect each.count),(juvenil count true) + (migrant count each.isJuvenil),(adult count true) + (migrant count !each.isJuvenil),adult count each.slipped,adult count !each.slipped,catched_adult_tot,catched_juv_tot,eggs_tot,larva_tot,juv_tot,adult_tot,migrantJuv_tot,migrantAdult_tot,'\"',occupiedPonds_list,'\"'
-Simulation 0,date ('2000-01-01 00:00:00'),0.95,0,0,0,50,0,50,0,0,0,0,0,50,0,0,",[],"
-Simulation 1,date ('2000-01-01 00:00:00'),0.95,0,0,0,50,0,50,0,0,0,0,0,50,0,0,",[],"
-Simulation 2,date ('2000-01-01 00:00:00'),0.95,0,0,0,50,0,50,0,0,0,0,0,50,0,0,",[],"
-Simulation 0,date ('2001-01-01 00:00:00'),0.95,0,0,0,28,0,28,0,0,0,0,0,50,0,0,",[pond(0),pond(8)],"
-Simulation 1,date ('2001-01-01 00:00:00'),0.95,0,0,0,26,0,26,0,0,0,0,0,50,0,0,",[pond(0),pond(8),pond(9)],"
-Simulation 2,date ('2001-01-01 00:00:00'),0.95,0,0,60,25,0,25,0,0,300,150,60,50,0,0,",[pond(0),pond(9)],"

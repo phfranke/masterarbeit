@@ -323,8 +323,20 @@ Das Modell versucht äusserst komplexe, natürliche Abläufe abzubilden. Natürl
 Dennoch ist es wünschenswert ein naturnahes Verhalten zu erreichen und gewisse Schwankungen in den Resultaten zuzulassen. Dies ermöglicht das Entstehen von unerwarteten Mustern (\@ref(emergenz)) und kann zum besseren Verständnis der realien Gegebenheiten führen.
 
 #### Emergenz {#emergenz}
-In natürlichen Prozessen verfügen alle Entscheidungen über gewisse Schwankungsbereiche. Über viele Individuen und längere Zeit ergeben sich aber eindeutige Muster, welche aus der Summe aller Entscheidungen resultieren und nicht unbedingt nur mit einzelnen Faktoren erklärbar sein müssen. 
-Dieses Modell versucht das natürliche Verbreitungsmuster der Italienischen Kammmmolche zu ergründen und nachzubilden ohne dabei die individuellen Spielräume exakt abzubilden. Dies würde die Gefahr beinhalten, dass das Modell sehr chaotisch reagiert und die Resultate sehr grosse Schwankungen aufweist. Dadurch wäre eine Kalibrierung des Modells und die Interpretation der Daten sehr schwierig wenn nicht sogar unmöglich.
+Die Emergenz beschreibt Muster, welche sich durch die Summe der individuellen Entscheidungen ergeben. Die Emergenz wird durchzufällige Entscheidungen gefördert, da eher unerwartetes Verhalten auftritt. Durch komplett starre Regeln, wird weniger Emergenz möglich sein, sondern die Resultate werden immer gleich ausfallen. Das Modell hat zum Zweck die natürlichen Verbreitungsmuster der Kammmolche nachzubilden. Eine stark durch Zufall getriebenes Modell wäre allerdings chaotisch und die einzelnen Durchläufe würde sich so stark voneinander unterscheiden, dass eine Kalibrierung des Modells oder die Interpretation der Resultate verunmöglicht würde. Aus diesem Grund werden hier so viele Parameter wie möglich fest geschrieben und nur wenige Entscheidungen mit Zufallsmechanismen herbeigeführt. Viele Zufallsentscheidungen nivellieren sich über die grosse Anzahl Agenten und über die lange Dauer des Modells aus.
+
+
+Wesentliche Kennzahlen der Verbreitung von Italienischen Kammmolchen im Projektgebiet sind die Anzahl Tiere sowie die besiedelten Gewässer. Das Verbreitungsgebiet wird durch die besiedelten Gewässer bestimmt. Das wesentliche Muster, welches in diesem Modell repliziert werden soll, ist demnach hauptsächlich die besiedelten Gewässer.
+
+
+
+
+In natürlichen Prozessen verfügen alle Entscheidungen über gewisse Schwankungsbereiche. Über viele Individuen und längere Zeit ergeben sich aber eindeutige Muster, welche aus der Summe aller Entscheidungen resultieren und nicht unbedingt nur mit einzelnen Faktoren erklärbar sein müssen.
+
+Dieses Modell versucht das natürliche Verbreitungsmuster der Italienischen Kammmmolche zu ergründen und nachzubilden ohne dabei die individuellen Spielräume exakt abzubilden. Dies würde die Gefahr beinhalten, dass das Modell chaotisch reagiert und die Resultate sehr grosse Schwankungen aufweist. Dadurch wäre eine Kalibrierung des Modells und die Interpretation der Daten sehr schwierig wenn nicht sogar unmöglich.
+
+
+
 
 Die Treiber der Emergenz ist in diesem Modell hauptsächlich der Wanderprozess. Dieser verfügt über mehrere zufällige Elemente. Die vom Modell produzierten Resultate sind unter anderem die Anzahl der lebenden Individuen und die Anzahl der besetzten Gewässer. Jedes Gewässer kann nur eine begrenzte Anzahl Individuen pro Jahr hervorbringen. Dies ist durch die dichteabhängige Sterblichkeit der Larven vorgegeben. Das führt dazu, dass Populationswachstum ab einer gewissen Schwelle nur erreicht werden kann, wenn neue Gewässer besiedelt werden. Die Emergenz drückt sich also praktisch nur über die besiedelten Gewässer aus.
 
@@ -469,27 +481,25 @@ graph
 ```
 
 # Resultate
+Für die Erhebung der Resultate werden fünf Modelldurchgänge für jedes Szenario durchgeführt. Wie im Kapitel \@ref(szenarien) ausgeführt, werden verschiedene Fangwahrscheinlichkeiten zugrunde gelegt. Als Resultate werden die Anzahl adulter Kammmolche und die Anzahl der besiedelten Gewässer erhoben. Diese Kennzahlen werden jeweils zu Beginn des Jahres erhoben, wodurch ein zeitlicher Verlauf dargestellt werden kann. In Abbildung \@(fig:res) sind die Resultate grafisch dargestellt. Für jedes Fangszenarion (Fangwahrscheinlichkeit), ist ein Diagramm abgegbildet. In Schwarz sind die Mittelwerte (Linie) sowie die Spanne (gestrichelte Linien) der lebenden, adulten Kammmolche aufgetragen. In blauer Farbe ist die Anzahl der besiedelten Gewässer angezeigt (Linie=Mittelwert, Fläche=Spanne, rechte Skala).
+Wie schnell ersichtlich wird, führt kein Szenario zum Aussterben der Kammmolche. Am Ende des Modellzeitraums leben sogar mit dem stärksten Fangszenario (95% Fangwahrscheinlichkeit) in keinem der Modelldurchgänge weniger als `r res_data_3$min[50]` Adulte. Wie die Daten der besetzten Gewässer zeigen, werden deutlich mehr Gewässer besiedelt, als bei der Bekämpfung berücksichtigt werden. Über sämtliche Durchgänge werden bis zum Beginn der Bekämpfung (Jahr 2021) zwischen 7 und 16 Gewässer besetzt. Nach Beginn der Bekämpfung reduziert sich die Anzahl auf 3 bis 13 Gewässer. Dadurch können sich die Kammmolche weiter vermehren und verbreiten, da sie den Bekämpfungsmassnahmen entgehen.
 
-Für die Erhebung der Resultate werden Fangszenarien angenommen, wie weiter oben näher beschrieben (siehe Kapitel \@ref(szenarien)). Das Modell wird auch für die Erhebung der Resultate mehrfach durchgeführt. Für jedes Fangszenario wird das Modell dreimal durchgeführt. Als Resultate wird hier die adulte Kammmolche im gesamten Modell verwendet. In Abbildung \@ref(fig:res) sind diese Resultate dargestellt. Für jedes Jahr ist der Mittelwert (Punkt) und die Spanne (senkrechte Striche) der Anzahl Adulten für die drei Durchläufe dargestellt.
-
-```{r res, echo=FALSE, fig.cap="Entwicklung der adulten Kammmolche unter Berücksichtigung der Fangwahrscheinlichkeit", fig.show="hold", out.width="33%"}
-adult_alt1
-adult_alt2
-adult_alt3
-
+```{r res, echo=FALSE, fig.cap="Entwicklung der adulten Kammmolche unter Berücksichtigung der Fangwahrscheinlichkeit", fig.show="hold", out.width="50%"}
+adult1
+adult2
+adult3
 ```
 
-Die Kammmolchpopulation konnte hier nicht eingedämmt werden. Die Kurven zeigen sogar erschreckend hohe Werte. Die Analyse der besetzten Gewässer zeigt den Grund. In Abbildung \@ref(fig:karte-bes1) sind die Weiher dargestellt, welche am Ende des Modellzeitraums besetzt waren. Es werden einige Gewässer von Kammmolchen bewohnt, wo keine Abfangtätigkeiten stattfinden. Die Gesamtpopulation kann in diesem Fall recht unbehelligt weiterleben, obwohl an einzelnen Gewässern massiv Tiere abgefangen werden.
+In \@ref(fig:karte-bes1) wird dargestellt, in wievielen Jahren ein Gewässer besiedelt wurde. Dabei wurden sämtliche Wiederholungen und Fangszenarien berücksichtigt. Das resultierende Muster ist auf den ersten Blick gut nachvollziehbar. Die Gewässer in der Nähe des Aussetzungsgewässers werden in `67-89%` der Jahre besiedelt, je weitere die Gewässer entfernt liegen, desto seltener werden sie besiedelt. Es kann nicht festgestellt werden, wieviele Individuuen in den einzelnen Gewässern tatsächlich zu diesem Zeitpunkt gelebt haben. Da viele Gewässer nur über wenige Jahre besiedelt waren, ist anzunehmen, dass diese nur von einzelnen Individuuen besucht wurden und keine fortpflanzungsfähige Population entstand.
 
-```{r karte-bes1,echo=FALSE,out.width="100%",fig.cap="Es sind deutlich mehr Weiher besetzt als angenommen."}
-knitr::include_graphics("./bilder/resultate_besetzte_weiher.jpg")
+## Korrigierte Version
+Es ist durchaus denkbar, dass im Modell Gewässer besiedelt werden, welche in der echten Umgebung für Kammmolche nicht bewohnbar sind. Diese werden dann bei der Bekämpfung der Kammmolche nicht berücksichtigt. Das Modell wird mit einer zweiten Version laufen gelassen, in welche sämtliche Gewässer für die Bekämpfung berücksichtigt werden.
+
+
+
+```{r karte-bes1,echo=FALSE,out.width="100%",fig.cap="Gewässer, welche mindestens einmal während sämtlichen Resultatläufen besetzt waren. Die Grösse repräsentiert den Anteil der Jahre, an welchem das Gewässer besiedelt war."}
+knitr::include_graphics("./bilder/resultate_besetzte_weiher_anteil.jpg")
 ```
-
-Es ist möglich und auch plausibel, dass Weiher unbemerkt besiedelt werden. Die Grössenordnung der überlebenden Molche ist recht extrem. Dass Gewässer mit mehreren Hundert Individuuen unbemerkt bleiben, erscheint als unwahrscheinlich. Bei der genauen Kontrolle der Gewässer anhand deren Beschreibung im [Weiherinventar](https://geoview.bl.ch/?map_x=2607459.1724015&map_y=1265883.2999268&map_zoom=7&tree_group_layers_Natur%20u.%20Landsch.=weiherinventar&tree_groups=Natur%20u.%20Landsch.) fällt auf, dass es einen Weiher gar nicht mehr zu geben scheint. Das Gewässer mit der Nummer "BL900" wird hier beschrieben als "nur noch als Mulde im Gelände wahrzunehmen, ohne Wasser".
-
-Die Daten der Bodenbedeckung werden manipuliert, damit dieses Gewässer nicht als Brutgewässer verwendet werden kann und das Modell erneut durchlaufen gelassen.
-
-
 
 
 Zweiter Durchlauf, alle Teiche fangen!
