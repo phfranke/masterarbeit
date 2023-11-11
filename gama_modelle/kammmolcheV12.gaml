@@ -9,49 +9,57 @@
 model italien_crested_newt
 
 global {
-	// Definition and representation seasons
+//  ****** global variables ********  //
+	// defining seasons
 	map seasons <- [nil::"init",1::"imigrate",2::"reproduction",3::"emigrate",4::"winter"];
 	int seasonNow <- 1;
 	string display_season <- "init";
 	rgb season_color<- #white;
+	
 	// load shapefile
 	file shp_bb <- file("./shp/bodenbedeckung_2.shp");
 	geometry shape <- envelope(shp_bb);
 	
 //  ****** Parameter ********  //
-	//  starting state
-	int number_newts_start parameter:"Anzahl Kammmolche zu Beginn: " category: "Rahmenbedingungen" init:50;
-	date starting_date parameter:"Start Datum" category: "Rahmenbedingungen" init:date([2000,2,28,0,0,0.0]);
+	//  time management
+	int number_newts_start parameter:"Number of newts at starting date: " category: "System" init:50;
+	date starting_date parameter:"Startdate" category: "System" init:date([2000,2,28,0,0,0.0]);
 	float step <- 1 #day;
+	date calibrationEnd parameter: "Enddate of calibration run: " category: "System" init: date([2000,6,1,0,0,0.0]);
 	
 	//  survivale rates of each stage
-	float survival_egg parameter: "Überlebensrate Eier: " category:"Überlebensrate" init: 0.5;
-	float survival_larva parameter: "Überlebenrate Larven: " category:"Überlebensrate" init: 0.4;
-	float survival_juvenil parameter: "Überlebensrate Juvenil: " category: "Überlebensrate" init:0.4;
-	float survival_adult parameter: "Überlebenrate Adulte, jährlich: " category:"Überlebensrate" init: 0.5;
+	float survival_egg parameter: "Survival rate eggs (0..1): " category:"Survival Rates" init: 0.5;
+	float survival_larva parameter: "Survival rate larvae (0..1): " category:"Survival Rates" init: 0.4;
+	float survival_juvenil parameter: "Survival rate juvenil (0..1): " category: "Survival Rates" init:0.4;
+	float survival_adult parameter: "Survival rate adults, each year (0..1): " category:"Survival Rates" init: 0.5;
+		
+	//larval density
+	float density_koeff parameter: "Koeffizient Dichteabhängige Sterblichkeit: " category: "Survival Rates" init:0.1;
+	
 	
 	// reproduction and developement
-	int maxAge_egg parameter: "Entwicklungsdauer Ei (Tage): " category: "Entwicklung" init:15;
-	int maxAge_larva parameter: "Entwicklungsdauer Larve (Tage): " category: "Entwicklung" init: 90;
-	int maxAge_juv parameter: "Entwicklungsdauer Juvenil (Tage): " category: "Entwicklung" init: 730;
-	int clutchSize parameter: "Gelegegrösse (Eier / Weibchen): " category: "Entwicklung" init: 300;
-	int reproductionBreak parameter: "Jahre ohne Fortpflanzung: " category: "Entwicklung" init: 2;
+	int maxAge_egg parameter: "Days to develop from egg to larva : " category: "Development" init:15;
+	int maxAge_larva parameter: "Days to develop from larva to juvenile: " category: "Development" init: 90;
+	int maxAge_juv parameter: "Days to develop from juvenile to adult: " category: "Development" init: 730;
+	int clutchSize parameter: "Clutch size (egg/female): " category: "Development" init: 300;
+	int reproductionBreak parameter: "Years without reproduction : " category: "Development" init: 2;
 	
 	// migration
-	float migrationRate_adult parameter: "Rate der Auswanderer Adulte [%]: " category: "Wanderung" init: 1.2;
-	float migrationRate_juv parameter: "Rate der Auswanderer Juvenil [%]: " category: "Wanderung" init: 37.3;
+	float migrationRate_adult parameter: "Rate of adults which migrate (0..1): " category: "Migration" init: 0.12;
+	float migrationRate_juv parameter: "Rate of juvenile which migrate (0..1): " category: "Migration" init: 0.373;
 	
-	//larval density
-	float density_koeff parameter: "Koeffizient Dichteabhängige Sterblichkeit: " category: "Überlebensrate" init:0.1;
-	
+	// catching
+	int start_catching parameter: "Year in which catching measures start: " category: "Catching" init: 2001;
+	float probabilityCatch parameter: "Probality to be catched (0..1): " category: "Catching" init: 0.8;
 //  ****** state variablees ********  //
 	int eggs_tot <- 0;
 	int larva_tot <- 0;
 	int juv_tot <- 0;
-	int adult_tot <- 0;
+	int adult_tot;
 	int migrantJuv_tot <- 0;
 	int migrantAdult_tot <- 0;
-	int occupiedPonds_number <- 0;
+	int occupiedPonds_count <- 0;
+	list<adult> catched_adult;
 	
 //	float max_larvendichte parameter: "Larvendichte Anz./m2" category:"Überlebensrate" init:1.0;	
 //	int migrationDuration parameter: "Dauer der Wandertätigkeit [d]: " category: "Wanderung" init: 30; 
@@ -60,11 +68,13 @@ global {
 
 //  ****** initialisation ********  //
 	init{
+		adult_tot <- number_newts_start;
 		create groundCover from:shp_bb with:[
 			type::string(read("ART_TXT")),
 			place_of_exposion::bool(read("aussetzung")),
 			area::float(read("flaeche_m")),
-			combatMeasures::bool(read("bekaempfun"))
+			catchingNet::bool(read("bekaempfun")),
+			pondNumber::string(read("Karch-Nr"))
 		];
 		create adult number:number_newts_start {
 			self.location <- any_location_in(one_of(where (groundCover,each.place_of_exposion)));
@@ -74,17 +84,17 @@ global {
 			self.display_form <- circle(5);
 			self.nativePond <- first(overlapping(collect(groundCover,each),self.location));
 			self.maturity <- starting_date - (rnd(500)*3600*24);
-			self.lastReproduction <- starting_date - (rnd(500)*3600*24);
+			self.lastReproduction <- self.maturity;
 			self.isMigrant <- true;
 		}
 	}
 	
 	// set seasons according to the actual week of the year
-	reflex seasons{
+	reflex seasons_setter {
 		switch current_date.week_of_year {
 			match_between [0,8] {
-				seasonNow<- 1;
-				season_color<- #lightcyan;
+				seasonNow <- 1;
+				season_color <- #lightcyan;
 			}
 			match_between [9,35] {
 				seasonNow <- 2;
@@ -96,15 +106,15 @@ global {
 			}
 			match_between [44,53] {
 				seasonNow <- 4;
-				season_color<- #snow;
+				season_color <- #snow;
 			}
 		}
 		display_season <- seasons[seasonNow];
 	}
 	
 	// calculations
-	reflex calculation {
-		occupiedPonds_number <- count(groundCover,each.newtCount>0);
+	reflex count_occuied_ponds {
+		occupiedPonds_count <- count(groundCover,each.newtCount>0);
 	}
 }
 
@@ -112,7 +122,8 @@ species groundCover{
 	string type;
 	float area;
 	bool place_of_exposion;
-	bool combatMeasures;
+	bool catchingNet;
+	string pondNumber;
 	rgb color;
 	int newtCount;
 	float densityLarva <- 0.0;
@@ -146,49 +157,49 @@ species groundCover{
 			self.newtCount <- count(adult, each.nativePond = self);
 		}
 	}
-	reflex calculations {
-		// Berechnung densityLarva in Larven pro Quadratmeter pro Gewässer
-		int larvaCount <- sum(collect(where(offspring,!each.egg and each.nativePond = self),each.count));
+	reflex larval_density {
+		// calculation of larval density [number of larvae per m2] in each occupied pond
+		int larvaCount <- sum(collect(where(offspring,!each.isEgg and each.nativePond = self),each.count));
 		densityLarva <- larvaCount / self.area;
-		// Berechnung Anzahl Kammmmolche pro Gewässer
+		// number of adults in each occupied pond
 		self.newtCount <- count(adult, each.nativePond = self);
 	}	
 }
 
 species offspring {
-	// Eier und Larven werden nicht als einzelne Agenten geführt sondern nummerisch in einem von der Muttern abstammenden Nachwuchs-Agenten
+	// Eggs and larvae are managed in de species "offspring"
 	groundCover nativePond;
-//	float pondArea;
+	//	float pondArea;
 	date layDate_egg;
 	date hatchDate_larva <- date(10000101);
-	bool allreadyDeath_larva <- false;		// sorgt dafür, dass dichteabhängige Sterblichkeit nur einmal in der ganzen Phase angewendet wird.
-	bool egg; //"true" wenn Stadium = Ei, "false" wenn Stadium = Larve
-	int count;
+//	bool allreadyDeath_larva <- false;		// sorgt dafür, dass dichteabhängige Sterblichkeit nur einmal in der ganzen Phase angewendet wird.
+	bool isEgg; 	//"true" if stage = egg, "false" if stage = larva
+	int count;		// number of eggs or larvae
 	float densityLarva;
-	float survival_larven;
+	float survival_larva;
 	rgb color <- #silver;
 	aspect standard {
 		draw square(2) color:color border:#black;
 	}
-	reflex development {
-		//dichteabhängig Sterblichkeit
-		float density <- any(where(groundCover,each=self.nativePond)).densityLarva+0.00001;		//verhindern von "division by zero"
-		//float dichte_linear <- dichte/(5*max_larvendichte);
+	reflex mortality_by_density {
+		float density <- any(where(groundCover,each=self.nativePond)).densityLarva+0.00001;		//prevent of "division by zero"
 		float densityMortalityRate_larva <- (density_koeff*(density)^2 + (1-survival_larva))/maxAge_larva;
-		ask where(offspring, each.nativePond = self.nativePond and !each.egg){ 
+		ask where(offspring, each.nativePond = self.nativePond and !each.isEgg){ 
 			self.count <- round(self.count * (1-densityMortalityRate_larva));
 		}
-		
+	}
+	
+	reflex developement_to_larva {
 		// Entwicklung vom Ei zur Larve
-		if current_date > (self.layDate_egg + maxAge_egg*24*3600) and egg {
-			self.egg <- false;
+		if current_date > (self.layDate_egg + maxAge_egg*24*3600) and isEgg {
+			self.isEgg <- false;
 			self.color <- #green;
 			self.count <- round(self.count * survival_egg);
 			self.hatchDate_larva <- current_date;
 			larva_tot <- larva_tot + self.count;
 		}
 		// Entwicklung von Larve zu Juvenil
-		else if current_date > (self.hatchDate_larva + maxAge_larva*24*3600) and !egg {
+		else if current_date > (self.hatchDate_larva + maxAge_larva*24*3600) and !isEgg {
 			create juvenil number: self.count { 
 				self.location <- myself.location;
 				self.isFemale <- flip(0.5);
@@ -212,8 +223,8 @@ species juvenil {
 		draw square(2) color:#red;
 	}
 	
-	reflex entwicklung {
-		// Entwicklung von juvenil zu adult
+	reflex development_to_adult {
+		// development of juvenil to adult
 		if current_date > (dateDevelopment + maxAge_juv*3600*24) {
 			if flip (survival_juvenil) {
 				create adult number:1 {
@@ -221,15 +232,15 @@ species juvenil {
 					self.location <- myself.location;
 					self.isFemale <- myself.isFemale;
 					self.maturity <- current_date;
-					self.lastReproduction <- current_date-500*3600*24;
+					self.lastReproduction <- current_date subtract_years reproductionBreak;
 				}
 				adult_tot <- adult_tot + 1;
 			}
 			do die;
 		}
-		// wandernde Juvenile, nicht im Winter
+		// migrating juveniles, not in wintertime
 		else if seasonNow !=4 { 
-			if flip(migrationRate_juv/100) and self.isMigrant {
+			if flip(migrationRate_juv) and self.isMigrant {
 				create migrant number:1 {
 					self.isJuvenil <- true;
 					self.dateDevelopment <- myself.dateDevelopment;
@@ -250,35 +261,34 @@ species juvenil {
 }
 
 species migrant skills: [moving]{
-	bool isJuvenil; //false wenn adult, true wenn juvenil
+	bool isJuvenil;  // true means stage = juvenil, false means stage= adult
 	bool isMigrant;
 	date dateDevelopment;
 	date lastReproduction;
 	date beginMigration;
 	bool isFemale;
-	float target;	// Wanderrichtung in Grad;
-	float speed; // Wanderdistanz in Metern;
-	geometry migrationSteps_line; // Linie zwischen Ziel- und Endpunkt des Wanderschrittes
-	point targetPoint;	// Endpukt der Wanderung,
-	
+	float target;	// migration direction in Degrees;
+	float velocity; // migration distance per step in meters;
+	geometry migrationSteps_line; // Line between startpoint and endpoint of each step
+	point targetPoint;	// endpoint of each migration step
 	groundCover nativePond;
 		
 	aspect standard {
 		draw square(4) color: #brown;
-		//draw migrationSteps_line color: #black;
-		//draw targetPoint color: #purple;
+		draw migrationSteps_line color: #black;
+		draw targetPoint color: #purple;
 	}
 	
 	reflex migrate {
-		// wandernde Tiere wandern zur passenden Jahreszeit
-		//wenn Wanderzeit vorbei ist, wechseln die Tiere das angestammte Gewässer und wandern dort ein
-		if isMigrant and seasonNow != 3 {
+		// maigration stops when season = "imigration"
+		if self.isMigrant and seasonNow = 1 {
 			self.nativePond <- closest_to(where(groundCover,each.type='Gewaesser.stehendes'),self);
 			self.target <- towards(self.location,nativePond.location); 
 			float left_right <- 1.0;
 			float deviation <- 0.0;
 			self.isMigrant <- false;
 		}
+		// transform to origin stage when migrant is near of his new home pond 
 		else if !isMigrant and overlaps(self.location,buffer(self.nativePond,20)) {
 			if self.isJuvenil {
 				create juvenil number:1 {
@@ -302,32 +312,33 @@ species migrant skills: [moving]{
 				do die;
 			}
 		}
-		// im Winter wird eine Pause eingelegt
-		if seasonNow = 3 {
+		
+		// nothing happens in wintertime
+		if seasonNow = 4 {
 			
 		}
-		// normale Wanderbewegung
+		// regular migration movement
 		else if isMigrant {
 			do change_course;
 		}
 		
-	//Brechnung ob ein Gebäude im Weg steht, und wandern, Im Winter ist stillstand!
+		//calculation of obstacles (=buildings), normal movement, nothing happens in Wintertime
 		if seasonNow!=4 {
-			self.targetPoint <- {self.location.x + (cos(self.target)*speed) ,self.location.y+(sin(self.target)*speed)};
+			self.targetPoint <- {self.location.x + (cos(self.target)*velocity) ,self.location.y+(sin(self.target)*velocity)};
 			self.migrationSteps_line <- line(self.location,targetPoint);
 			groundCover obstacle <- first(where(groundCover,intersects(each,line(self.location, targetPoint)) and each.type="Gebaeude"));
 			if obstacle != nil {
-				self.speed <- distance_to(self, obstacle.shape);
+				self.velocity <- distance_to(self, obstacle.shape);
 			}
-			if !self.isMigrant and self.speed = 5 {
+			if !self.isMigrant and self.velocity = 5 {
 				self.target <- towards(self.location,nativePond.location);
-				self.speed <- 5.0 + rnd(20.0);
+				self.velocity <- 5.0 + rnd(20.0);
 			}		
-			if self.speed < 0.5 {
+			if self.velocity < 0.5 {
 				self.target <- self.target + 30;
-				self.speed <- 5.0;
+				self.velocity <- 5.0;
 			}
-			do move speed: speed #m/#day heading: self.target;	
+			do move speed: velocity #m/#day heading: self.target;	
 		}
 	}
 	
@@ -354,6 +365,7 @@ species adult skills: [moving]{
 	rgb bcolor;
 	geometry display_form <- circle(10);
 	float target <- 999.9;
+	bool slipped <- false;
 //	float distance;
 //	float v_wert;
 	
@@ -362,17 +374,18 @@ species adult skills: [moving]{
 		draw circle(5) color: #transparent border:#aqua;
 	}
 	
-	reflex seasons {
-		if seasonNow = 2{
-			if lastReproduction = nil or (self.lastReproduction add_years reproductionBreak < current_date) {
+	reflex seasons_triage {
+		if seasonNow = 2 {
+			// reproduction
+			if lastReproduction = nil or (add_years(self.lastReproduction, reproductionBreak) < current_date) {
 				do reproduction;
 			}
 		}
 		else if seasonNow = 3 {
-			//	Wandern
-			if flip(migrationRate_adult/100) and self.isMigrant{
-				create migrant number:1{
-					self.beginMigration <- current_date;
+			//	migration
+			if flip(migrationRate_adult) and self.isMigrant {
+				create migrant number:1 {
+//					self.beginMigration <- current_date;
 					self.isJuvenil <- false;
 					self.dateDevelopment <- myself.maturity;
 					self.lastReproduction <- myself.lastReproduction;
@@ -381,6 +394,7 @@ species adult skills: [moving]{
 					self.isMigrant <- true;
 					self.target <- rnd(359.9);
 				}
+				do die;
 				migrantAdult_tot <- migrantAdult_tot + 1;
 				write "Adult: " + self + " wandert!";
 			}
@@ -389,20 +403,36 @@ species adult skills: [moving]{
 			}
 		}
 		else if current_date.day_of_year = 365 {
-			// sterben
+			// die
 			if flip(1-survival_adult){
 				do die;
 			}
 		}
 	}
 	
+	reflex catching {
+		if current_date.year >= start_catching and 
+			current_date.year >= (self.lastReproduction.year + reproductionBreak) and 
+			!self.slipped and self.nativePond.catchingNet
+		{
+			write("Catching loop.");
+			if flip(probabilityCatch) {
+				catched_adult <- catched_adult + self;
+				write(self, "catched!");
+				do die;
+			}
+			else {
+				self.slipped <- true;
+			}
+		}
+	}
+	
 	action reproduction {
-		//do wander bounds: self.heimisches_gewaesser.shape speed: 0.1 #m/#day;
 		if overlaps(self.nativePond.shape,self.location) {		
 			if count(overlapping(adult,self.nativePond.shape),!each.isFemale)>=1 and self.isFemale{
 				create offspring number:1 {
 					self.location <- myself.location;
-					self.egg <- true;
+					self.isEgg <- true;
 					self.count <- clutchSize;
 					self.nativePond <- myself.nativePond;
 					self.layDate_egg <- current_date; 					
@@ -416,7 +446,7 @@ species adult skills: [moving]{
 
 experiment complete {
 	list<groundCover> newtsPerPond;
-	reflex Berechnungen_und_Ausgabe_Excel {
+	reflex calculations_and_output {
 		newtsPerPond <- sort(where(groundCover,each.type="Gewaesser.stehendes"),1-each.newtCount);
 		int schwelle <- collect(newtsPerPond,each.newtCount)[16];
 		newtsPerPond <- where(newtsPerPond,each.newtCount > schwelle);
@@ -426,8 +456,8 @@ experiment complete {
 		ask simulation {
 			save [
 				current_date,
-				sum(collect(where(offspring,each.egg),each.count)),
-				sum(collect(where(offspring,!each.egg),each.count)),
+				sum(collect(where(offspring,each.isEgg),each.count)),
+				sum(collect(where(offspring,!each.isEgg),each.count)),
 				count(juvenil,true) + count(migrant, each.isJuvenil),
 				count(adult,true) + count(migrant, !each.isJuvenil)
 			] to:filePath type: "csv" rewrite:newFile;
@@ -456,8 +486,8 @@ experiment complete {
 					#aqua,
 					#brown
 				] value: [
-					sum(collect(where(offspring,each.egg),each.count)),
-					sum(collect(where(offspring,!each.egg),each.count)),
+					sum(collect(where(offspring,each.isEgg),each.count)),
+					sum(collect(where(offspring,!each.isEgg),each.count)),
 					count(juvenil,true) + count(migrant, each.isJuvenil),
 					count(adult,true) + count(migrant, !each.isJuvenil),
 					count(migrant, true)
@@ -482,7 +512,7 @@ experiment complete {
 					#aqua
 				]
 				value:[
-					sum(collect(where(offspring,!each.egg),each.count)),
+					sum(collect(where(offspring,!each.isEgg),each.count)),
 					count(juvenil,true),
 					count(adult, true)
 				];
@@ -491,17 +521,32 @@ experiment complete {
 		monitor Date value:current_date color:season_color;
 		monitor Day value:current_date.day_of_year color:season_color;
 		monitor Season value:display_season color:season_color;
-		monitor Eggs value: sum(collect(where(offspring,each.egg),each.count)) color:#silver;
-		monitor Larvae value: sum(collect(where(offspring,!each.egg),each.count)) color:#green;
+		monitor Eggs value: sum(collect(where(offspring,each.isEgg),each.count)) color:#silver;
+		monitor Larvae value: sum(collect(where(offspring,!each.isEgg),each.count)) color:#green;
 		monitor Juvenile value: (count(juvenil,true) + count(migrant,each.isJuvenil)) color:#red;
 		monitor Adults value: (count(adult,true) + count(migrant,!each.isJuvenil)) color:#aqua;
 		monitor Migrants value: count(migrant,true) color:#brown; 
 	}	
 }
 
-experiment calibration type:batch repeat:1 until:current_date=date("20200101") {
-	parameter coeff var:density_koeff among:[0.005,0.005,0.005,0.01,0.01,0.01,0.1,0.1,0.1]; 
+experiment calibration type:batch repeat:1 until:current_date=calibrationEnd {
+	parameter coeff var:density_koeff among:[0.01,0.01,0.01,0.1,0.1,0.1,0.5,0.5,0.5];
+	float mean_age_adult;
+	float min_age_adult;
+	float max_age_adult;
+	float sd_age_adult;
+	float median_age_adult;
+	list<float> age_adult;
+	
 	reflex stages_count {
+		
+		age_adult <- collect(adult, (current_date - each.maturity)/3600/24 );
+		min_age_adult <- min(age_adult);
+		max_age_adult <- max(age_adult);
+		mean_age_adult <- mean(age_adult);
+		sd_age_adult <- standard_deviation(age_adult);
+		median_age_adult <- median(age_adult);
+	
 		ask simulations {
 			save [
 				current_date,
@@ -513,8 +558,16 @@ experiment calibration type:batch repeat:1 until:current_date=date("20200101") {
 				self.adult_tot,
 				self.migrantJuv_tot,
 				self.migrantAdult_tot,
-				self.occupiedPonds_number
+				count(migrant,each.isJuvenil),
+				count(migrant,!each.isJuvenil),
+				self.occupiedPonds_count,
+				myself.mean_age_adult,
+				myself.min_age_adult,
+				myself.max_age_adult,
+				myself.sd_age_adult,
+				myself.median_age_adult
 			] to:"./result/kalibration.csv" type:"csv" rewrite:self.name='Simulation 0' ? true : false;
+			save [myself.age_adult] to:"./result/kalibration_listeAdult.csv" type:"csv" rewrite:false;
 		}	
 	}
 	permanent {
@@ -522,6 +575,6 @@ experiment calibration type:batch repeat:1 until:current_date=date("20200101") {
 		monitor hatched_larvae value:larva_tot color:#green;
 		monitor developed_juvenile value: juv_tot color:#red;
 		monitor developed_adults value: adult_tot color:#aqua;
-		monitor occupied_ponds value: occupiedPonds_number color:#blue;
+		monitor occupied_ponds value: occupiedPonds_count color:#blue;
 	}
 }

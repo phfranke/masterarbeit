@@ -12,6 +12,7 @@ link-citations: yes
 description: Masterarbeit von Philipp Franke
 toc-title: Inhaltsverzeichnis
 geometry: "left=3cm,right=2cm,top=2cm,bottom=2cm"
+urlcolor: blue
 
 ---
 
@@ -32,55 +33,58 @@ knitr::opts_chunk$set(echo = FALSE)
 options(tinytex.verbose = TRUE)
 ```
 ```{r, include=FALSE}
+source("rSkripte/tab_parameter.R")
 source("rSkripte/felddaten.R")
+source("rSkripte/kalibration_density.R")
+source("rSkripte/kalibration_migration.R")
+source("rSkripte/resultate.R")
 ```
-
 
 # Einleitung
 
 ## Eingeschleppte Arten
-Eingeschleppte Arten gehören gemäss @clavero2005invasive zu den stärksten Gefährdungsursachen bei Tieren auf der roten Liste der internationeln Union zur Bewahrung der Natur (IUCN). Dabei werden für 54% der untersuchten, ausgestorbenen Arten zumindest eine teilweise Ursache in standortfremden Arten ermittelt. @blackburn2019alien ermittelt invasive Spezies als Hauptursache für das Aussterben von 25.5% von kürzlich ausgestorbenen Pflanzenarten und 33.4% für die untersuchten Tierarten. Die effektive Bekämpfung von invasiven Species ist demnach eine notwendige Massnahme um dem Aussterben von Arten entgegen zu wirken.
+Eingeschleppte Arten gehören gemäss @clavero2005invasive zu den stärksten Gefährdungsursachen bei Tieren auf der roten Liste der internationalen Union zur Bewahrung der Natur (IUCN). Dabei werden für 54% der untersuchten, ausgestorbenen Arten zumindest eine teilweise Ursache in standortfremden Arten ermittelt. @blackburn2019alien ermittelt invasive Spezies als Hauptursache für das Aussterben von 25.5% von kürzlich ausgestorbenen Pflanzenarten und 33.4% für die untersuchten Tierarten. Die effektive Bekämpfung von invasiven Species ist demnach eine wichtige Massnahme um dem Aussterben von weiteren Arten entgegen zu wirken.
 
-Die rote Liste der Amphibien der Schweiz [@schmidt2005rote] weist 70% der vorkommenden Amphibienarten (14 von 20 Arten) einen Gefähdrungsstatus zu. Gründe dürften im Landschaftswandel liegen [@schmidt2015amphibien], welcher das Vorkommen von geeigneten Brutgewässern stark verändert hat. Aufgrund der ohnehin prekären Situation, sind Amphibien besonders von der Einschleppung invasiver Species betroffen. 
+Die rote Liste der Amphibien der Schweiz [@schmidt2005rote] weist 70% der vorkommenden Amphibienarten (14 von 20 Arten) einen Gefährdungsstatus zu. Gründe dürften im Landschaftswandel liegen [@schmidt2015amphibien], welcher das Vorkommen von geeigneten Brutgewässern stark verändert hat. Aufgrund der ohnehin prekären Situation, sind Amphibien besonders von der Einschleppung invasiver Species betroffen. 
 
-Im vorliegenden Fall treffen der heimische Nördliche Kammmolch (Triturus cristatus) und der eingeführte Südliche Kammmolch (Triturus carnifex) aufeinander. Beide Arten sind auf der roten Liste der Schweiz als stark gefährdet eingestuft [@schmidt2005rote]. Während der Italienische Kammmolch natürlicherweise nur auf der Alpensüdseite vorkommt, besiedelt der Nördliche Kammmolch weite Teile Europas nördlich der Alpen. Die Alpen wirken als natürliche Barriere. Die Vorkommen der südlichen Art auf der Alpennordseite sind in den meisten Fällen auf Verschleppungen zurückzuführen, einzig in einer schmale Kontaktzone östlich der Alpen besteht eine natürliche Kontaktzone [@meilink2015genetic]. In Bereichen mit eingeschleppten italienischen Kammmolchen, wurde ein Rückgang des nördlichen Kammmolches dokumentiert. (Niederlande: @meilink2015genetic; Genf: @arntzen1999geneva)
+Im vorliegenden Fall treffen der heimische Nördliche Kammmolch (Triturus cristatus) und der eingeführte Südliche Kammmolch (Triturus carnifex) aufeinander. Beide Arten sind auf der roten Liste der Schweiz als stark gefährdet eingestuft [@schmidt2005rote]. Während der Italienische Kammmolch natürlicherweise nur auf der Alpensüdseite vorkommt, besiedelt der Nördliche Kammmolch weite Teile Europas nördlich der Alpen. Die Alpen wirken demnach als natürliche Barriere. Die Vorkommen der südlichen Art auf der Alpennordseite sind in den meisten Fällen auf Verschleppungen zurückzuführen, einzig in einer schmalen Kontaktzone östlich der Alpen besteht eine Gebiet mit natürlichem Aufeinandertreffen beider Arten [@meilink2015genetic]. In Bereichen mit eingeschleppten italienischen Kammmolchen, wurde jeweils ein Rückgang des nördlichen Kammmolches dokumentiert. (Niederlande: @meilink2015genetic; Genf: @arntzen1999geneva)
 
 ## Modellierungen in der Biologie
 Sowohl in der Förderung von bedrohten Tierarten, als auch in der Bekämpfung von Schadorganismen sind fundamentale Kenntnisse der Populationsdynamik hilfreich. Die Populationsdynamik beschreibt Faktoren wie Entwicklungsstadien, Ausbreitungsverhalten, Fortpflanzung und Sterblichkeit und bringt diese in einen Zusammenhang. Für solche Untersuchungen werden häufig statistische oder mathematische Modelle verwendet [z.B: @caudera2021mathematical, @la2017understanding]. @vimercati2021cost zeigt an einem Beispiel in Südafrika auf, wie Populationsmodelle die gezielte Bekämpfung von invasiven Amphibien und den Mitteleinsatz verbessern können. Diese Modelle lassen grundsätzlich Aussagen auf Systemebene zu. @vimercati2017integrating ergänzen bestehende mathematische Modelle um den Landschaftswiderstand um die effektive Ausbreitung in einer konkreten räumlichen Umgebung zu simulieren. Dennoch bleiben räumliche Ausprägungen in dem Modellen nur marginal berücksichtigt. Aspekte wie Wanderhindernisse und Vernetzungskorridore können die Populationsdynamik entscheidend beeinflussen. Mittels agentenbasierten Methoden, lassen sich konkrete räumliche Beziehungen darstellen [@della2014simulating].
 
-Agentenbasierte Modellierungsansätze bieten Möglichkeiten um die Modelle mit räumlichen Gegebenheiten und einer vielzahl von Verhaltensweisen und -Regeln zu ergänzen [@deangelis2014individual]. So entstehen Modelle, welche die Entscheidungsstrukturen in biologischen Systemen nachbilden, vor allem wenn sie mit stochastischen Elementen ergänzt werden. Dabei können überraschende Muster entstehen, welche durch formelbasierte Ansätze nicht replizierbar sind.
+Agentenbasierte Modellierungsansätze bieten Möglichkeiten um die Modelle mit räumlichen Gegebenheiten und einer vielzahl von Verhaltensweisen und -Regeln zu ergänzen [@deangelis2014individual]. So entstehen Modelle, welche die Entscheidungsstrukturen in biologischen Systemen nachbilden, vor allem wenn sie mit stochastischen Elementen ergänzt werden. Dabei können überraschende Muster entstehen (genannt "Emergenz"), welche durch formelbasierte Ansätze nicht replizierbar sind.
 
 
 ## Italienischer Kammmolch (Triturus carnifex)
 Das im Rahmen dieser Masterarbeit entwickelte Modell bildet die individuellen Lebenszyklen der Kammmolche nach. Für die Nachbildung der individuellen Lebensgeschichten der Kammmolche ist ein einigermassen tiefgehendes Verständnis der Lebensweise notwendig. Hier werden wesentliche Aspekte der Biologie von kammmolchen zusammengefasst. Die Lebensweisen von Italienischem Kammmolch (Triturus carnifex) und Nördlichem Kammmolch (Triturus cristatus) ähneln sich zuweilen stark, andere Aspekte sind nur von einer Art detailliert bekannt. Für die vorliegende Arbeit werden wissenschaftliche Erkenntnisse von beiden Arten meist als gleichbedeutend aufgefasst.
 
 ### Jahreszyklus
-Kammmolche sind für die Fortpflanzung auf stehende Gewässer angewiesen. Adulte Tiere verbringen grosse Teile des Jahres an Land und wandern im Vorfrühling in die Gewässer. Die Gewässertreue bei adulten Tieren ist dabei sehr ausgeprägt. In einem Fang-Wiederfang-Experiment von @kupfer2000population wird lediglich einem Individuum von 82 wiedergefangenen Tieren ein Gewässerwechsel nachgewiesen, was `r round(100/82,2)` Prozent entspricht. Nach der Fortpflanzung verlassen die Tiere die Gewässer und verbringen das restliche Jahr an Land. Dazu suchen sie häufig Gehölze oder andere Strukturen mit einem guten Angebot an Verstecken auf. Häufig liegen diese Verstecke nur wenige Meter von den Gewässern entfernt. Nur wenige Individuen nehmen weitere Wege in Kauf um Verstecke in einer Distanz bis zu wenigen hundert Meter zu erreichen [@stoefer2001zeitliche].
+Kammmolche sind für die Fortpflanzung auf stehende Gewässer angewiesen. Adulte Tiere verbringen grosse Teile des Jahres an Land und wandern im Vorfrühling in die Gewässer. Die Gewässertreue bei adulten Tieren ist dabei sehr ausgeprägt. In einem Fang-Wiederfang-Experiment von @kupfer2000population wird lediglich einem Individum von 82 wiedergefangenen Tieren ein Gewässerwechsel nachgewiesen, was `r round(100/82,2)` Prozent entspricht. Nach der Fortpflanzung verlassen die Tiere die Gewässer und verbringen das restliche Jahr an Land. Dazu suchen sie häufig Gehölze oder andere Strukturen mit einem guten Angebot an Verstecken auf. Häufig liegen diese Verstecke nur wenige Meter von den Gewässern entfernt. Nur wenige Individuen nehmen weitere Wege in Kauf um Verstecke in einer Distanz bis zu wenigen hundert Meter zu erreichen [@stoefer2001zeitliche].
 
 ### Entwicklungsstadien
 Die Weibchen legen 200-400 Eier [@meyer2009schlangenspuren]. Aufgrund eines genetischen Phänomens stoppt bei der Hälfte der Eier die Entwicklung und die Embryonen sterben ab. Grund dafür sind unterschiedliche Ausprägungen des Chromosom 1. Embryonen, welche zwei gleichartige Chomosomen 1 besitzen, sterben demnach ab und Individuen mit beiden unterschiedlichen Ausprägungen sind überlebensfähig [@horner1985normal]. Die Mortalität der geschlüpften Larven ist ebenfalls relativ hoch, lediglich 5% LITERATUR der Larven erreichen die Metamorphose. Vieles spricht für eine dichteabhängige Sterblichkeit im Larvenstadium (persönliche Informationen B. Schmidt, @van2007body, @schabetsberger1995alpine). Insbesondere der hohe Energiebedarf dürfte zu einem starken Konkurrenzdruck bei der Nahrungsbeschaffung führen. @schabetsberger1995alpine schätzt in einem alpinen Karstsee von rund 40'000 m2 die Anzahl Larven von T. alpestris nach einem ausserordentlichen warmen Sommer auf 30'000, was ein Maximalwert für diesen Standort darstellen dürfte.
 
-### Wanderungen
-Für die Nördlichen Kammmolche wird eine hohe Brutgewässertreue ermittelt [@jehle2007wanderleistung, @mori2017twenty], was bedeutet, dass Eier in demselben Weiher gelegt werden, in dem das Tier selbst geschlüpft ist. Generell wird die Ausbreitung der Population auf andere Gewässer sowie der genetische Austausch zwischen mehreren entfernten Populationen nur durch wenige Individuen vollbracht [@sinsch2017wandern]. Zudem bestehen Hinweise darauf, dass hauptsächlich juvenile Kammmolche wandern und neue Brutgewässer besiedeln. @kupfer2000population fing `r round(100/83,1)`% der adulten Kammolche (1 von 83) in einem anderen Gewässer und 13 von 35 (`r round(1300/35,1)`%) der Juvenilen.
-Mehrere Sinne sind an der Orientierung beteiligt. Die geruchliche Wahrnehmung wird dabei als wichtiger Sinn erachtet für die Orientierung auch über grössere Distanzen [@weiss2021olfaction]
+### Wanderungen {#introWanderungen}
+Für die Nördlichen Kammmolche wird eine hohe Brutgewässertreue ermittelt [@jehle2007wanderleistung, @mori2017twenty]. Eier werden meist in das gleiche Gewässer gelegt werden, in dem das Tier selber geschlüpft ist. Der kleinere Teil der Population wechselt das angestammte Brutgewässer. Gemäss @kupfer2000population sind `r round(100/83,1)`% der adulten Kammolche (1 von 83) und 13 von 35 (`r round(1300/35,1)`%) der Juvenilen in einem anderen Gewässer gefunden worden, als sie selber geschlüpft sind. Die Wandergeschwindigkeit ist bei juvenilen Kammmolche etwas höher (500m gemäss @kupfer1998wanderstrecken) als bei adulten Individuen (293m gemäss @stoefer2001zeitliche). Gemäss @jehle2007wanderleistung konnte zudem nachgewiesen werden, dass nur sehr wenige Individuen (ca. 1 pro Jahr und Population) mit sehr grosser Wanderleistung (etwa das vierfache des Normalen) für die Verbindung entfernter Populationen verantwortlich sind. Mehrere Sinne sind an der Orientierung beteiligt. Die geruchliche Wahrnehmung wird dabei als wichtiger Sinn erachtet, auch für die Orientierung über grössere Distanzen [@weiss2021olfaction]
 
 <!-- ## Modellierung der Wanderungen -->
 <!-- Das Wanderverhalten der untersuchten Spezies bildet eine wichtige Grundlage bei der Untersuchung der Populatiosentwicklung. Gemäss @sinsch2014movement sind die Ausbreitung einer Population sowohl auf individuelles Wanderverhalten, als auch auf ökologische Aspekte des Lebensraumes zurück zu führen. Abschätzung der Gendrift anhand Genanalysen lassen erahnene, dass Fang- Wiederfang- Experimente und Beobachtungsdaten das Wanderverhalten  von Amphibien klar unterschätzen. Dabei scheint die bremsende Wirkung unterschiedlicher Landschaften zwar die Vernetzungswege zu beeinflussen aber kaum die Vernetzung selber behindern.  -->
 <!-- Die genetische Vernetzung und damit die Ausbreitungsmöglichkeiten von Amphibien wird nicht hauptsächlich durch regelmässigen Austausch von Individuen sichergestellt, sondern zu einem hohen Grad von einzelnen Individuen mit stark erhöhter Wanderleistung [@sinsch2017wandern]. @sinsch2017wandern spricht von einem Faktor 10 zwischen feldherpetologisch ermittelten Wanderdistanzen und genetischen Schätzungen (400-1200m VS. 10x mehr) -->
-<!-- Für die Konnektivität reichen wenige Individuuen pro Generation. Seltene Ereignisse sind mit Beobachtungen schwer nachzuvollziehen. die Daten stellen also einen Durschnittswert dar, während einzelne Ausreisser für die Ausbreitung der Art ausreichen und die Erhaltung von Metapopulationen. -->
+<!-- Für die Konnektivität reichen wenige Individuen pro Generation. Seltene Ereignisse sind mit Beobachtungen schwer nachzuvollziehen. die Daten stellen also einen Durschnittswert dar, während einzelne Ausreisser für die Ausbreitung der Art ausreichen und die Erhaltung von Metapopulationen. -->
 
 ## Bekämpfungsprojekt
 In Allschwil wurden seit den frühen 2000er- Jahre Kammmolche festgestellt, welche sich später als Italienische Kammmolche entpuppten. Zum Schutz der bedeutenden Population an Nördlichen Kammmolchen, und wohl auch zum Schutz der bereits in diese getätigten Investitionen, werden seit dem Jahr 2020 Bekämpfungsmassnahmen ergriffen.
-Dazu werden jeweils Anfang Jahr die Weiher mit den beobachteten Vorkommen mit Amphibienzäunen hermetisch abgeriegelt. Amphibien, welche die Gewässer aufsuchen, stossen nun an diese Zäune und fallen in Kessel, welche in regelmässigen Abständen an den Zäunen eingelassen sind. Bei täglichen Kontrollen, werden die Tiere in den Kesseln bestimmt und gezählt, die Kammmolche werden später noch gewogen. Diese erhobenen Daten aus den Jahren 2021 und 2022 stehen für diese Arbeit zur Verfügung (siehe Anhang).
+Dazu werden jeweils Anfang Jahr die Weiher mit den beobachteten Vorkommen mit Amphibienzäunen hermetisch abgeriegelt. Amphibien, welche die Gewässer aufsuchen um sich fortzupflanzen, stossen nun an diese Zäune und fallen in Kessel, welche in regelmässigen Abständen an den Zäunen eingelassen sind. Bei täglichen Kontrollen werden die Tiere in den Kesseln bestimmt und gezählt, die Kammmolche werden später noch gewogen. Diese erhobenen Daten aus den Jahren 2021 und 2022 stehen für diese Arbeit zur Verfügung (siehe Anhang).
 
 ## Fragestellung {#fragestellung}
 ### Forschungsfrage
 Untersuchung der Populationsdynamik des Italienischen Kammmolchs (Triturus carnifex) im Mühlebachtal in Allschwil anhand agentenbasierter Modellierung und Abschätzung der Erfolgsaussichten der bestehenden Bekämpfungsstrategie.
 
 ### operative Teilfragen
-- Erstellen und Validieren des Modells
+- Erstellen und kalibrieren des Modells
 - Formulieren von Szenarien unterschiedlich effizienter Bekämpfungsmethoden
-- Untersuchen der Populationsentwicklung bis zum Jahre 2050 mit den formulierten Szenarien
+- Untersuchen der Populationsentwicklung bis zum Jahre 2050 anhand der formulierten Szenarien
+- Validieren des Modells
 
 <!--
 - Ist es möglich die Population an Italienischen Kammmolchen im Mühlebachtal in Allschwil mit der jetzigen Bekämpfungsmethode wieder auszurotten?
@@ -94,92 +98,303 @@ Das Untersuchungsgebiet besteht aus einem 8 * 8 km grossen Quadrat in der Nordwe
 ```{r 'uebersichtskarte',echo=FALSE,out.width="100%",fig.cap="Das Untersuchungsgebiet (schwarz umrandet) auf der Landeskarte im Massstab 1:100'000"}
 knitr::include_graphics("./bilder/Uebersicht100.jpg")
 ```
-Die tatsächlich beobachteten Vorkommen der Kammmolche sind isoliert im Mühlebachtal in Allschwil (blaues Rechteck in Abbildung \@ref(fig:uebersichtskarte)) und umfassen wenige Gewässer. Das Untersuchungsgebiet wurde bewusst recht gross gewählt, um zu verhindern, dass die Agenten an die Ränder stossen und so möglicherweise die Aussagkraft beeinträchtigen.
+Die tatsächlich beobachteten Vorkommen der Kammmolche sind isoliert im Mühlebachtal in Allschwil (blaues Rechteck in Abbildung \@ref(fig:uebersichtskarte)) und umfassen wenige Gewässer. Das Untersuchungsgebiet wurde bewusst recht gross gewählt, um zu verhindern, dass die Agenten an die Ränder stossen und so möglicherweise die Aussagekraft des Modells beeinträchtigen.
 
 
-## Modell
-In den folgenden Absätzen, wird die Funktionsweise des Modells beschrieben. Die Struktur folgt dem ODD-Protokoll wie von @grimm2006standard vorgeschlagen. 
+## Modellbeschreibung
+In den folgenden Absätzen, wird die Funktionsweise des Modells beschrieben. Die Struktur folgt dem ODD-Protokoll wie von @grimm2006standard vorgeschlagen und später in @grimm2010odd erweitert. 
 
 ### Vorbemerkungen
-Das Modell wird auf einem handelsüblichen Laptop ausgeführt. Um die Lauffähigkeit des Modells sicherzustellen wurde es auch auf Ressourceneffizienz optimiert. Deshalb werden einige Lebensabschnitte der Kammmolche vereinfacht dargestellt, ohne die grundsätzliche Funktion zu beeinträchtigen. So sind die ressourcenintensiven, räumlichen Berechnungen auf ein Minimum reduziert. Das Modell ist stringent auf die beschriebenen Ziele (siehe Kapitel \@ref(fragestellung)) ausgerichtet und vernachlässigt Verhaltensweisen, welche für diese Ziele nicht relevant sind. Zur illustration der Vorgehensweise sind hier zwei Beispiele erläutert:
+Das Modell unterhält zeitweise mehrere Tausend Agenten. Um die Lauffähigkeit des Modells sicherzustellen wurde es auch auf Ressourceneffizienz optimiert. Deshalb werden einige Lebensabschnitte der Kammmolche vereinfacht dargestellt, ohne die grundsätzliche Funktion zu beeinträchtigen. So sind die ressourcenintensiven, räumlichen Berechnungen auf ein Minimum reduziert. Das Modell ist stringent auf die beschriebenen Ziele (siehe Kapitel \@ref(fragestellung)) ausgerichtet und vernachlässigt Verhaltensweisen, welche für diese Ziele nicht relevant sind. Die Auswirkungen sind hier an einem Beispiel erläutert:
 
 #### Saisonale Wanderungen
-Kammmolche verbringen grosse Teile des Erwachsenenlebens ausserhalb der Gewässer und kommen lediglich für die Fortpflanzung in die Gewässer. An Land werden grössere Reisen unternommen ohne das angestammte Brutgewässer zu wechseln. Die Landausflüge sind für die Funktionsweise des Modells gänzlich irrelevant. Der Anteil der Population, welcher zur Fortpflanzungszeit in die Gewässer einwandert unbekannt und müsste im Modell angenommen oder in verschiedenen Szenarien abgebildet werden. Im Modell hat die Population in den Gewässern Einfluss auf die Anzahl der im Rahmen der Bekämpfungsmassnahmen gefangenen Tiere. Das Modell belässt die Tiere in den meisten Situationen unbeweglich in den Gewässern, was der tatsächlichen Lebensweise widerspricht. Es werden zwei Techniken angewandt um die Abwesenheit der Tiere zu simulieren, ohne diese tatsächlich wandern lassen zu müssen:
+Kammmolche verbringen grosse Teile des Erwachsenenlebens ausserhalb der Gewässer und kommen lediglich für die Fortpflanzung in die Gewässer. An Land werden grössere Reisen unternommen ohne das angestammte Brutgewässer zu wechseln. Die Landausflüge sind für die Funktionsweise des Modells gänzlich irrelevant. Der Anteil der Population, welcher zur Fortpflanzungszeit in die Gewässer einwandert ist unbekannt und müsste im Modell angenommen oder in verschiedenen Szenarien abgebildet werden. Im Modell hat die Population in den Gewässern Einfluss auf die Anzahl der im Rahmen der Bekämpfungsmassnahmen gefangenen Tiere. Das Modell belässt die Tiere in den meisten Situationen unbeweglich in den Gewässern, was der tatsächlichen Lebensweise widerspricht. Es werden zwei Techniken angewandt um die Abwesenheit der Tiere zu simulieren, ohne diese tatsächlich wandern lassen zu müssen:
 
 1. Das Datum der letzten Fortpflanzung wird in einer Variabel im jeweiligen Agenten gespeichert. Die Fortpflanzung und die Abfangaktionen greifen nur bei Individuen, welche über eine bestimmte Zeit Fortpflanzungspause einlegten. 
 2. Weitere Unsicherheiten beim Abfangen werden mithilfe von Szenarien untersucht, siehe dazu Kapitel \@ref(szenarien). Hier wird nur ein gewisser Anteil der tatsächlich Fangbaren Individuen abgefangen. Damit werden die oben beschriebenen Unsicherheiten simuliert und weitere Faktoren wie gewisse Undichdigkeit der Fangnetze etc.
 
-#### Entwicklungsstadien mit grosser Anzahl Individuen
+### Begriffe
+In dieser Arbeit werden Begriffe aus der Biologie und aus der Modellierung verwendet. Hier werden die verwendeten Begriffe kurz erläutert:
+
+- Agenten: In den meisten Fällen entspricht ein Agent im Modell einem Individum der realen Welt. Es handelt sich um eine Entität einer definierten Spezies. In Spezialfällen kann ein Agent viele Individuen beinhalten.
+- Spezies: Definition der Agenten. Hier werden die Regeln festgelegt, wie sich die einzelnen Agenten zu verhalten haben.
+- Parameter: Werte, welche das Verhalten des Modells beeinflussen. In der Regel können Parameter durch den Benutzer eingegeben werden.
+- Variabeln:  Variabeln sind Werte, welche den Zustand von Agenten beeinflussen. Jeder Agent besitzt einen Strauss an Variabeln, welche beispielsweise Alter oder Geschlecht bestimmen.
+- Population: Summe aller Individuen einer Art, welche in der selben Region leben und sich regelmässig vermischen. 
+
 
 
 ### Zweck
-Das Modell bezweckt die Nachstellung der Lebensweise von Italienischen Kammmolchen im Mühlebachtal in Allschwil bei Basel. Anhand des Modells wird ergründet, wie sich die Population entwickelt und ausbreitet und geht der Frage nach ob die aktuell angewendete Bekämpfungsmethode erfolgreich sein wird.
-Die wissenschaftliche Fragestellung ist in Kapitel \@ref(fragestellung) beschrieben. Demnach dient das Modell zur Beantwortung folgender fragen:
+Das Modell bezweckt die Nachstellung der Lebensweise von Italienischen Kammmolchen im Mühlebachtal in Allschwil bei Basel. Die Tiere sind hier standortfremd und werden zum Schutz einheimischer Tiere bekämpft. Anhand des Modells wird ergründet, wie sich die Population der italienischen Kammmolche entwickelt und ausbreitet und geht der Frage nach ob die aktuell angewendete Bekämpfungsmethode erfolgreich sein wird. Das Modell ergründet folgende Leitfragen:
 
 1. Ist es möglich mit der aktuellen Bekämpfungsmethode die Italienischen Kammmolche aus dem Gebiet zu entfernen?
 2. Wie lange müssen die Bekämpfungsmassnahmen durchgeführt werden?
 
-Das Modells wurde so konzipiert, dass es valide ist und zusätzlich auf Ressourceneffizienz optimiert. Deshalb werden einige Lebensabschnitte der Kammmolche vereinfacht dargestellt, ohne die grundsätzliche Funktion zu beeinträchtigen. So sind die ressourcenintensiven, räumlichen Berechnungen auf ein Minimum reduziert. Das Modell ist stringent auf die beschriebenen Ziele ausgerichtet und vernachlässigt Verhaltensweisen, welche für diese Ziele nicht relevant sind. Dabei weicht das Modell stellenweise von der natürlichen Verhaltensweise der modellierten Tierart ab, ohne jedoch die Validität des Modells zu tangieren. 
 
-### zeitliche Auflösung
-Das Modell arbeitet in Zählschritten von einem Tag. Als Beginn wird Zeitpunkt angenommen, an welchem die Kammmolche ins Mühlebachtal kamen. Es handelt sich vermutlich um eine Aussetzung in den frühen 2000'er- Jahren. Für diesen ZWeck wird das Startdatum auf den 1.1.2000 festgelegt. Als Enddatum ist der 31.12.2049. festgelegt. 
+### Räumliche und Zeitliche Auflösung
+Das Modell arbeitet mit Vektordaten und verfügt somit nicht über eine definierte, räumliche Auflösung. Das Untersuchungsgebiet ist 8 x 8km gross und deckt die bekannten Vorkommen der italienischen Kammmolche grosszügig ab. Details zum Untersuchungsgebiet siehe Kapitel \@ref(untersuchungsgebiet).
+Die zeitliche Auflösung beträgt einen Tag. Jeder Zeitschritt im Modell entspricht einen Tag im Leben der Kammmmolche. Als Startzeitpunkt wird derjenige Moment angenommen, an dem die Kammmolche ins Mühlebachtal kamen. Es handelt sich mutmasslich um eine Aussetzung in den frühen 2000'er- Jahren. Das Startdatum wird auf den 1.1.2000 festgelegt. Als Enddatum ist der 31.12.2049. festgelegt.
 
 ### Agenten {#oddAgenten}
-Das Modell bildet die Entwicklungszyklen und die Stadien der Kammmolche ab. Diese werden in jeweils eigenen Spezies abgebildet, wobei die Stadien "Eier" und "Larven" zusammen in der Spezies "Nachwuchs" modelliert werden. Zudem wird der Agent "Migrant" hinzugefügt, welche die Wanderbewegungen der Kammmolche modelliert.
+Das Modell bildet die Entwicklungszyklen, die Stadien und die spezifischen Wanderbewegungen der Kammmolche ab. Die Stadien werden in jeweils eigenen Spezies abgebildet, wobei die Stadien "Eier" und "Larven" in der Spezies `offspring` zusammengefasst sind. Die Spezies `migrant` dient der Modellierung der Wanderbewegungen und kann Agenten der Spezies `juvenil` und `adult` aufnehmen. Für die Visualisierung der Umgebung und die Steuerung von Wanderbewegungen werden Daten zur Bodenbedeckung verwendet, abgebildet in der Spezies `groundCover`. Das Modell verfügt über folgende Spezies: 
 
-#### Nachwuchs
-Die ersten beiden Stadien ("Eier" und "Larven") sind an Gewässer gebunden, beinhalten viele Individuen und sind von kurzer Lebensdauer. Diese Stadien werden deshalb nicht nach einem agentenbasierten Modellansatz modelliert, sondern in einem formelbasierten (gemäss @WALLENTIN2017165). Als Schalter für den Wechsel zwischen den Modellparadigmen bietet sich hier der Übergang zwischen den Stadien an. Demnach werden die Anzahl Individuen und ihr Verhalten nicht in eigenen Spezies geführt sondern als Attribute von einem Agenten der Spezies "Nachwuchs", welcher vom Muttertier abstammt. Dieser Agent kann das Stadium "Ei" oder "Larve" annehmen und enthält jeweils ein Attribut, welches die Anzahl Individuen und das Entwicklungsdatum enthält. Legt ein Weibchen 200 Eier, entsteht ein Agent der Spezies "Nachwuchs" mit der Anzahl 200, dem Stadium "Ei" und dem aktuellen Modell- Datum. Nach Ablauf der Entwicklungszeit wird das Stadium auf "Larve" umgestellt, wiederum das aktuelle Datum gespeichert und die Anzahl überlebender Individuen berechnet. Das Stadium "Larve" unterliegt zudem einer dichteabhängigen Sterblichkeit, welche hier auf das Attribut "Anzahl" einwirkt. Die dichteabhängige Sterblichkeit ist in Kapitel \@ref(dichtesterb) genauer beschrieben. Anhand der Sterblichkeit und der vorhandenen Anzahl Larven, entstehen nach Ablauf der Eintwicklungszeit aus jedem Agenten der Spezies "Nachwuchs" einzelne Agenten der Spezies "Juvenil".
+- `groundCover`: Bodenbedeckung, dient der Illustration der Umgebung und der Berechnung von Wanderhindernissen.
+- `pond`: Brutgewässer, enthält die Einheiten aus `groundCover` welche als Typ `stehendes Gewässer` aufweisen.
+- `offspring`: deckt die Entwicklungsstadien Eier und Larven ab.
+- `juvenil`: jugendliches Entwicklungsstadium. Die Tiere weisen bereits praktisch das Aussehen von Erwachsenen auf, sind aber noch nicht Fortpflanzungsfähig.
+- `adult`: Erwachsene, fortpflanzungsfähige Individuen.
+- `migrant`: Wandernde Individuen, können juvenile oder adulte sein.
 
-#### Juvenile
-Die Spezies Juvenil erhält die Fähigkeit zu wandern. Ein gewisser Anteil der Population wird dazu erkoren zu wandern. Diese Individuen werden zu Agenten der Spezies "Migrant". Nach Ablauf der Wanderung werden sie wiederum zu Agenten der Spezies "Juvenile", bevor sie sich zu adulten Tieren weiterentwicklen. Die Entwicklung ist wiederum durch den Kalender gesteuert und beinhaltet eine Sterblichkeitsrate.
+Der Übergang zwischen den Stadien ist in Kapitel \@ref(prozess) detailliert beschrieben.
 
-#### Migrant
-Die Spezies Migrant kann sowohl Agenten aus der Spezies "Juvenile" als auch aus der Spezies "Adulte" aufnehmen. Diese Spezies ist die einzige die Wanderungen unternimmt. Wanderung im Sinne des Modells bedeutet, dass die Gewässer verlassen werden und am Ende der Wanderzeit ein neues Gewässer als Brutgewässer ausgesucht wird. Die Wanderung selber ist in Kapitel \@ref(wanderung) beschrieben. Nach Ablauf der Wanderzeit wird jedes Individuum in dasjenige Spezies geklont von welchem es stammt ("Juvenile" oder "Adulte").
+#### Formelbasierte Simulationen, Spezies `offspring`
+Die ersten Stadien (Eier und Larven) sind an die Gewässer gebunden, umfassen sehr viele Individuen und sind von kurzer Lebensdauer. Sie unternehmen keine Wanderungen und interagieren nicht wesentlich mit anderen Individuen. Im Modell erhalten Sie die Aufgaben die Entwicklungsdauer und die natürliche Sterblichkeit nachzubilden. Wie in @WALLENTIN2017165 beschrieben, kann das Verhalten von vielen Individuen mit einer geringen räumlichen Verbreitung durch formelbasierte Ansätze adäquat und effizient modelliert werden. Diesem Ansatz folgend, bildet das Modell diese Stadien nicht als einzelne Individuen ab sondern in einer Nachwuchs-Einheit. 
+Diese Einheit kann mit dem Begriff Schwarm versinnbildlicht werden und wird im Modell durch die Spezies `offspring` repräsentiert. 
+In diesen Stadien werden zwei unterschiedliche Sterblichkeiten berechnet:
 
-#### Adulte
-Adulte habe die komplexesten Eigenschaften der modellierten Spezies. Sie können viele Jahre alt werden und unterliegen einer jährlichen Sterblichkeitsrate. Sie können Wanderungen unternehmen (Agenten werden als Migrant geklont), und pflanzen sich als einzige Spezies in diesem Modell fort.
-
-
-
-Der Übergang zwischen den Entwicklungsstadien geschieht nach dem Kalender. Bei Überschreiten der Zeitdauer, welche für jedes Stadium festgelegt ist, gehen die betroffenen Tiere ins nächste Stadium über. Die Sterblichkeit in den Stadien wird ebenfalls hier implementiert. Jedes Individuum wird entweder in das nächste Stadium befördert oder es stirbt. Die Wahrscheinlichkeit mit welcher ein Individuum das nächste Staium erreicht, ist in der Literatur gut abgebildet.
-
-
-### Wanderungen {#wanderung}
-Wandernde Tiere, unabhängig ob es sich um juvenile oder adulte Tiere handelt, zeigen das gleiche Wanderverhalten. Sie laufen in eine zufällige Himmelsrichtung aus dem Gewässer. Die Wanderrichtung weicht mit jedem Zeitschritt um maximal +/- 30° vom aktuellen Kurs ab. Nach Ablauf der Wandersaison suchen die wandernden Tiere dasjenige Gewässer auf, welches Ihnen am nächsten ist (Luftlinie). Diese nimmt zufällig einen Wert zwischen 5 und 25 Metern pro Tag an. Dieses Gewässer wird dann zum angestammten Gewässer des Individuums. Bei der Berechnung der Wanderrichtung wird auch die Wandergeschwindigkeit für den Zeitschritt festgelegt. Umgebungsdaten bleiben hier weitgehend unberücksichtigt, da konkrete Wanderverhalten der Tiere zu wenig bekannt sind und diese das Modell stark verlangsamen würden. Einzig die Gebäude werden als Hinderniss modelliert, welche von den Kammmolchen nicht durchwandert werden können. Alle anderen Bodenoberflächen können mit gleichbleibender Geschwindigkeit durchschritten.
-
-### Bekämpfung
-Ab dem Modelldatum 1.1.2020 werden Bekämpfungsmassnahmen simuliert. Es ist bekannt, an welchen Weihern Tiere abgefangen werden. Hier werden an einem einzelnen Tag eine bestimmte Anzahl Tiere aus dem Modell entfernt. Dabei werden lediglich Tiere entfernt, welche mit einem der eingezäunten Gewässer verbunden ist. Für die Validierung werden hier Informationen zu den einzelnen Tieren gespeichert wie Anzahl,Geschlecht und Alter.
-
-### Dichteanhängige Sterblichkeit der Larven {#dichtesterb}
-wo kommt dieses Kapitel hin?
+- Sterblichkeit beim Übergang vom Stadium "Ei" zu "Larve"
+- Dichteabhängige Sterblichkeit der Larven
 
 
+die Nachfahren werden als eigene Einheit behandelt.
+Die einzelnen Individuen werden demnach nicht als eigenständige Agenten geführt, sondern durch Attribute eines grösseren Agenten repräsentiert. Beim Eier legen (siehe Kapitel: \@ref(reproduction)) entsteht pro Weibchen ein Agent der Spezies `offspring`. Dieser beinhaltet die Anzahl Nachfahren im Attribut `count`. In der ganzen Lebensdauer der Agenten dieser Spezies, werden zwei Arten von Sterblichkeit berechnet. Diese verändern die Variabel `count` und sind im Detail in den Kapiteln \@ref(dichtesterb) und in @horner1985normal erklärt. Es sind folgende Ereignisse betroffen: 
 
-### Parameter
-Das Modell definiert insgesamt 15 Parameter. Diese sind in Tabelle \@ref(tab:para) aufgelistet.
-```{r tab_parameter, echo=FALSE}
-Bezeichnung <- c('Anzahl Kammmolche zu Beginn','Start Datum','Überlebensrate Eier','Überlebensrate Larven','Überlebensrate Juvenile','Überlebensrate Adulte, jährlich','Larvendichte','Abhängigkeit Larvendichte/Larvensterblichkeit','Rate der Wanderer Adult','Rate der Wanderer Juvenil','Dauer der Wandertätigkeit','Entwicklungsdauer Ei','Entwicklungsdauer Larve','Entwicklungsdauer Juvenil', 'Gelegegrösse', 'Jahre ohne Fortpflanzung')
-Einheit <- c('Stk.','-','-','-','-','-','Stk./m2','-','%','%','Tage','Tage','Tage','Tage','Eier/Weibchen','-')
-Wert <- c('50','1.1.2000','0.5','0.4','0.4','0.5','1.0','0.01','1.2','37.3','30','1.5','90','730','300','2')
-Herkunft <- c('Annahme','Annahme','Literatur','Literatur','Literatur','Literatur','Literatur','Annahme','Literatur','Literatur','Literatur','Literatur','Literatur','Literatur','Literatur','Literatur')
-tab<-cbind(Bezeichnung,Einheit,Wert, Herkunft)
-knitr::kable(tab,caption='Im Modell verwendete Parameter',label='para')
+- 
+
+
+### Modellvariabeln
+Das Modell beinhaltet zahlreiche Variabeln, welche für die Steuerung der Prozesse, die Orchestrierung der Agenten und für die Auswertung der Resultate benötigt werden. Es wird unterschieden zwischen globalen Variabeln, welche auf Ebene des Modells festgelegt werden, und Variabeln der einzelnen Spezies.
+
+
+Diese Variabeln bilden die eigentliche Aussage des Modells und zeigen wie viele Kammmolche in welchem Stadium zu jedem Zeitschritt vorhanden sind und in welchem Gewässer sie sich befinden. Zudem werden die Anzahl Tiere der einzelnen Stadien über den gesamten Zeitraum aufsummiert um einen Überblick über die Nachwuchs- und Sterblichkeitsrate zu erlangen. Weitere Variabeln dienen der Steuerung der Agenten und transportieren wesentliche Informationen beim Übgergang der einzelnen Stadien. In den folgenden Kapiteln sind die Variabeln aufgelistet, in Klammern ist jeweils der Datentyp angegeben.
+
+#### Globale Variabeln
+Die globalen Variabeln steuern die Modell-Zeit und aggregieren Zahlen aus den Spezies um Auswertungen vornehmen zu können.
+
+- Zeitmanagement:
+  - `starting_date` (Datum)
+  - `end_date` (Datum)
+  - `step` (Sekunden)
+  - `seasons` (Schlüssel-Wert-Paar)
+  - `seasonNow` (Ganzzahl)
+  - `current_date` (aktuelles Modelldatum)
+- Anzahl Tiere, über den ganzen Zeitraum aggregiert:
+  - `eggs_tot` (Ganzzahl)
+  - `larva_tot` (Ganzzahl)
+  - `juv_tot` (Ganzzahl)
+  - `adult_tot` (Ganzzahl)
+  - `migrantJuv_tot` (Ganzzahl)
+  - `migrantAdult_tot` (Ganzzahl)
+  - `occupiedPonds_count` (Ganzzahl)
+  - `catched_adult` (Liste mit Fremdschlüsseln auf Spezies `adult`)
+  - `catched_juvenil` (Liste mit Fremdschlüsseln auf Spezies `juvenil`)
+
+#### Variabeln pro Spezies
+Bei Variabeln, welche nur zwei unterschiedlichen Werte annehmen können, wird jeweils ein Boolscher Datentyp (wahr/falsch) verwendet. Dies vereinfacht die Filterung der entsprechenden Individuen. So werden weibliche Adulte mit folgenden Pseudocode gefiltert: `if isFemale`. Würde das Geschlecht mit dem Datentyp Text in der Variabel "gender" gespeichert, wäre die Filterung umständlicher zu schreiben (`if gender=="female"`), aufwändiger zu prozessieren und fehleranfälliger. Die Bezeichnung der betreffenden Variabeln zeigt welche Bedeutung die Variabeln annimmt, wenn sie wahr ist. Der andere mögliche Wert wird demnach durch den Wert falsch repräsentiert. Dies betrifft die Variabeln `isEgg` (wahr=Stadium Ei, falsch=Stadium Larve), `isJuvenil` (wahr=Stadium Juvenil, falsch=Stadium Adult) und `isFemale` (wahr=weiblich, falsch=männlich). Andere Variabeln enthalten einen Verweis auf einen anderen Agenten. Dies ist der Fall bei der Variabel `nativePond`. Hier wird ein Fremdschlüssel auf den entsprechenden Agenten der Spezies `groundCover` gespeichert. Dadurch kann direkt von einem Individum auf Variabeln seines Brutgewässers zugegriffen werden. Folgende Variabeln werden auf Ebene Spezies festgelegt und ausgewertet:
+
+- `groundCover`:
+  - `type` (Text)
+  - `place_of_exposion` (Bool)
+  - `catchingNet` (Bool)
+  - `area` (Gleitkommeazahl)
+  - `newtCount` (Ganzzahl)
+  - `densityLarva` (Ganzzahl)
+- `offspring`: 
+  - `nativePond` (Fremdschlüssel auf die Species `pond`)
+  - `isEgg` (Bool)
+  - `count` (Ganzzahl)
+  - `layDate_egg` (Datum)
+  - `hatchDate_larva` (Datum)
+  - `location` (Koordinaten)
+- `juvenil`:
+  - `nativePond` (Fremdschlüssel auf die Species `pond`)
+  - `isFemale` (Bool)
+  - `dateDevelopment` (Datum)
+  - `location` (Koordinaten)
+- `adult`:
+  - `nativePond` (Fremdschlüssel auf die Species `pond`)
+  - `istFemale` (Bool)
+  - `maturity` (Datum)
+  - `lastReproduction` (Datum)
+  - `isMigrant` (Bool)
+  - `slipped` (Bool)
+  - `location` (Koordinaten)
+- `migrant`:
+  - `isJuvenil` (Bool)
+  - `nativePond` (Fremdschlüssel auf die Species `pond`)
+  - `isFemale` (Bool)
+  - `dateDevelopment` (Datum)
+  - `lastReproduction` (Datum)
+  - `location` (Koordinaten)
+
+### Prozesse {#prozess}
+Das Modell berechnet die Anzahl Kammmolche im ganzen Modell und in den einzelnen Gewässern bei jedem Zeitschritt. Für die Übergange zwischen den Stadien, die Wanderungen und die Sterblichkeit sind spezifische Prozesse definiert, welche folgend erläutert werden.
+
+#### Fortpflanzung und Eier legen {#reproduction}
+Weibchen legen Eier in ihr angestammtes Gewässer, welche in der Variabel `nativePond` gespeichert wird. Dies ist nicht jederzeit möglich, es müssen eine Reihe von Bedingungen eintreffen, damit Eier abgelegt werden können:
+
+- Die Jahreszeit: Fortpflanzung findet in einem festgelegten Zeitraum statt.
+- Es muss mindestens ein Männchen im gleichen Gewässer vorhanden sein wie das Weibchen.
+- Seit der letzten Fortpflanzung ist die, durch den Parameter `reproductionBreak`, festgelegte Fortpflanzungspause verstrichen.
+
+Beim Eier legen wird ein Agent der Spezies `offspring` mit folgenden Variabeln geschaffen:
+
+- `isEgg = true`
+- `count = parameter(clutchSize)`
+- `nativePond = nativePond der Mutter`
+- `layDate_egg = current_date`
+- `location = location` der Mutter
+
+#### Schlüpfen
+Beim Schlüpfen werden drei Variabeln in der Spezies `offspring` angepasst:
+
+- `count = count * parameter(survival_egg)`
+- `isEgg = false`
+- `hatchDate_larva = current_date`
+
+#### Dichteabhängige Sterblichkeit der Larven {#dichtesterb}
+Im Larvenstadium wird eine dichteabhängige Sterblichkeitsrate eingeführt. Die Annahme ist, dass mit zunehmender Dichte die Sterblichkeit quadratisch ansteigt. Die grundlegende Sterblichkeit entspricht der Sterberate bei unbedeutender Larvendichte und wird gestützt auf die Werte aus anderen Stadien  als `0.6` angenommen. Dies entspricht einer Überlebenswahrscheinlichkeit von `40%`. In der Grundformel $y=a*x^2 + b*x + c$ ist $y$ die Sterberate der Larven, $x$ ist die Larvendichte, $b$ wird auf 0 gesetzt, und $c$ entspricht der Grundsterblichkeit von `0.6`. Der Koeffizient $a$, welcher die Öffnung der Kurve und somit die Auswirkung der Dichte auf die Sterblichkeit bestimmt, wird im Kalibrationsprozess ermittelt (Kapitel \@ref(kalidichte)). Das Ergebnis beschreibt die Überlebenswahrscheinlichkeit der Larven über die ganze Lebensdauer. Es resultiert die Formel \@ref(eq:sterblarve) , wobei gilt:
+
+- $S$=Sterblichkeit pro Tag
+- $S_{grund}$ = Grundsterblichkeit
+- ${Koeff}$ = Koeffizient
+- ${Dichte}$ = aktuelle Larvendichte in $\frac{Anzahl}{m^2}$
+
+
+\begin{equation}
+{S = {Koeff}*{Dichte}^2+S_{grund}}
+(\#eq:sterblarve)
+\end{equation}
+
+
+#### Entwicklung der Larven zu Juvenilen
+Hier findet der Übergang vom formelbasierten zum individuenbasierten Paradigma statt. Beim erreichen des nötigen Alters (Parameter `maxAge_larva`) wird für jede überlebende Larve (ausgedrückt durch die Variabel `count`) ein Agent der Spezies Juvenil geschaffen. Wieviele Larven das nächste Stadium erreichen, wird über die dichteanhängige Sterblichkeitsrate bestimmt, siehe vorheriges Kapitel. Bei der Entwicklung zum Juvenilen werden eine Reihe Eigenschaften vom kreierenden Agenten (ursprünglich von der Mutter) übernommen. Das Geschlecht wird nach einem Zufallsmechanismus festgelegt. Es werden folgende Variabeln gesetzt: 
+
+- `nativePond = nativePond des kreierenden Agenten`
+- `location = location des kreierenden Agenten`
+- `if random(1.0) >= 0.5: isFemale=true, else: isFemale=false`
+- `dateDevelopment = current_date`
+- `isMigrant = true`, ansonsten würde die Entscheidung übersprungen, ob eine Wanderschaft angetreten wird oder nicht
+
+Nach dem Übergang vom Larvenstadium ins juvenile Stadium wird der kreierende Agent gelöscht.
+
+
+#### Entwicklung vom Juvenilen zum Adulten
+Der Übergang von den juvenilen zum erwachsenen Tier wird über den Kalender terminiert. Beim Erreichen des vorbestimmten Alters (in Parameter `maxAge_juv`), wird folgender Prozess ausgelöst: 
+
+```
+if random(1.0) >= survival_juvenil:
+  create adult
+do die
 ```
 
-## Verwendete Daten
-### Bodenbedeckung
-Zu Darstellung der Umgebung werden Daten mit Informationen zur Bodenbedeckung verwendet. diese werden vom Kanton Basel-Landschaft erhoben und konstenlos über einen Downloaddienst zur Verfügung gestellt. Diese Informationen dienen der Steuerung von Wanderbewegungen (siehe Kapitel \@ref(wanderung)) und zur farblichen Darstellung der Landschaft im Modell. Die Vektordaten sind in einer hohen Genauigkeit erfasst und klassifiziert. Die verwendete Darstellung und vorhandene Bodenklassen sind in Abbildung \@ref(fig:gebietbb) ersichtlich. Die Landesgrenze beschreibt im Untersuchungsgebiet einen Bogen tief ins Landesinnere. Die Daten zur Bodenbedeckung sind nur auf Gebieten des Kantons Basel-Landschaft erfasst. In der erwähnten Lücke auf dem Boden der Gemeinde Neuwiller in Frankreich besteht ein Loch. Es kann jedoch nicht ausgeschlossen werden, dass Kammmolche ebenfalls durch diese Gebiete wandern. Die benötigten Oberflächendaten wurden hier anhand der 1:25'000 er Landeskarte der Schweiz von Hand grob abdigitalisiert. Erkennbare Strukturen, wie Gebäude, Siedlung, Strassen, Wälder, Landwirtschaftsland und Gewässer wurden dabei berücksichtigt (siehe Abbildung \@ref(fig:gebietbb)). Häuser wurden nicht mit dem realistischen Grundriss nachgezeichnet sondern durch ein standardisiertes Rechteck von ca. 100m2 ersetzt. Der Siedlungsraum wurde insgesamt als Gartenanlage modelliert. Das restliche Offenlad wurde dem Typ "Acker, Wiese, Weide" zugeordnet. Die Körnung ist deutlich gröber wie die Daten der amtlichen Vermessung 
+Der juvenile Agent wird in jedem Fall gelöscht. Mit der Zeile `if random(1.0) >= survival_juvenil` wir die natürliche Sterblichkeit simuliert. Ein Zufallsprozess selektiert einen bestimmten Anteil (Parameter `survival_juvenil`) der Population, welcher die Geschlechtsreife erreicht. Die Attribute des neuen Agenten `adult` werden wie folgt gesetzt:
+
+- `nativePond = nativePond des kreierenden Agenten`
+- `location = location des kreierenden Agenten`
+- `isFemale = isFemale des kreierenden Agenten`
+- `maturity = current_date`
+
+#### Jährliche Sterblichkeit der Adulten
+Die Spezies `adult` verfügt als einzige über eine jährliche Sterblichkeitsrate. Diese wird einmal im Jahr berechnet. Als Zeitpunkt für diese Berechnung wird der letzte Tag des Jahres gewählt. Für jeden Agenten wird in einem Zufallsereignis entschieden, ob er überlebt. Die Wahrscheinlichkeit zu überleben wird im Parameter `survival_adult` festgelegt.
+
+
+#### Wanderungen {#speciesMigrant}
+Sowohl adulte Tiere als auch Juvenile unternehmen Wanderungen. Im vorliegenden Modell werden Wanderungen als ein Wechsel des angestammten Brutgewässers aufgefasst. Saisonale Wanderungen, wie sie in der Natur jährlich vorkommen und im gleichen Gewässer enden wie sie starten, werden nicht modelliert. Die wesentliche Funktion der Wanderungen im Modell ist die Ausbreitung der Population auf neue Gewässer. Die Wanderungen beginnen bei Adulten nach der Paarungszeit und bei Juvenilen sofort ab erreichen des Stadiums. Für die Ausbreitungsleistung der Population sind hauptsächlich zwei Faktoren verantwortlich: Die Dauer der Wanderungen und die Wandergeschwindigkeit. Die Wandergeschwindigkeit kann wird über die Literatur festgelegt und unterscheidet sich zwischen Juvenilen und Adulten. Die Wanderleistung beträgt hier 10m/Tag für Adulte und 15m/Tag für Juvenile  (Parameter `migration_velocity_adult` und `migration_velocity_juv`). Die Dauer der Wanderungen wird über eine Kalibration festgelegt. Diese dürfte sich aber im Bereich von 20 Tagen bewegen, um die belegten Ausbreitungsdistanzen von 293m (adulte) und 500m (juvenile) zu erreichen. Nähere Erläuterungen dazu im Kapitel \@ref(introWanderungen). Wenige Individuen verfügen jedoch über eine viel grössere Wanderleistung als die anderen und vermögen so, weiter entfernte Gewässer zu besiedeln. Im Modell wird dies durch die Anpassung der Wandergeschwindigkeit erreicht. Einer von tausend (0.1%) Wanderern verfügt über eine vierfache Wandergeschwindigkeit. Der Anteil der Population, welcher sich überhaupt auf Wanderschaft begibt ist bei 12% der Adulten und auf 37.3% der Juvenilen festgelegt (Parameter `migrationRate_adult` und `migrationRate_juv`). Die genannten Parameter geben dabei die Wahrscheinlichkeit an, dass ein Agent auf Wanderschaft geht. Diese Entscheidung findet nur einmal pro Stadium statt. Wenn das Los gegen eine Wanderung entscheidet wird die Variabel `isMigrant` auf `false` gesetzt. Das gleiche geschieht nach einer abgeschlossenen Wanderung.
+
+Die Wanderungen selber verlaufen bei beiden Spezies nach gleichem Muster:
+Sie verlassen das Gewässer in einer zufälligen Himmelsrichtung. Bei jedem Schritt weichen sie zufällig +/- 10° vom Kurs ab. Die zurückgelegte Distanz wird auf durch die Parameter `migration_velocity_adult` und `migration_velocity_juv` bestimmt. Nach Ablauf der Wanderdauer (Parameter `migration_time`) wird das nächste Brutgewässer (Luftlinie) ermittelt und als neues angestammtes Gewässer hinterlegt. Danach führt die Wanderung direkt, ohne Kursabweichungen in das neue Brutgewässer.
+Die Wanderung erfolgt unabhängig von der Umgebung, mit einer Ausnahmen: Tiere können nicht durch Gebäude wandern. Vor jedem Schritt wird vorausgeschaut ob ein Haus im Weg ist und die Wandergeschwindigkeit und Richtung so angepasst, dass die Hindernisse umgangen werden.
+
+#### Bekämpfung
+Ab dem Modelldatum 1.1.2021 werden Bekämpfungsmassnahmen simuliert. In der realen Welt werden Tiere bei der saisonalen Zuwanderung in die Gewässer mithilfe von fest installierten Zäunen gefangen. Kammmolche, welche in der Fortpflanzungspause sind, suchen keine Gewässer auf und können deshalb nicht gefangen werden. Im Modell werden diese saisonalen Wanderungen nicht simuliert. Deshalb werden nur Agenten gefangen, welche nicht in der Reproduktionspause sind und somit in die Gewässer wandern würden. Zudem werden nur an bestimmten Gewässern Zäune aufgestellt, diese sind mit der Variabel `catchingNet == true` markiert. Die zuwandernden Kammmolche erhalten eine Chance (Parameter `probabilityCatch`) um durch die Zäune zu schlüpfen, oder anderweitig nicht gefangen zu werden. Nachfolgend sind die Kriterien aufgelistet, nach welchen zu fangende Tiere selektiert werden:
+
+- `nativePond.catchingNet == true`
+- `lastReproduction + reproductionBreak >= current_date`
+- `slipped == false`
+- `random(1.0) >= parameter(probalityCatch)`
+
+Die Wahrscheinlichkeit, mit welcher ein Agent gefangen wird, kann nicht eindeutig festgelegt werden, da dazu Zahlen fehlen. Deshalb werden drei Szenarien formuliert, anhand welcher Unsicherheiten bezüglich der Fangwahrscheinlichkeit getestet werden. Näheres dazu ist in Kapitel \@ref(szenarien) beschrieben. Die Szenarien bestimmen den Parameter `probabilityCatch`.
+
+
+### Design Konzepte
+#### Grundlegende Prinzipien
+Das Modell versucht äusserst komplexe, natürliche Abläufe abzubilden. Natürliche Prozesse sind nie starr auf einen Parameter ausgerichtet, sondern sind von dutzenden Faktoren abhängig. Das Modell ignoriert bei den meisten Einflussgrössen diese natürliche Bandbreite und legt einen festen Wert dafür fest. Eine Abbildung der Einflussgrössen mit einer zufälligen Schwankung birgt die Gefahr, dass das Modell chaotisch verläuft und die Resultate nicht nachvollziehbar sind. Deshalb basiert das Grundgerüsts des Modells auf starren Abläufen, welche sich nach dem Modelldatum und Parameterwerten richten. Wo immer möglich werden die Parameter anhand Angaben aus der Literatur festgelegt. Es wird bewusst darauf verzichtet, Schwankungsbereiche aus der Literatur mit zufälligen Ereignissen nachzubilden um ein möglichst eindeutiges Modell zu erhalten und chaotisches Verhalten zu verhindern. Dies betrifft zeitliche Entscheidungen, wie die Entwicklungsdauer der einzelnen Stadien, die Anzahl gelegter Eier sowie die Wandergeschwindigkeit. Die Sterblichkeitsrate wird ebenfalls als fester Wert implementiert, die Entscheidung ob ein Individum stirbt ist hingegen ein zufälliges Ereignis. Es wird eine Zufallszahl zwischen `0` und `1` generiert. Ist diese Zahl grösser als die Sterblichkeitsrate, stirbt das Individum. Weitere Entscheidungen sind nicht eindeutig durch die Literatur belegt und beruhen entweder auf Annahmen, werden durch Experimente bestimmt (siehe \@ref(kalibration))  oder werden mit Szenarien in das Modell implementiert (siehe Kapitel \@ref(szenarien)).
+Dennoch ist es wünschenswert ein naturnahes Verhalten zu erreichen und gewisse Schwankungen in den Resultaten zuzulassen. Dies ermöglicht das Entstehen von unerwarteten Mustern (\@ref(emergenz)) und kann zum besseren Verständnis der realien Gegebenheiten führen.
+
+#### Emergenz {#emergenz}
+Die Emergenz beschreibt Muster, welche sich durch die Summe der individuellen Entscheidungen ergeben. Die Emergenz wird durchzufällige Entscheidungen gefördert, da eher unerwartetes Verhalten auftritt. Durch komplett starre Regeln, wird weniger Emergenz möglich sein, sondern die Resultate werden immer gleich ausfallen. Das Modell hat zum Zweck die natürlichen Verbreitungsmuster der Kammmolche nachzubilden. Eine stark durch Zufall getriebenes Modell wäre allerdings chaotisch und die einzelnen Durchläufe würde sich so stark voneinander unterscheiden, dass eine Kalibrierung des Modells oder die Interpretation der Resultate verunmöglicht würde. Aus diesem Grund werden hier so viele Parameter wie möglich fest geschrieben und nur wenige Entscheidungen mit Zufallsmechanismen herbeigeführt. Viele Zufallsentscheidungen nivellieren sich über die grosse Anzahl Agenten und über die lange Dauer des Modells aus.
+
+
+Wesentliche Kennzahlen der Verbreitung von Italienischen Kammmolchen im Projektgebiet sind die Anzahl Tiere sowie die besiedelten Gewässer. Das Verbreitungsgebiet wird durch die besiedelten Gewässer bestimmt. Das wesentliche Muster, welches in diesem Modell repliziert werden soll, ist demnach hauptsächlich die besiedelten Gewässer.
+
+
+
+
+In natürlichen Prozessen verfügen alle Entscheidungen über gewisse Schwankungsbereiche. Über viele Individuen und längere Zeit ergeben sich aber eindeutige Muster, welche aus der Summe aller Entscheidungen resultieren und nicht unbedingt nur mit einzelnen Faktoren erklärbar sein müssen.
+
+Dieses Modell versucht das natürliche Verbreitungsmuster der Italienischen Kammmmolche zu ergründen und nachzubilden ohne dabei die individuellen Spielräume exakt abzubilden. Dies würde die Gefahr beinhalten, dass das Modell chaotisch reagiert und die Resultate sehr grosse Schwankungen aufweist. Dadurch wäre eine Kalibrierung des Modells und die Interpretation der Daten sehr schwierig wenn nicht sogar unmöglich.
+
+
+
+
+Die Treiber der Emergenz ist in diesem Modell hauptsächlich der Wanderprozess. Dieser verfügt über mehrere zufällige Elemente. Die vom Modell produzierten Resultate sind unter anderem die Anzahl der lebenden Individuen und die Anzahl der besetzten Gewässer. Jedes Gewässer kann nur eine begrenzte Anzahl Individuen pro Jahr hervorbringen. Dies ist durch die dichteabhängige Sterblichkeit der Larven vorgegeben. Das führt dazu, dass Populationswachstum ab einer gewissen Schwelle nur erreicht werden kann, wenn neue Gewässer besiedelt werden. Die Emergenz drückt sich also praktisch nur über die besiedelten Gewässer aus.
+
+Der Wanderprozess ist in recht starren Regeln definiert. Die Wandergeschwindigkeit und die Wanderdauer sind fest hinterlegt. Damit lässt sich bereits erahnen, dass immer die gleichen Gewässer innerhalb eines gewissen Radius besiedelt werden. Gewässer welche weiter als dieser Radius von bereits besiedelten Gewässern liegen, sind unerreichbar. Dies entspricht nicht der Realität und ist auch in dem Modell nicht wünschbar. Die Emergenz entsteht hier dadurch, das sehr selten ein Individum die Fähigkeit erhält viel weiter zu wandern als andere. Dadurch ist die temporäre Besiedelung entfernter GEwässer sehr wahrscheinlich und sogar die dauerhafte Besiedelung möglich. Dies ist jedoch auch stark vom Zufall abhängig, da sich zwei Agenten mit unterschiedlichen Geschlechtern in diesem Gewässer begegnen müssen um Nachfahren zu zeugen. Das heisst, dass ein Agent ein Gewässer besiedeln muss und dann genug lang überlebt bis ein zweiter Agent anderen Geschlechts das gleiche Gewässer besucht.
+
+#### Sensing
+Das Modell beinhaltet einen einzigen Prozess, in dem die Agenten die Umwelt abtasten: die Wanderung. Die Agenten bewegen sich dabei zum grossen Teil unabhängig von Ihrer Umgebung. Die Ausnahme sind die Wanderhindernisse. Gebäude können nicht durchschritten werden, sondern werden umgangen. Bei jedem Schritt auf der Wanderung wird die Linie vorausberechnet auf welcher die Wanderung weiter verläuft. Kreuzt diese Linie ein Gebäude, wird die Wandergeschwindigkeit so angepasst, dass nur bis zum Gebäude hin gelaufen werden kann. Danach ändert die Laufrichtung zufällig bis das Gebäude umgangen ist oder die Wanderrichtung gänzliche angepasst wurde.
+
+
+<!-- #### Interaktion -->
+<!-- In zwei Prozessen geschehen Interaktionen zwischen mehreren Agenten. Dabei entsteht nicht eine Kommunikation, in welcher Agenten Informationen austauschen. Es sind einseitige Interaktionen in welcher aber die Präsenz von anderen Individuen entscheidend ist. Es sind dies: -->
+
+<!-- - die dichteabhängige Sterblichkeit bei Larven basiert auf der Anzahl Larven im gleichen Gewässer. Das Überleben eines Individum ist hier direkt abhängig von der Gewässergrösse und der Präsenz anderer Larven. -->
+<!-- - Die Fortpflanzung kann nur erfolgreich sein, wenn sich mindestens zwei Agenten der Spezies `adult` mit unterschiedlichem Geschlecht im gleichen Gewässer aufhalten. -->
+
+
+#### Stochasticity
+Das Modell basiert auf einer Mischung an stabilen Parametern und zufallsereignissen. Die Zufallsereignisse sind hauptsächlich dichothome Entscheidungen (ja/nein)
+Wie bereits im Kapitel \@ref(prozess) beschrieben, basieren zahlreiche Entscheidungen auf Zufallsereignissen. 
+Initialisierung Alter und Geschlechtsreife der bestehenden Kammmolche. 
+
+
+#### Observation
+Anzahl Agenten alles Spezies zu jedem Zeitpunkt und aufsummmiert über die ganze Laufzeit.
+Anzahl besetzte Gewässer.
+
+### Initialisierung
+Der Anfangszustands des Modells besteht aus einer Grundkarte und einer bestimmten Anzahl Kammmolche(Parameter `newtCount`) in einem Gewässer. Die Grundkarte besteht aus der Spezies `groundCover` und wird in Form eines Shape-Files geladen. Die Geometrien und die benötigten Attribute aus dem Shapefile werden in die Spezies `groundCover` geladen, wobei jede Geometrie als ein Agent behandelt wird. Mittels Attributen im Shapefile können die unterschiedlichen Typen von Bodenbedeckung identifiziert und entsprechend eingefärbt werden (Variabel `type`). Für genauere Beschreibung der verwendeten Daten, siehe Kapitel \@ref(bobe). Aus der Bodenbedeckung werden sämtliche potentiellen Brutgewässer in die Species `pond` verschoben. 
+
+Innerhalb der Geometrie des Aussetzungsgewässers (`pond.place_of_exposion == TRUE`) wird die Startpopulation an Kammmolchen geschaffen indem die Variabel `location` der Agenten auf einen zufälligen Punkt innerhalb des Aussetzungsgewässers gesetzt wird. Das Aussetzungsgewässer wird zum angestammten Gewässer (variabel `nativePond`) dieser Agenten und folgende Variabeln werden gesetzt:
+
+- `if random(1.0) >= 50 : isFemale=true else: isFemale=false`
+- `maturity = starting_date - random(500)`
+- `lastReproduction = maturity`
+
+Das Modell wird durch viele Parameter gesteuert. Diese werden ebenfalls initial festgelegt. Die entsprechenden Werte sind in Tabelle \@ref(tab:para) aufgelistet.
+```{r tab_parameter, echo=FALSE}
+knitr::kable(tab_parameter,caption='Im Modell verwendete Parameter',label='para',"pipe")
+```
+
+### Verwendete Daten, Bodenbedeckung {#bobe}
+Zu Darstellung der Umgebung werden Geodaten vom Kanton Basel-Landschaft mit Informationen zur Bodenbedeckung verwendet. Diese werden vom Kanton Basel-Landschaft erhoben und kostenlos über einen Downloaddienst zur Verfügung gestellt. Diese Informationen dienen der Steuerung von Wanderbewegungen und zur farblichen Darstellung der Landschaft im Modell. Die Vektordaten sind in einer hohen Genauigkeit erfasst und klassifiziert. Die verwendete Darstellung und vorhandene Bodenklassen sind in Abbildung \@ref(fig:gebietbb) ersichtlich. 
+Die Landesgrenze beschreibt im Untersuchungsgebiet einen Bogen tief ins Landesinnere. Die Daten zur Bodenbedeckung sind nur auf Gebieten des Kantons Basel-Landschaft erfasst. In der erwähnten Lücke auf dem Boden der Gemeinde Neuwiller in Frankreich besteht ein Loch. Es kann jedoch nicht ausgeschlossen werden, dass Kammmolche ebenfalls durch diese Gebiete wandern. Die benötigten Oberflächendaten wurden hier anhand der 1:25'000 er Landeskarte der Schweiz von Hand grob abdigitalisiert. Erkennbare Strukturen, wie Gebäude, Siedlung, Strassen, Wälder, Landwirtschaftsland und Gewässer wurden dabei berücksichtigt (siehe Abbildung \@ref(fig:gebietbb)). Häuser wurden nicht mit dem realistischen Grundriss nachgezeichnet sondern durch ein standardisiertes Rechteck von ca. 100m2 ersetzt. Der Siedlungsraum wurde insgesamt als Gartenanlage modelliert. Das restliche Offenlad wurde dem Typ "Acker, Wiese, Weide" zugeordnet. Die Körnung ist deutlich gröber wie die Daten der amtlichen Vermessung.
+
 
 ```{r 'gebietbb',echo=FALSE,out.width="80%",fig.cap="Darstellung der Bodenbedeckung. Die Gewässer mit aktiven Bekämpfungsmassnahmen sind rot umrandet, die Beschriftungen zeigen die Identifikationsnummer der Gewässer. Am unteren, rechten Bildrand ist das Gebiet in Frankreich zu sehen."}
 knitr::include_graphics("./bilder/Tal_Bekämpfungsgewässer.jpg")
 ```
-Für die Steuerung des Modells wurden die Vektordaten zur Bodenbedeckung mit weiteren Attributen angereichert. Für die Identifizierung der einzelnen Gewässer werden Nummern verwendet, welche von der Koordinationsstelle für Reptilien und Amphibien Schweiz (karch) vergeben werden. Diese stammen aus dem Datensatz "Weiherinventar" im Geodatenviewer des Kantons Basel-Landschaft (siehe: [https://geoview.bl.ch/?map_x=2609487.9992678&map_y=1264906.4997948&map_zoom=4&tree_group_layers_Natur%20u.%20Landsch.=weiherinventar&tree_groups=Natur%20u.%20Landsch.](https://geoview.bl.ch/?map_x=2609487.9992678&map_y=1264906.4997948&map_zoom=4&tree_group_layers_Natur%20u.%20Landsch.=weiherinventar&tree_groups=Natur%20u.%20Landsch.)).
-Mithilfe eines Attributs wurde dasjenige Gewässer markiert, in welchem die Kammmolche mutmasslich ausgesetzt wurden und ein weiteres Attribut zeigt diejenigen Gewässer an, welche für die jährlichen Bekämpfungsaktionen eingezäunt werden.
+Für die Steuerung des Modells wurden die Vektordaten zur Bodenbedeckung mit weiteren Attributen angereichert. Für die Identifizierung der einzelnen Gewässer werden Nummern verwendet, welche von der Koordinationsstelle für Reptilien und Amphibien Schweiz (karch) vergeben werden. Diese stammen aus dem Datensatz "Weiherinventar" im Geodatenviewer des Kantons Basel-Landschaft (siehe: [https://geoview.bl.ch/?map_x=2609487.9992678&map_y=1264906.4997948&map_zoom=4&tree_group_layers_Natur%20u.%20Landsch.=weiherinventar&tree_groups=Natur%20u.%20Landsch.](https://geoview.bl.ch/?map_x=2609487.9992678&map_y=1264906.4997948&map_zoom=4&tree_group_layers_Natur%20u.%20Landsch.=weiherinventar&tree_groups=Natur%20u.%20Landsch.)). Die Gewässer sind in der Abbildung \@ref(fig:gebietbb) mit der entsprechenden Nummer angeschrieben.
+Im Weiherinventar sind zahlreiche Gewässer erfasst, welche in den Daten zur Bodenbedeckung nicht erfasst wurden. Diese Gewässer wurden manuell nacherfasst. Dabei wurde die genaue Form und Lage nicht berücksichtigt, die Fläche wurde hingegen der Angaben aus dem Weiherinventar angepasst.
+Mithilfe der  Variabel `place_of_exposion` ist dasjenige Gewässer markiert, in welchem die Kammmolche mutmasslich ausgesetzt wurden (BL191) und die Variabel `catchingNet` zeigt diejenigen Gewässer an, welche für die jährlichen Bekämpfungsaktionen eingezäunt werden (in der Karte rot umrandet).
 
-### Zähl- und Messdaten
+
+### Zähl- und Messdaten {#daten}
 Seit Frühjahr 2021 werden in den Gewässern mit bekannten Vorkommen Kammmolche abgefangen. Die Tiere werden nach Stadium und Geschlecht bestimmt und gewogen. In der Tabelle \@ref(tab:tablecatches) sind die Fangzahlen aus den Jahren 2021 und 2022 aufgeführt. Das Gewässer BL195s wurde im zweiten Jahr nicht mehr für die Bekämpfung berücksichtigt. Andererseits fällt auf, dass im zweiten Jahr beinahe doppelt so viele Tiere abgefangen wurden. Zu erwarten wären eher, dass die Anzahl Tiere zurückgeht. Mit Blick auf den zeitlichen Verlauf der Fangaktion in Abbildung \@ref(fig:felddaten) lässt sich das auch anders einordnen:
 Der erste Fangtag im Jahr 2021 war Anfang März. Bereits am ersten Fangtag wurde eine beträchtliche Anzahl Tiere gefangen. Dies deutet darauf hin, dass die Tiere schon früher mit der Wanderung begonnen hatten und möglicherweise bereits Tiere in die Gewässer gelangten, bevor die Fallen aufgestellt wurden. Im Jahr 2022 begann die Fangaktion bereits Anfang Februar. Im Jahr 2022 wurde vor dem 1.März insgesamt `r sum(catched22$Anzahl[catched22$dayofyear<64],na.rm=TRUE)` Tiere gefangen. Insgesamt kann angenommen werden, dass die Anzahl gefangener Tiere im Jahr 2021 stark unter der Anzahl tatsächlich eingewanderter Tiere liegt.
-Die Gewichtsverteilung ist in Abbildung \@ref(fig:boxplotweight)
+
+Die Gewichtsverteilung der gefangenen Adulten ist in Abbildung \@ref(fig:boxplotweight). Die Tiere scheinen im zweiten Fangjahr eher etwas leichter gewesen zu sein, als im ersten. Das könnte darauf hindeuten, dass bereits viele alten und grossen Tiere abgefangen wurden. Allerdings könnte das auch mit dem verzögerten Beginn der Fangsaison zusammenhängen.
 
 
 ```{r felddaten, echo=FALSE, fig.cap="Fangzahlen aus den ersten beiden Projektjahren"}
@@ -211,13 +426,12 @@ ggplot(weight_all[weight_all$geschlecht!='J',],aes(x=geschlecht, y=gewicht)) +
 ``` {r tablecatches, echo=FALSE}
 opts <- options(knitr.kable.NA = "-")
 knitr::kable(list(tabelle21,tabelle22),caption='Gefangene Tiere 2021 (links) und 2022 (rechts)',booktabs=TRUE,valign=TRUE)
-
 ```
 
 ## Szenarien {#szenarien}
 Ziel der Abfangmassnahmen ist es, die Population an italienischen Kammmolchen aus der Umwelt zu entfernen. Die Massnahmen sind so ausgelegt, dass jedes Jahr möglichst viele Tiere vor der Eiablage gefangen werden und die Population so langfristig geschwächt wird. Es kann jedoch angenommen werden, dass die Abfangmethode nicht 100% der Tiere erwischt. Folgende Faktoren sind unbekannt und müssen in den Szenarien berücksichtigt werden:
 
-- Tiere befinden sich möglicherweise bereits in den Gewässern ubevor die Zäune aufgestellt werden
+- Tiere befinden sich möglicherweise bereits in den Gewässern bevor die Zäune aufgestellt werden
 - Tiere schlüpfen durch die Zäune
 - Tiere legen Eier ausserhalb der eingezäunten Gewässer (seichte Stellen im Bach, temporäre oder sehr kleine Gewässer, ...)
 - Tiere pflanzen sich in Gewässern fort, welche nicht überprüft werden (Gartenteich, Gewässer in Frankreich, ... )  
@@ -225,33 +439,109 @@ Ziel der Abfangmassnahmen ist es, die Population an italienischen Kammmolchen au
 Diese Möglichkeiten lassen sich nicht quantifizieren. Im Modell sind diese Faktoren nicht in die Verhaltensweise der Agenten eingeflossen, weil sie die Komplexität und damit das chaotische Verhalten des Modells verstärken würden. Dadurch würde die Aussagekraft geschwächt. Diese Faktoren lassen sich zusammen als Effizienz der Fangmethode bezeichnen, da sie alle dazu führen, dass sich Tiere den Abfangzäunen entziehen. Da die Effizienz unbekannt ist, werden hier drei Szenarien angenommen, welche eine realistische Bandbreite abdecken:
 
 1. optimistisches Szenario: 95% der Tiere werden abgefangen
-2. mittleres Szenarion: 75% der Tiere werden abgefangen
+2. mittleres Szenarion: 80% der Tiere werden abgefangen
 3. pessimistisches Szenario: 50% der Tiere werden abgefangen
 
 
+## Kalibrierung {#kalibration}
+Das Modell verfügt über viele Parameter, welche zum Grossteil mit Werten aus der Literatur eingestellt werden können. Einzelne Faktoren sind durch die Literatur ungenügend abgedeckt und müssen über die Kalibration ermittelt werden. Dies betrifft die Wanderdauer und die dichteabhängige Sterblichkeit. Im Rahmen der Kalibration werden deshalb folgende zwei Parameter ermittelt:
 
-## Kalibrierung
-### Dichteabhängigkeit
-Die Larven unterliegen mutmasslich einer dichteabhängigen Sterblichkeit. Quadratische Funktion, Dichte = 5fache maximaldichte führt zu einer Sterblichkeit von 100%. Experimentel ermittelt. Sterblichkeit der Larven über ganzes Modell liegt in der Grössenordnung von 0.4 (Annahme aus Literatur).
+- die Dauer der Wanderungen (Parameter `migration_time`)
+- der Koeffizient der dichteabhängigen Sterblichkeit (Parameter `density_koeff`)
+
+Beide Parameter beeinflussen sich gegenseitig nicht wesentlich, da sie grundsätzlich unterschiedliche Funktionen im Modell übernehmen. Daher können die beiden Parameter nacheinander kalibriert werden, ohne jede Kombination der beiden Parameter testen zu müssen. Für die Kalibrierung der Wanderdauer wird ein Wert für den Dichtekoeffizienten angenommen. Dieser Wert muss so eingestellt sein, dass genügend Kammmolche schlüpfen um in der Wanderphase in alle Himmelsrichtungen loszuwandern. Damit kann sichergestellt werden, dass das Auffinden der Gewässer durch die Wanderdauer beeinflusst wird und nicht durch einen Mangel an wandernden Individuen. Experimentell hat sich ein geeigneter Wert von 0,1 für den Dichtekoeffizient herausgestellt. Nach der Kalibrierung der Wanderdauer wird diese auf den ermittelten Wert fixiert und anschliessend der Dichtekoeffizient kalibriert.
+
+Die Funktion des ganzen Modells ist es, die Populationsentwicklung abzubilden und die Wirkungsweise der Fangaktionen zu untersuchen. Es ist deshalb sinnvoll, bei der Kalibrierung eher ein Worst-Case-Szenario anzunehmen. Die zu kalibrierenden Werte werden im Zweifelsfall also eher mit einem Wert eingestellt, mit welchen die Kammmolche sich stärker vermehren und verbreiten.
+
+### Wanderdauer {#kali_dauer}
+Als beobachtete Grösse für diese Kalibrierung wird die Anzahl der besiedelten Gewässer verwendet. Wie im Kapitel \@ref(daten) gezeigt, konnten bisher nur in 5 Gewässern Kammmolche festgestellt werden. Es handelt sich um die Gewässer mit der Indentifikationsnummer BL191, BL195, BL196, BL197 und BL198. Es gilt nun, einen Wert für den Parameter der Wanderdauer zu finden, welcher ebenfalls zu einer Besiedelung dieser Gewässer führt. Das Modell soll die Möglichkeiten offen lassen, dass weitere Weiher unentdeckt besiedelt wurden. Deshalb ist als Zeilwert nicht die exakte Zahl von fünf besetzten Gewässern gesetzt sondern liegt im bereich zwischen fünf und sechs Gewässern.
+
+Für die Kalibrierung wurde mit jedem Wert für die Wanderdauer das Modell fünf mal durchgeführt. Als Startdatum dient jeweils der 1.1.2000  und als Enddatum der 1.1. 2022. Die Parameterwerte der Wanderdauer in Tagen wurden experimentell auf den hier verwendeten Wertebereich eingeschränkt (`r time_levels`). Die Resultate sind in Abbildung \@ref(fig:kaliMigrant) gezeigt. Die senkrechten Linien zeigen dabei die Spanne und die Punkte den Mittelwert der Anzahl besiedelter Gewässer für jeden der drei Parameterwerte. Die grau Linie beschreibt die Regressionslinie, also die Gerade welche am Nächsten an allen Messpunkten liegt. Die waagrechten, gestrichelten Linien zeigen den Zielbereich von fünf bis sechs Gewässern. Es ziegt sich, dass der Paramaterwert von 13 genau auf der Regressionsgerade und auf dem Wert von 5.5 besetzen Gewässern liegt. Der Parameter `migration_time` wird für die folgenden Experimente also auf den Wert 13 eingestellt.
 
 
-### Wanderverhalten
+```{r kaliMigrant, echo=FALSE, fig.cap="Ergebnisse der Kalibration."}
+ponds_graph
+```
 
 
+### Dichteabhängige Sterblichkeit {#kalidichte}
+
+Der Prozess der dichteabhängigen Sterblichkeit ist im Kapitel \@ref(dichtesterb) eingehend beschrieben, ebenso die zugrundeliegende quadratische Gleichung. Der zu bestimmende Parameter ist der Koeffizient ($a$), welcher die Öffnung der quadratischen Funktion bestimmt. ($y = a*x^2 + bx + c$)
+Für die Kalibrierung des Dichtekoeffizienten wird das Modell mehrere Male mit unterschiedlichen Parameterwerten durchgeführt und anhand der Resultate ein möglichst passender Wert für den Parameter bestimmt. 
+
+Das Modell wird anhand der Daten der Fangaktion 2021 kalibriert (siehe Kapitel \@ref(daten) und Tabelle \@ref(tab:tablecatches)). 
+
+Im Modell wird dieser Koeffizient durch den Parameter `density_koeff` bestimmt. Für die Kalibrierung dieses Parameters wurde das Modell mit unterschieldichen Werten jeweils 5 Mal durchgeführt. Der verwendete Wertebereich (`r koeff_levels`) wurde experimentel ermittelt. Die Auswirkungen des Dichtekoeffizienten sind in Abbildung \@ref(fig:kaliDichte) veranschaulicht. Es ist ersichtlich, dass sowohl die Streuung der Resultate als auch die absolute Anzahl der gefangenen Kammmolche mit grösserem Koeffizienten abnimmt. 
+Wie in Kapitel \@ref(daten) beschrieben, sind die Fangzahlen aus dem ersten Jahr wohl nicht repräsentativ. Die Fangsaison war mutmasslich zu kurz und die Anzahl gefangener Individuen wäre wohl ungefähr doppelt so hoch ausgefallen, wenn das Abfangen schon früher begonnen hätte. Als Zielwert für die Kalibrierung wird hier eine Zahl zwischen 700 und 1200 angestrebt. Wie in der Abbildung \@ref(fig:kaliDichte) ersichtlich, liefert von den getesteten Werten einzig der Dichtekoeffizient` 0.01` einen Wert innerhalb des angestrebten Bereich. Allerdings wird ein Wert gesucht, welcher Resultate eher im oberen Bereich des Zielbereichs liefert. Der Dichtekoeffizient sollte also deutlich grösser sein als `0.005` und kleiner als `0.01`. Es wird hier ein Wert von `0.008` festgelegt.
 
 
+```{r kaliDichte, echo=FALSE, fig.cap="Die modellierten, gefangenen Kammmolche in Abhängigkeit des Dichtekoeffizienten"}
+graph
 
+```
 
 # Resultate
+Für die Erhebung der Resultate werden fünf Modelldurchgänge für jedes Szenario durchgeführt. Wie im Kapitel \@ref(szenarien) ausgeführt, werden verschiedene Fangwahrscheinlichkeiten zugrunde gelegt. Als Resultate werden die Anzahl adulter Kammmolche und die Anzahl der besiedelten Gewässer erhoben. Diese Kennzahlen werden jeweils zu Beginn des Jahres erhoben, wodurch ein zeitlicher Verlauf dargestellt werden kann. In Abbildung \@(fig:res) sind die Resultate grafisch dargestellt. Für jedes Fangszenarion (Fangwahrscheinlichkeit), ist ein Diagramm abgegbildet. In Schwarz sind die Mittelwerte (Linie) sowie die Spanne (gestrichelte Linien) der lebenden, adulten Kammmolche aufgetragen. In blauer Farbe ist die Anzahl der besiedelten Gewässer angezeigt (Linie=Mittelwert, Fläche=Spanne, rechte Skala).
+Wie schnell ersichtlich wird, führt kein Szenario zum Aussterben der Kammmolche. Am Ende des Modellzeitraums leben sogar mit dem stärksten Fangszenario (95% Fangwahrscheinlichkeit) in keinem der Modelldurchgänge weniger als `r res_data_3$min[50]` Adulte. Wie die Daten der besetzten Gewässer zeigen, werden deutlich mehr Gewässer besiedelt, als bei der Bekämpfung berücksichtigt werden. Über sämtliche Durchgänge werden bis zum Beginn der Bekämpfung (Jahr 2021) zwischen 7 und 16 Gewässer besetzt. Nach Beginn der Bekämpfung reduziert sich die Anzahl auf 3 bis 13 Gewässer. Dadurch können sich die Kammmolche weiter vermehren und verbreiten, da sie den Bekämpfungsmassnahmen entgehen.
+
+```{r res, echo=FALSE, fig.cap="Entwicklung der adulten Kammmolche unter Berücksichtigung der Fangwahrscheinlichkeit", fig.show="hold", out.width="50%"}
+adult1
+adult2
+adult3
+```
+
+In \@ref(fig:karte-bes1) wird dargestellt, in wievielen Jahren ein Gewässer besiedelt wurde. Dabei wurden sämtliche Wiederholungen und Fangszenarien berücksichtigt. Das resultierende Muster ist auf den ersten Blick gut nachvollziehbar. Die Gewässer in der Nähe des Aussetzungsgewässers werden in `67-89%` der Jahre besiedelt, je weitere die Gewässer entfernt liegen, desto seltener werden sie besiedelt. Es kann nicht festgestellt werden, wieviele Individuuen in den einzelnen Gewässern tatsächlich zu diesem Zeitpunkt gelebt haben. Da viele Gewässer nur über wenige Jahre besiedelt waren, ist anzunehmen, dass diese nur von einzelnen Individuuen besucht wurden und keine fortpflanzungsfähige Population entstand.
+
+## Korrigierte Version
+Es ist durchaus denkbar, dass im Modell Gewässer besiedelt werden, welche in der echten Umgebung für Kammmolche nicht bewohnbar sind. Diese werden dann bei der Bekämpfung der Kammmolche nicht berücksichtigt. Das Modell wird mit einer zweiten Version laufen gelassen, in welche sämtliche Gewässer für die Bekämpfung berücksichtigt werden.
+
+
+
+```{r karte-bes1,echo=FALSE,out.width="100%",fig.cap="Gewässer, welche mindestens einmal während sämtlichen Resultatläufen besetzt waren. Die Grösse repräsentiert den Anteil der Jahre, an welchem das Gewässer besiedelt war."}
+knitr::include_graphics("./bilder/resultate_besetzte_weiher_anteil.jpg")
+```
+
+
+Zweiter Durchlauf, alle Teiche fangen!
 
 
 
 # Diskussion
-## Sensitivitätsanalyse
+Wie die nachfolgenden kapitel zeigen, kann das Modell grundsätzlich als valide bezeichnet werden. Das heisst die vom Modell berechneten Vorhersagen entsprechen, soweit das überprüft werden kann, den realen Umständen.
 
-## Validierung
+
+Das Ziel eines jeden Modells ist es, gewisse Aspekte der realen Welt adäquat nachzubilden. Mit der Validierung wird überprüft, ob dies gelungen ist. Dazu werden hier zwei unterschieldiche Ansätze verfolgt. Die qualitative Validierung fokussiert auf das konzeptionelle Modell und stütz sich auf die Meinung von Experten ab. In diesem Fall wird die generelle Funktionsweise des Modells in Textform einer Expertin vorgelegt.
+
+Die quantitative Validierung hingegen vergleicht Messdaten aus der realen Situation mit den Äquivalenten aus dem Modell. Die einzigen Messdaten, welche vorliegen, sind die Zahlne aus den Fangaktionen. Während die Daten für das Jahr 2021 bereits für die Kalibrierung genutzt wurden, dienen die Fangzahlen aus dem Jahr 2022 für die Validierung.
+
+## Qualitative Validierung
+
+
+
+## Quanitative Validierung
+
+Die Validität des Modells wird hier anhand der Fangzahlen aus dem Jahr 2022 überprüft. Signifikant?
+
+
+
+## Wanderungen
+Es gibt durchaus Hinweise, das Kammmolche in Einzelfällen grössere Strecken zurücklegen. Damit können auch Gewässer besiedelt werden, welche die üblichen Kapazitäten der Tiere übersteigen. Dieser Mechanismus wurde im Modell nicht nachgebildet. Die Resultate wären damit etwas weniger vorhersagbar geworden, hätten dadurch vielleicht aber auch die natürliche Variabilität besser abgebildet.
+Zudem sind die Wanderungen sehr einfach modelliert und entsprechen vermutlich nicht der Realität. Im Modell wandern die Kammmolche gleich schnell und gleich lang, unabhängig vom Gelände und von der Bodenbedeckung. Es ist jedoch anzunehmen, dass die Amphibien sich in schattiger Umgebungen (Wald, Gehölze, Gräben, ...) länger aufhalten und weiter wandern können. Ebenso ist es einleuchtend, dass die Steigung einen Einfluss auf das Wanderverhalten ausübt. Die Wanderungen sind aber zu wenig detailliert erforscht, und es können keine adäquaten Annahmen für das Modell erstellt werden.
+
+## Umweltfaktoren
+Im Modell gänzlich unberücksichtigt bleiben Umweltfaktoren. Es werden nicht alle Gewässer gleich schnell und dicht besiedelt. Der Bewuchs innerhalb der Gewässer spielt sicher eine Rolle, da die Kammmolch-Weibchen die Eier in Blätter von Unterwasserpflanzen einrollen (QUELLE). Für die Fortbewegung ausserhalb der Gewässer sind sicherlich auch Mikrohabitate massgebend. Verstecke, Bewuchsdichte und Bodenbeschaffenheit spielen möglicherweise eine wichtige Rolle in der Entscheidung in welche Richtung und wie weit ein Kammmmolch sich fortbewegt. Zusätzlich sind die Einflüsse des Wetters zu nennen. In aussergewöhnlich niederschlagsreichen Jahren iust die Fortbewegung an Land sicherlich für Amphibien einfacher als in sehr trockenen Jahren. Solche eher seltenen  Wetterereignisse könnte in der Verbreitung von Kammmolchen ein wichtige Rolle spielen.
+
+Die möglichen Einflussquellen sind zahlreich. Oft ist unbekannt ob überhaupt ein Zusammenhang besteht wie stark dieser Zusammenhang ist. Aufgrund der grossen Unsicherheit wurden Umweltfaktoren hier gänzlich ignoriert.
 
 # Schlussfolgerung
+Das Modell zeigt .....
+
+Ein Gewässer wird dauerhaft besiedelt, sobald einmal in diesem Gewässer Eier abgelegt werden. Durch die grosse Anzahl an Eiern, werden immer auch einige fortpflanzungsfähige Nachfahren heranwachsen, welche in diesem Gewässer verbleiben. Dieser Mechanismus dürfte in der Realität sehr ähnlich sein. Hier si
+
+
+Es ist grundsätzlich möglich das natürliche Verhalten von Lebenwesen in einem technischen Modell nachzubilden und damit Vorhersagen zu treffen.
+
+
 
 
 
