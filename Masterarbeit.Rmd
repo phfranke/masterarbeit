@@ -519,12 +519,6 @@ Der Verlauf der Kurven aus dem ersten und dem korrigierten Modell unterscheiden 
 knitr::include_graphics("./bilder/resultate_besetzte_weiher_anteil2.jpg")
 ```
 
-## Validierung
-
-```{r val, echo=FALSE, fig.cap="Gefangene Kammmolche im Jahr 2022 über alle Modellläufe"}
-graph_val
-
-```
 
 # Diskussion
 Wie die nachfolgenden kapitel zeigen, kann das Modell grundsätzlich als valide bezeichnet werden. Das heisst die vom Modell berechneten Vorhersagen entsprechen, soweit das überprüft werden kann, den realen Umständen.
@@ -535,13 +529,44 @@ Die quantitative Validierung hingegen vergleicht Messdaten aus der realen Situat
 
 ## Qualitative Validierung
 
-
+Mail an Petra versandt. noch nicht zurück (24.11.23)
 
 ## Quanitative Validierung
 
-Die Validität des Modells wird hier anhand der Fangzahlen aus dem Jahr 2022 überprüft. Signifikant?
+Die Validität des Modells wird hier anhand der Fangzahlen aus dem Jahr 2022 überprüft. Die Fangzahlen sind in Tab. \@ref(tab:tablecatches) zusammengefasst, im Jahr 2022 wurden demnach `1192` adulte Kammmolche gefangen. Die im Modell gefangenen Tiere sind in der Abbildung \@ref(fig:val) ersichtlich. Für diese Auswertung wurden die Resultate von beiden Modelldurchgängen verwendet. In jedem Durchgang wurde das Modell für die drei Fangwahrscheinlichkeiten jeweils 5 Mal durchgeführt. Insgesamt sind hier 30 Datensätze verarbeitet. Die gestrichelte Linie zeigt die tatsächlich gefangenen Tiere an. Wie unschwer zu erkennen ist, werden im Modell viel weniger Tiere gefangen als in echt. 
 
+```{r val, echo=FALSE, fig.cap="Gefangene Kammmolche im Jahr 2022 über alle Modellläufe"}
+graph_val
 
+```
+
+Bei den Durchläufen mit Fangwahrscheinlichkeit von `80%` und `95%` liegen die Fangzahlen zwischen `r min(data_tot$data_catch_diff[data_tot$data_catch_prob > 0.7])` und `r max(data_tot$data_catch_diff[data_tot$data_catch_prob > 0.7])` gefangenen Tiere. Das sind ungefähr die Hälfte der tatsächlich gefangenen Anzahl.
+Das Modell kann nicht als valide eingestuft werden.
+
+Das kann mehrere Ursachen haben:
+
+1. Die Kalibration ist nicht korrekt
+2. Die Fortpflanzung ist nicht adäquat abgebildet und es entstehen zu wenige Kammmolche
+3. Der Mechanismus beim Abfangen oder die Zählweise der gefangenen Individuuen ist nicht korrekt
+
+Ja nachdem was die qualitative Validierung ergibt, fällt Punkt 2 oder 3 weg.
+
+Die Kalibration kann überprüft werden, indem die modellierten Fangzahlen 2021 angeschaut werden. Die Grafik in Abbildung \@ref(fig:val2) zeigt die modellierten Fangzahlen aus dem Jahr 2021.
+
+```{r val2, echo=FALSE, fig.cap="Gefangene Kammmolche im Jahr 2021 über alle Modellläufe"}
+graph_val2
+
+```
+
+Im ersten Fangjahr werden, vor allem in den Szenarien mit den höheren Fangwahrscheinlichkeiten, die tatsächlichen Fänge gut widergegeben. Die Kalibration ist also korrekt.
+Bei der Betrachtung der Fangzahlen über die Zeit (siehe Abbildung \@ref(fig:val3)), fallen die Schwankungen ins Auge. Die Fangzahlen brechen stark ein und erholen sich innert einiger Jahre wieder. 
+
+```{r val3, echo=FALSE, fig.cap="Zeitreihe der Fangzahlen in den Fangszenarien 80% und 95%"}
+graph_val_year
+
+```
+
+Auch wenn die Fangzahlen wegen der kleinen Stichprobe sorgfältig interpretiert werden müssen, kann praktisch ausgeschlossen werden, dass auch im natürlichen System solche Schwankungen auftreten. Das Modell beginnt aus ungeklärten Gründen zu schwingen. Da die Daten für die Kalibration und die Validierung sehr nahe beieinander liegen, beeinträchtigt das Schwingverhalten die Kalibration.
 
 ## Wanderungen
 Es gibt durchaus Hinweise, das Kammmolche in Einzelfällen grössere Strecken zurücklegen. Damit können auch Gewässer besiedelt werden, welche die üblichen Kapazitäten der Tiere übersteigen. Dieser Mechanismus wurde im Modell nicht nachgebildet. Die Resultate wären damit etwas weniger vorhersagbar geworden, hätten dadurch vielleicht aber auch die natürliche Variabilität besser abgebildet.

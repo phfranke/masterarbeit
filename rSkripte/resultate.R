@@ -95,7 +95,7 @@ for (datum in 2:3){
     assign(paste("graph_res",datum,pc,sep="_"), ggplot(data_graph, aes(year, mean)) + 
           # geom_point(aes(y=pond_mean,x=year),shape=15,color='blue',size=1.5, alpha=0.5) +
           geom_ribbon(aes(ymin=pond_min,ymax=pond_max), fill='blue', alpha=0.3) +
-          geom_line(aes(y=pond_mean,x=year),color='blue',size=1.5,alpha=0.3) +
+          geom_line(aes(y=pond_mean,x=year),color='blue',linewidth=1.5,alpha=0.3) +
           # geom_point() +
           geom_ribbon(aes(ymin=min,ymax=max), color='black',linetype=2, fill=NA) +
           geom_line(color='black',size=1,alpha=0.8) +
