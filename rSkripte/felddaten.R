@@ -87,6 +87,12 @@ tot22 <- catched22 %>% filter(gewaesser!="") %>%
   summarize(Anzahl=sum(Anzahl))
 tot22[nrow(tot22)+1,2] <- sum(tot22$Anzahl,na.rm=TRUE)
 
+adu22tot <- catched22 %>% 
+  filter(catched22$Geschlecht %in% c('MAL','FEM','ADU')) %>% 
+  group_by(gewaesser) %>% 
+  summarize(Anzahl=sum(Anzahl))
+
+
 tabelle22 <- cbind(gewaesser22,fem22[,2]+mal22[,2],juv22[,2],tot22[,2]) %>%
   add_row("gewaesser22":="BL195s",.before=2)
 colnames(tabelle22) <- c('Gewässer','Adulte','Juvenile','Summe')

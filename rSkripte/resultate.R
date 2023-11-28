@@ -1,4 +1,5 @@
 library(tidyverse)
+
 data_4_11 <- read.table("excel/resultate_4.11.csv",sep=',', fill=TRUE, header=TRUE, quote="\"")
 data_11_11 <- read.table("excel/resultate_11.11.csv",sep=',', fill=TRUE, header=TRUE, quote="\"")
 data_13_11 <- read.table("excel/resultate_13.11.csv",sep=',', fill=TRUE, header=TRUE, quote="\"")
@@ -100,15 +101,20 @@ for (datum in 2:3){
           geom_ribbon(aes(ymin=min,ymax=max), color='black',linetype=2, fill=NA) +
           geom_line(color='black',size=1,alpha=0.8) +
           # geom_linerange(aes(ymin=min, ymax=max)) +
-          ggtitle(paste("Fangwahrscheinlicheit", levels[pc], sep=" ")) +
+          ggtitle(paste("Fangwahrscheinlicheit", paste(levels[pc]*100,'%'), sep=" ")) +
           ylab(("Anzahl Adulte")) +
           xlab("Jahr") + 
           scale_y_continuous(limits=c(0,2000),
-            sec.axis = sec_axis(~./100,name="Anzahl besiedelte Gewaesser")
-            )
+            sec.axis = sec_axis(~./100,name="Anzahl besiedelter Gewaesser")
+          ) +
+          theme(axis.title.y.right=element_text(angle = 90),
+                axis.line.y.right=element_line(colour='blue'),
+                axis.ticks.y.right=element_line(colour='blue'),
+                axis.line.y.left=element_line(colour='black'))
       )
     }
-    
+}
+
   # ##### alte Daten
   # 
   # 
@@ -163,5 +169,4 @@ for (datum in 2:3){
   #          # sec.axis = sec_axis(~./2000,name="Fangquote in %"))
   #   )
   # }
-
-}
+# }
