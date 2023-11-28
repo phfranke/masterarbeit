@@ -454,7 +454,7 @@ Beide Parameter beeinflussen sich gegenseitig nicht wesentlich, da sie grundsät
 
 Die Funktion des ganzen Modells ist es, die Populationsentwicklung abzubilden und die Wirkungsweise der Fangaktionen zu untersuchen. Es ist deshalb sinnvoll, bei der Kalibrierung eher ein Worst-Case-Szenario anzunehmen. Die zu kalibrierenden Werte werden im Zweifelsfall also eher mit einem Wert eingestellt, mit welchen die Kammmolche sich stärker vermehren und verbreiten.
 
-### Wanderdauer {#kali_dauer}
+### Wanderdauer {#kaliDauer}
 Als beobachtete Grösse für diese Kalibrierung wird die Anzahl der besiedelten Gewässer verwendet. Wie im Kapitel \@ref(daten) gezeigt, konnten bisher nur in 5 Gewässern Kammmolche festgestellt werden. Es handelt sich um die Gewässer mit der Indentifikationsnummer BL191, BL195, BL196, BL197 und BL198. Es gilt nun, einen Wert für den Parameter der Wanderdauer zu finden, welcher ebenfalls zu einer Besiedelung dieser Gewässer führt. Das Modell soll die Möglichkeiten offen lassen, dass weitere Weiher unentdeckt besiedelt wurden. Deshalb ist als Zeilwert nicht die exakte Zahl von fünf besetzten Gewässern gesetzt sondern liegt im bereich zwischen fünf und sechs Gewässern.
 
 Für die Kalibrierung wurde mit jedem Wert für die Wanderdauer das Modell fünf mal durchgeführt. Als Startdatum dient jeweils der 1.1.2000  und als Enddatum der 1.1. 2022. Die Parameterwerte der Wanderdauer in Tagen wurden experimentell auf den hier verwendeten Wertebereich eingeschränkt (`r time_levels`). Die Resultate sind in Abbildung \@ref(fig:kaliMigrant) gezeigt. Die senkrechten Linien zeigen dabei die Spanne und die Punkte den Mittelwert der Anzahl besiedelter Gewässer für jeden der drei Parameterwerte. Die grau Linie beschreibt die Regressionslinie, also die Gerade welche am Nächsten an allen Messpunkten liegt. Die waagrechten, gestrichelten Linien zeigen den Zielbereich von fünf bis sechs Gewässern. Es ziegt sich, dass der Paramaterwert von 13 genau auf der Regressionsgerade und auf dem Wert von 5.5 besetzen Gewässern liegt. Der Parameter `migration_time` wird für die folgenden Experimente also auf den Wert 13 eingestellt.
@@ -525,9 +525,9 @@ Das Ziel eines jeden Modells ist es, gewisse Aspekte der realen Welt adäquat na
 
 Die quantitative Validierung hingegen vergleicht Messdaten aus der realen Situation mit den Äquivalenten aus dem Modell. Die einzigen Messdaten, welche vorliegen, sind die Zahlen aus den Fangaktionen. Während die Daten für das Jahr 2021 bereits für die Kalibrierung genutzt wurden, dienen die Fangzahlen aus dem Jahr 2022 für die Validierung.
 
-## Qualitative Validierung
+## Qualitative Validierung {#valiQuali}
 
-Mail an Petra versandt. noch nicht zurück (24.11.23)
+Die Rückmeldung der Experten auf das konzeptionelle Modell ist positiv. Als grösste Unsicherheit wird die Modellierung der Wanderungen benannt. Hier wird empfohlen eine Sensitivitätsanalyse durchzuführen um die Auswirkungen unterschiedlicher Wanderdistanzen zu testen. Die Wanderung wird im Modell von zwei Werten bestimmt, welche sich gegenseitig ergänzen. Dies ist der Parameter `migration_time`, welcher die Dauer der Wanderung in Tagen bestimmt, und die Wandergeschwindigkeit im Metern/Tag, welcher im Modell fix eingegeben wurde. Der Parameter `migration_time`wurde so kalibriert, dass die Anzahl besetzter Gewässer nicht zu gross wird (siehe Kapitel \@ref(kaliDauer)). Eine Sensitivitätsanalyse dieser Parameter würde also die Validität des Modells direkt beeinflussen und wurde deswegen verworfen.
 
 ## Quanitative Validierung
 
@@ -539,13 +539,12 @@ graph_val
 ```
 
 Bei den Durchläufen mit Fangwahrscheinlichkeit von `80%` und `95%` liegen die Fangzahlen zwischen `r min(data_tot$data_catch_diff[data_tot$data_catch_prob > 0.7])` und `r max(data_tot$data_catch_diff[data_tot$data_catch_prob > 0.7])` gefangenen Tiere. Das sind ungefähr die Hälfte der tatsächlich gefangenen Tiere.
-Das Modell kann aufgrund dieser Ergebnisse **nicht** als valide eingestuft werden. Dies ist nicht zwingend darauf zurückzuführe, dass die grundsätzliche Mechanik im Modell nicht korrekt ist, sondern kann mehrere Ursachen haben:
+Das Modell kann aufgrund dieser Ergebnisse **nicht** als valide eingestuft werden. Dies ist nicht zwingend darauf zurückzuführen, dass die grundsätzliche Mechanik im Modell nicht korrekt ist, sondern kann mehrere Ursachen haben:
 
-1. Die Kalibration ist nicht korrekt
-2. Der Mechanismus wie im Modell Tiere gefangen und gezählt werden, ist nicht korrekt
-3. Die Fortpflanzung, Wanderung und Sterblichkeit ist nicht adäquat abgebildet und es entstehen zu wenige Kammmolche
-
-__Ja nachdem was die qualitative Validierung ergibt, fällt Punkt 2 oder 3 weg.__
+1. Das Modell ist schlecht kalibriert
+2. Der Mechanismus, wie im Modell Tiere gefangen und gezählt werden, funktioniert nicht korrekt
+3. Die Entwicklung und Ausbreitung der Kammmolche ist schlecht modelliert
+4. Unbekannte, technische Probleme
 
 Die Kalibration kann überprüft werden, indem die modellierten Fangzahlen 2021 angeschaut werden. Die Grafik in Abbildung \@ref(fig:val2) zeigt die modellierten Fangzahlen aus dem Jahr 2021. Auch hier zeigt die gestrichelte Linie die tatsächliche Anzahl gefangener, adulter Kammmolche im Jahr 2021. 
 
@@ -554,14 +553,18 @@ graph_val2
 
 ```
 
-Im ersten Fangjahr werden, vor allem in den Szenarien mit den höheren Fangwahrscheinlichkeiten, die tatsächlichen Fänge sehr gut widergegeben. Das Modell ist also korrekt kalibriert. Die Fangzahlen aus den Jahren 2021 und 2022 gehen offensichtlich sehr stark auseinander. Bei der Betrachtung der Fangzahlen auf der Zeitachse (siehe Abbildung \@ref(fig:val3)), fallen die regelmässigen Schwankungen ins Auge. Die Fangzahlen brechen in regelmässig wirkenden Abständen stark ein und erholen sich innert einiger Jahre wieder. Es entstehen zyklische Schwankungen mit einer Frequenz zwischen fünf und zehn Jahren. Hier sind die Fänge aus allen Modelldurchläufen mit der Fangwahrscheinlichkeit `80%` und `90%` zusammengerechnet. Die ausgezogene Linie zeigt den Mittelwert und der graue Bereich die Spanne der gefangenen, adulten Kammmolche pro Jahr.
+Im ersten Fangjahr werden, vor allem in den Szenarien mit den höheren Fangwahrscheinlichkeiten, die tatsächlichen Fänge sehr gut widergegeben. Der Schwankungsbereich ist zwar gross (80%: `r min(data_tot$data_catch_2021[data_tot$data_catch_prob==0.8])` - `r max(data_tot$data_catch_2021[data_tot$data_catch_prob==0.8])`). In den meisten Durchgängen mit Fangwahrscheinlichkeit von `80%` oder mehr liegen die Fangzahlen 2021 jedoch deutlich über `1000` Stück. Mit einer Fangwahrscheinlichkeit von 80% wurden 2021 im Minimum `r min(data_tot$data_catch_2021[data_tot$data_catch_prob==0.8])` Tiere  gefangen. Die für das Jahr 2022 ausgewiesenen Zahlen liegen hier deutlich tiefer. Der Median 2022 bei 80% Fangwahrscheinlichkeit liegt bei `r median(data_tot$data_catch_diff[data_tot$data_catch_prob==0.8])` und für 95% bei  `r median(data_tot$data_catch_diff[data_tot$data_catch_prob==0.95])`. Der Median liegt hier also in dem Bereich der minimalen Fänge 2021. Eine schlechte Kalibration kann als Ursache für die ungenügende Validation auschgeschlossen werden.
 
-```{r val3, echo=FALSE, fig.cap="Zeitreihe der Fangzahlen in den Fangszenarien 80% und 95%",out.width="60%"}
+Bei der Betrachtung der Fangzahlen auf der Zeitachse (siehe Abbildung \@ref(fig:val3)), fallen die regelmässigen Schwankungen ins Auge. Die Fangzahlen brechen in regelmässigen Abständen stark ein und erholen sich innert einiger Jahre wieder. Es entstehen zyklische Schwankungen mit einer Frequenz zwischen fünf und zehn Jahren. In der Grafik in Abbildung \@ref(fig:val3) sind die Fänge aus allen Modelldurchläufen mit der Fangwahrscheinlichkeit `80%` und `95%` dargestellt. Die ausgezogene Linie zeigt den Mittelwert aller Modelldurchläufe und der graue Bereich die Spanne der gefangenen, adulten Kammmolche pro Jahr.
+
+```{r val3, echo=FALSE, fig.cap="Zeitreihe der Fangzahlen der Szenarien mit 80% und 95% Fangwahrscheinlichkeit"}
 graph_val_year
 
 ```
 
-Auffällig in der Darstellung der zeitlichen Verläufe sind neben dem zyklischen Schwankungen ist auch die Tatsache, dass Spanne zwischen Minimal- und Maximalwert erstaunlich gering ausfällt. Die spitzen der Schwankungen laufen sehr spitz zu, was darauf hindeutet, dass in allen Modelldurchläufen die Spitzen im gleichen Zeitraum auftreten. 
+
+Auffällig in der Darstellung der zeitlichen Verläufe sind neben den zyklischen Schwankungen ist auch die Tatsache, dass die einzelnen Modelldurchläufe recht ähnliche Werte und Muster produzieren. Die spitzen der Schwankungen laufen sehr spitz zu, was darauf hindeutet, dass in allen Modelldurchläufen die Spitzen im gleichen Zeitraum auftreten. Die Fangzahlen in Tab. \@ref(tab:tablecatches) deuten nicht darauf hin, dass im realen Ökosystem ebenfalls ähnliche Schwankungen auftreten. Obwohl hier nur Daten aus zwei Jahren vorliegen, muss davon ausgegangen werden, dass die Population keine solche Schwankungen aufweist. Auch in der Literatur sind keine Hinweise auf ausgeprägte Populationsschwankungen zu finden. 
+
 
 ```{r val-alle, echo=FALSE, fig.cap="Verläufe der Kammmolchpopulation über den ganzen Zeitraum", fig.show="hold", out.width="50%"}
 graph_val_sim_1
@@ -569,13 +572,7 @@ graph_val_sim_2
 
 ```
 
-Die Grafiken in Abbildung \@ref(fig:val-alle) zeigen die Anzahl adulter Kammmolche in sämtlich Modelldurchläufen als separate Linie. In der linken Grafik sind die Resultate aus der ersten Modellversion abgegbildet, in welcher nur in bestimmten Gewässern bekämpft wird. Die rechte Grafik bildet die Resultate aus der zweiten Version ab, wo in allen Gewässer Kammmolche abgefangen werden. Durch die separate Darstellung der einzelnen Modelldurchläufe kann noch besser abgeschätzt werden, ob die Zyklen zufällig entstehen oder auf eine Mechanik im Modell zurückzuführen sind. In ausnahmslos allen Durchläufen gibt es Spitzen in den beiden Jahren 2016 und 2021. Das ist noch bevor die Bekämpfung gestartet wird und beide Modellversionen die gleiche Voraussetzung haben. Die Modellversion mit der verstärkten Bekämpfung (rechte Grafik) zeigt auch über den restlichen Modellraum sehr ausgeprägte Spitzen. In der ersten Modellversion verlaufen sich diese Spitzen. Wenn einzelne Linien betrachtet werden, sind aber auch dort die zyklischen Schwankungen sichtbar.
-
-Die Fangzahlen in Tab. \@ref(tab:tablecatches) deuten nicht darauf hin, dass im realen Ökosystem ebenfalls ähnliche Schwankungen auftreten. Obwohl hier nur Daten aus zwei Jahren vorliegen, muss davon ausgegangen werden, dass die Population keine solche Schwankungen aufweist.
-
-Das Modell beginnt aus ungeklärten Gründen zu schwingen. Da die Daten für die Kalibration und die Validierung sehr nahe beieinander liegen, beeinträchtigt das Schwingverhalten die Validierung. Auffällig ist auch, dass die Schwankungen über alle Modellläufe recht regelmässig aufzutreten scheinen. Diese Schwankungen werden auch durch die Resultate in den Abbildungen \@ref(fig:res) und \@ref(fig:res2) bestätigt. Die Anzahl adulter Kammmolche schwankt ebenfalls über alle Modellläufe in einer erstaunlichen Regelmässigkeit. So weist die Kammmolchpopulation in allen Grafiken ein Spitze in den Jahren 2016 und 2021 auf. Diese liegen zeitlich noch bevor die Bekämpfung beginnt, es kann also davon ausgegangen werden, dass das Modell grundsätzlich zu Schwankungen neigt und nicht durch den Fangmechanismus ausgelöst wird.
-
-Daraus kann gefolgert werden, dass das oszillierende Verhalten des Modells die Validität beeinträchtigt. Warum das Modell zu diesem Verhalten neigt, kann hier nicht eruiert werden. Darüber hinaus kann nicht abschliessend geklärt werden, ob die grundsätzliche Funktionsweise des Modells valide ist oder ob zusätzlich zu den Schwingungen weitere Beeinträchtigungen bestehen.
+Die Grafiken in Abbildung \@ref(fig:val-alle) zeigen die Anzahl adulter Kammmolche in sämtlichen Modelldurchläufen als separate Linie. In der linken Grafik sind die Resultate aus der ersten Modellversion abgegbildet, in welcher nur in bestimmten Gewässern bekämpft wird. Die rechte Grafik zeigt die Resultate aus der zweiten Version, wo in allen Gewässern Kammmolche abgefangen werden. Durch die separate Darstellung der einzelnen Modelldurchläufe kann abgeschätzt werden, ob die Zyklen zufällig entstehen oder auf eine Mechanik im Modell zurückzuführen sind. In ausnahmslos allen Durchläufen gibt es Spitzen in den beiden Jahren 2016 und 2021. Das ist noch bevor die Bekämpfung gestartet wird und beide Modellversionen die gleiche Voraussetzung haben. Die Modellversion mit der verstärkten Bekämpfung (rechte Grafik) zeigt auch über den restlichen Modellraum sehr ausgeprägte Spitzen. In der ersten Modellversion liegen die  Spitzen nicht exakt aufeinander. Wenn einzelne Linien betrachtet werden, sind aber auch dort die zyklischen Schwankungen sichtbar. Daraus kann gefolgert werden, dass die Schwankungen sehr wohl aus einer Mechanik im Modell entspringen, da sie offensichtlich nicht zufällig sind. Die Quelle ist aber nicht in der Bekämpfung zu suchen. 
 
 
 ## Biologische Aussagen
