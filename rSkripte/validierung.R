@@ -96,19 +96,22 @@ graph_val <- ggplot(data_tot, aes(data_catch_prob,data_catch_diff,group=data_cat
   geom_boxplot() + 
   geom_hline(yintercept=1192, linewidth=1, linetype=2) +
   scale_x_continuous(breaks=levels, name="Fangwahrscheinlichkeit") +
-  scale_y_continuous(name="Gefangene adulte Kammmolche 2022")
+  scale_y_continuous(name="Gefangene adulte Kammmolche") +
+  ggtitle("Modellierte Fänge im Jahr 2022")
 
 graph_val2 <- ggplot(data_tot, aes(data_catch_prob,data_catch_2021,group=data_catch_prob)) + 
   geom_boxplot() + 
   geom_hline(yintercept=1192, linewidth=1, linetype=2) +
-  scale_x_continuous(breaks=levels, name="Fangwahrscheinlichkeit") +
-  scale_y_continuous(name="Gefangene adulte Kammmolche 2021")
+  scale_x_continuous(breaks=levels_pc, name="Fangwahrscheinlichkeit") +
+  scale_y_continuous(name="Gefangene adulte Kammmolche") +
+  ggtitle("Modellierte Fänge im Jahr 2021")
 
 graph_val_year <- ggplot(data_tot_year_graph[data_tot_year_graph$year>=2020,], aes(year_levels,catch_year_mean)) + 
   geom_line() + 
   geom_ribbon(aes(ymin=catch_year_min,ymax=catch_year_max), fill='darkgrey', alpha=0.3) +
   scale_x_continuous(name="Jahr", limits=c(2020,2050), breaks=seq(2020,2050,5)) +
-  scale_y_continuous(name="Gefangene Adulte")
+  scale_y_continuous(name="Gefangene Adulte") +
+  ggtitle("Gefangene Kammmolche 2020-2048")
 
 data_sim_1[,1] <- as.integer(data_sim_1[,1])
 data_sim_1[,3] <- as.integer(data_sim_1[,3])
@@ -121,11 +124,13 @@ graph_val_sim_1 <-  ggplot(data_sim_1,aes(temp_year,temp_data,group=temp_sim)) +
   scale_y_continuous(name="Adulte Kammmolche", limits=c(0,2000)) +
   scale_linetype_manual(values=rep(c("solid","dashed","twodash"),5)) +
   scale_color_manual(values=rep(c("#999999", "#009E73", "#F0E442", "#0072B2", "#D55E00"),3)) +
-  theme(legend.position="none")
+  theme(legend.position="none") + 
+  ggtitle("Populationsgrösse mit der Modellversion 1")
 graph_val_sim_2 <-  ggplot(data_sim_2,aes(temp_year,temp_data,group=temp_sim)) +
   geom_line(aes(linetype=temp_sim,color=temp_sim)) +
   scale_x_continuous(name="Jahr", limits=c(2000,2050), breaks=seq(2000,2050,5)) +
   scale_y_continuous(name="Adulte Kammmolche", limits=c(0,2000)) +
   scale_linetype_manual(values=rep(c("solid","dashed","twodash"),5)) +
   scale_color_manual(values=rep(c("#999999", "#009E73", "#F0E442", "#0072B2", "#D55E00"),3)) +
-  theme(legend.position="none")
+  theme(legend.position="none") + 
+  ggtitle("Populationsgrösse mit der Modellversion 2")

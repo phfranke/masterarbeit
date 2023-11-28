@@ -17,16 +17,17 @@ data <- data.frame(
 time_levels <- as.numeric(levels(as.factor(data$time)))
 
 bp_pond <- ggplot(data, aes(time, mean))
-ponds <- bp_pond + geom_linerange(aes(ymin=min, ymax=max)) +
- geom_point() + 
+ponds <- bp_pond + 
+  geom_linerange(aes(ymin=min, ymax=max)) +
+  geom_point() + 
   geom_hline(yintercept=5, linewidth=1, linetype=2) +  
   geom_hline(yintercept=6, linewidth=1, linetype=2) + 
-  geom_smooth(method = "lm", se = FALSE, linewidth=0.5, color="grey")
+  geom_smooth(formula = y ~ x,method = "lm", se = FALSE, linewidth=0.5, color="grey")
 
 ponds_graph <- ponds + 
   geom_point(data=data.frame(x=13,y=5.5), aes(x=x,y=y), shape=3, size=3) + 
-  ylim(0,max(max)) + 
   scale_y_continuous(breaks=seq(min(min),max(max)+1, by=2), name="Anzahl besiedelte Weiher") +
-  scale_x_continuous(breaks=c(time), name="Wanderdauer (Tage)")
+  scale_x_continuous(breaks=c(time), name="Wanderdauer (Tage)") +
+  ggtitle("Kalibrierung der Wanderdauer in Tagen")
 
                                                                  
