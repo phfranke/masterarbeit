@@ -531,7 +531,7 @@ Die Rückmeldung der Experten auf das konzeptionelle Modell ist positiv. Als gr�
 
 ## Quanitative Validierung
 
-Die Validität des Modells wird hier anhand der Fangzahlen aus dem Jahr 2022 überprüft. Die Fangzahlen sind in Tab. \@ref(tab:tablecatches) zusammengefasst, im Jahr 2022 wurden demnach `1192` adulte Kammmolche gefangen. Die im Modell gefangenen Tiere sind in der Abbildung \@ref(fig:val) ersichtlich. Für diese Auswertung wurden die Resultate von beiden Modelldurchgängen verwendet. In jedem Durchgang wurde das Modell für die drei Fangwahrscheinlichkeiten jeweils 5 Mal durchgeführt. Insgesamt sind hier 30 Datensätze verarbeitet. Die gestrichelte Linie zeigt die tatsächlich gefangenen Tiere an. Wie unschwer zu erkennen ist, werden im Modell viel weniger Tiere gefangen als in echt. 
+Die Validität des Modells wird hier anhand der Fangzahlen aus dem Jahr 2022 überprüft. Die Fangzahlen sind in Tab. \@ref(tab:tablecatches) zusammengefasst, im Jahr 2022 wurden demnach `r sum(adu22tot$Anzahl)` adulte Kammmolche gefangen. Die im Modell gefangenen Tiere sind in der Abbildung \@ref(fig:val) ersichtlich. Für diese Auswertung wurden die Resultate von beiden Modelldurchgängen verwendet. In jedem Durchgang wurde das Modell für die drei Fangwahrscheinlichkeiten jeweils 5 Mal durchgeführt. Insgesamt sind hier 30 Datensätze verarbeitet. Die gestrichelte Linie zeigt die tatsächlich gefangenen Tiere an. Wie unschwer zu erkennen ist, werden im Modell viel weniger Tiere gefangen als in echt. 
 
 ```{r val, echo=FALSE, fig.cap="Gefangene Kammmolche im Jahr 2022 über alle Modellläufe", out.width="60%"}
 graph_val
@@ -574,11 +574,8 @@ graph_val_sim_2
 
 Die Grafiken in Abbildung \@ref(fig:val-alle) zeigen die Anzahl adulter Kammmolche in sämtlichen Modelldurchläufen als separate Linie. In der linken Grafik sind die Resultate aus der ersten Modellversion abgegbildet, in welcher nur in bestimmten Gewässern bekämpft wird. Die rechte Grafik zeigt die Resultate aus der zweiten Version, wo in allen Gewässern Kammmolche abgefangen werden. Durch die separate Darstellung der einzelnen Modelldurchläufe kann abgeschätzt werden, ob die Zyklen zufällig entstehen oder auf eine Mechanik im Modell zurückzuführen sind. In ausnahmslos allen Durchläufen gibt es Spitzen in den beiden Jahren 2016 und 2021. Das ist noch bevor die Bekämpfung gestartet wird und beide Modellversionen die gleiche Voraussetzung haben. Die Modellversion mit der verstärkten Bekämpfung (rechte Grafik) zeigt auch über den restlichen Modellraum sehr ausgeprägte Spitzen. In der ersten Modellversion liegen die  Spitzen nicht exakt aufeinander. Wenn einzelne Linien betrachtet werden, sind aber auch dort die zyklischen Schwankungen sichtbar. Daraus kann gefolgert werden, dass die Schwankungen sehr wohl aus einer Mechanik im Modell entspringen, da sie offensichtlich nicht zufällig sind. Die Quelle ist aber nicht in der Bekämpfung zu suchen. 
 
-
-## Biologische Aussagen
-Es kann nicht genügend nachgewiesen werden, dass das Modell die realen Verhältnisse korrekt wiedergibt. Dies wird hauptsächlich auf unerklärtes Schwingverhalten zurückgeführt werden. Dennoch ist es die Aufgabe dieser Arbeit, so viele Aussagen über die Wirksamkeit der Bekämpfungsmethoden im Mühlebachtal zu tätigen wie möglich.
-
-- 
+Oszillationen kommen in Modellen mit verzögerten Rückkoppelungsmechanismen vor ("Bull whip Effect"). Der Effekt beruht darauf, dass ein Wert von einem anderen abhängt, die Abhängigkeit aber mit einer Zeitverzögerung eintritt. Das kann zu einer Überreaktion führen. Das Modell weist auf den ersten Blick keine zeitverzögerten Rückkoppelungen auf. Der Ursprung der Oszillation muss einen Einfluss auf die Anzahl adulter Kammmolche haben. Also kommt dafür wahrscheinlich ein Prozess bei der Berechnung der Sterblichkeit oder bei der Fortpflanzung in Frage. Die Fortpflanzung basiert auf einfachen Regeln, welche immer zum Zeitpunkt des Eierlegens angewendet werden. Eine Zeitverzögerung ist hier nicht feststellbar und die externen Abhängigkeiten beschränken sich auf die Anwesenheit des anderen Geschlechts. Die Sterberate ist in den meisten Fällen ebenfalls sehr einfach gehalten und weist keine Abhängigkeiten auf. Die Ausnahme dürfte die Ursache für die Oszillationen sein: die dichteabhängige Sterblichkeit der Larven. Dieser Prozess ist so konzipiert, dass die Sterblichkeitsrate nicht kontinuierlich angewendet wird sondern erst am Ende der Larvalphase. Zudem sind hier viele Individuuen davon betroffen. In dieser Phase werden die Individuuen nicht einzeln gerechnet sondern in Gruppen, welche alle die gleiche Mutter und das gleiche Alter aufweisen. Ein genauer Beschrieb des Prozesses ist Kapitel \@ref(dichtesterb) zu finden. Zu dem Zeitpunk, an welchem die Sterblichkeit auf die Larven angewendet wird, befinden sich möglicherweise sehr viele Tiere aus mehreren Gruppen im Gewässer. Das dürfte mitunter dazu führen, dass alle Larven der ganzen Gruppe sterben. Das könnte dazu führen, dass Abwechslungsweise sehr viele und sehr wenige Larven das nächste Stadium erreichen.
+Ein Experiment bestätigt diese Theorie. In einer weiteren Modellversion, wird die Dichteabhängigkeit abgestellt und einen fixen Wert für die Sterblichkeit der Larven definiert. Das Modell ist dadurch nicht mehr kalibriert und kann keine glaubhaften Resultate liefern, das Experiment dient hier lediglich dazu die Ursache der Oszillation zu finden.  
 
 
 
@@ -594,12 +591,16 @@ Die möglichen Einflussquellen sind zahlreich. Oft ist unbekannt ob überhaupt e
 
 
 # Schlussfolgerung
-Das Modell zeigt .....
+## Biologische Aussagen
+Rein rechnerisch kann nicht gut genug nachgewiesen werden, dass die Resultate glaubwürdig sind. In der Tat können die Oszillationen das Resultat stark in beide Richtungen beeinflusst haben. Das Modell prophezeit eine sehr schwache Wirkung der aktuellen Bekämpfungsmethode. Die Kammmolche konnten nur in einer Situation ausgerottet werden. Nämlich in der Modellversion, in der in allen Gewässern Bekämpfungsmassnahmen stattfinden und auch dort nur im Szenarion mit 95% Fangwahrscheinlichkeit. Dies hat einerseit die Ursache, dass mehr Gewässer besiedelt werden als in Realität nachgewiesen wurden und andererseits können die Oszillationen dafür verantwortlich sein.
 
-Ein Gewässer wird dauerhaft besiedelt, sobald einmal in diesem Gewässer Eier abgelegt werden. Durch die grosse Anzahl an Eiern, werden immer auch einige fortpflanzungsfähige Nachfahren heranwachsen, welche in diesem Gewässer verbleiben. Dieser Mechanismus dürfte in der Realität sehr ähnlich sein. Hier si
+Es können daher nur zwei recht simple Aussage aus dem Modell gezogen werden, welche auch bereits vor diesem Modell bestanden:
 
+1. Die Besiedelung weiterer Gewässer muss verhindert werden. Als Besiedelung wird hier verstanden, dass eine Fortpflanzung in dem Gewässer statfindet. Geschieht dies, können wohl auch Nachfahren sich hier fortpflanzen und eine neue Population bilden.
+2. Es müssen so viele Tiere wie möglich abgefangen werden. Wenn mehr als 5% der Tiere in einem Nebengewässer laichen, durch den Zaun schlüpfen oder andere Wege finden sich der Bekämpfung zu entziehen, dauert die Bekämpfung sehr lange, falls sie dann überhaupt Erfolg haben kann.
 
-Es ist grundsätzlich möglich das natürliche Verhalten von Lebenwesen in einem technischen Modell nachzubilden und damit Vorhersagen zu treffen.
+## Technische Aussagen
+Es ist eine Herausforderung, natürliche Gegebnheiten in einem Modell nachzustellen. In der Realität wird jegliche Entwicklung von unendlich vielen Faktoren beeinflusst.
 
 
 
