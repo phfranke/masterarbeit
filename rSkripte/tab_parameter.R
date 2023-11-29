@@ -9,6 +9,7 @@ Parameter <- c(
   'survival_juvenil',
   'survival_adult',
   'density_koeff',
+  'density_off',
   'maxAge_egg',
   'maxAge_larva',
   'maxAge_juv',
@@ -16,12 +17,15 @@ Parameter <- c(
   'reproductionBreak',
   'migrationRate_adult',
   'migrationRate_juv',
+  'migration_velocity _adult',
+  'migration_velocity _juv',
   'migration_time',
   'start_catching',
-  'probalityCatch'
+  'probalityCatch',
+  'catching_allPonds'
 )
 Bezeichnung <- c(
-  'Anzahl Kammmolche zu Beginn',
+  'Anzahl Adulte zu Beginn',
   'Start Datum',
   'End Datum',
   'Zeitschritt',
@@ -29,8 +33,9 @@ Bezeichnung <- c(
   '&Uuml;berlebensrate Eier',
   '&Uuml;berlebensrate Larven',
   '&Uuml;berlebensrate Juvenile',
-  '&Uuml;berlebensrate Adulte, j&auml;hrlich',
+  'j&auml;hrl. &Uuml;berlebensrate Adulte',
   'Abh&auml;ngigkeit Larvendichte/Sterblichkeit',
+  'Dichteabhängigkeit abschalten',
   'Entwicklungsdauer Ei',
   'Entwicklungsdauer Larve',
   'Entwicklungsdauer Juvenil',
@@ -38,9 +43,12 @@ Bezeichnung <- c(
   'Fortpflanzungspause',
   'Rate der Wanderer Adult',
   'Rate der Wanderer Juvenil',
+  'Wandergeschwindigkeit Adult',
+  'Wandergeschwindigkeit Juvenil',
   'Dauer Wanderung',
   'Startjahr Bek&auml;mpfung',
-  'Wahrscheinlichkeit gefangen zu werden'
+  'Wahrscheinlichkeit gefangen zu werden',
+  'Bekämpfung in allen Gewässern'
 )
 Einheit <- c(
   'Stk.',
@@ -53,15 +61,19 @@ Einheit <- c(
   '-',
   '-',
   '-',
+  '-',
   'Tage',
   'Tage',
   'Tage',
-  'Eier/Weibchen',
+  'Eier',
   'Jahr',
   '-',
   '-',
+  'm/Tag',
+  'm/Tag',
   'Tage',
   'Jahr',
+  '-',
   '-'
 )
 Wert <- c(
@@ -74,7 +86,8 @@ Wert <- c(
   '0.4',
   '0.4',
   '0.5',
-  '0.01',
+  '0.008',
+  'FALSE',
   '15',
   '90',
   '200',
@@ -82,9 +95,12 @@ Wert <- c(
   '2',
   '0.12',
   '0.373',
-  '40',
+  '10',
+  '15',
+  '13',
   '2021',
-  '0.8'
+  '0.8',
+  'TRUE'
 )
 Herkunft <- c(
   'Annahme',
@@ -92,20 +108,24 @@ Herkunft <- c(
   'Annahme',
   'Annahme',
   'Annahme',
-  'Literatur',
-  'Literatur',
-  'Literatur',
-  'Literatur',
+  '@horner1985normal',
+  'Annahme',
+  'Annahme',
+  '@jehle2011crested',
   'Kalibration',
   'Annahme',
-  'Literatur',
-  'Literatur',
-  'Literatur',
-  'Literatur',
-  'Literatur',
-  'Literatur',
+  'Annahme',
+  '@meyer2009schlangenspuren',
+  '@meyer2009schlangenspuren',
+  '@jehle2011crested',
+  '@meyer2009schlangenspuren',
+  '@kupfer2000population',
+  '@kupfer2000population',
+  'Annahme',
+  'Annahme',
   'Kalibration',
-  'Literatur',
+  'Mündliche Information Experten',
+  'Annahme',
   'Annahme'
 )
 tab_parameter <- cbind(Parameter,Bezeichnung,Einheit,Wert,Herkunft)

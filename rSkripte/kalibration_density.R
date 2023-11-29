@@ -21,6 +21,7 @@ graph <- graph_density  + geom_linerange(aes(ymin=min, ymax=max)) +
   scale_y_continuous(name="Gefangene adulte Kammmolche 2021") +
   geom_point() +
   geom_hline(yintercept=700, linewidth=1, linetype=2) +
-  geom_hline(yintercept=1200, linewidth=1, linetype=2)
+  geom_hline(yintercept=1200, linewidth=1, linetype=2) +
+  ggtitle("Kalibrierung der dichteabhängingen Sterblichkeit")
 
 
