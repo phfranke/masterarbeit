@@ -8,5 +8,5 @@ This repo is mainly for the documentation of the Master-Thesis with bookdown.
 A copy of the gama-model is here: ./gama_modelle
 
 To run the model on your own machine, copy the latest version into your Gama- directory.
-The model needs the shapefile ./qgis/shp/bodenbedeckung_2.shp under in a relativ path to the modell: ./shp/bodenbedeckung_2.shp
+The model needs the shapefile ./qgis/shp/bodenbedeckung_2.shp in a relativ path to the modell: ./shp/bodenbedeckung_2.shp, and there have to be a folder ./result/ in the same directory like the model.
 
