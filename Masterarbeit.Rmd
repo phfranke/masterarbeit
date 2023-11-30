@@ -1,10 +1,9 @@
 ---
 title: |
-   ![](bilder/screenshot_titelbild2.jpg){width=600px style="display: block; margin:5 auto; align:center;" }
+   ![](bilder/titelbild.jpg){width=600px style="display: block; margin:5 auto; align:center;" }
    <center>Untersuchung der Dynamik einer Population der invasiven Italienischen Kammmolche in Allschwil und Überprüfung der Wirksamkeit von Bekämpfungsmethoden anhand eines agentenbasierten Modellansatzes</center>
 author: "Philipp Franke"
 date: "`r Sys.Date()`"
-cover-image: "bilder/screenshot_titelbild.jpg"
 github-repo: "phfranke/masterarbeit"
 output:
   bookdown::pdf_document2
