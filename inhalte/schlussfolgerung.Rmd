@@ -1,0 +1,14 @@
+# Schlussfolgerung und Ausblick
+## Biologische Aussagen
+Rein rechnerisch kann nicht gut genug nachgewiesen werden, dass die Resultate glaubwürdig sind. In der Tat können die Oszillationen das Resultat stark in beide Richtungen beeinflusst haben. Das Modell prophezeit eine sehr schwache Wirkung der aktuellen Bekämpfungsmethode. Die Kammmolche konnten nur in einer Situation ausgerottet werden. Nämlich in der Modellversion, in der in allen Gewässern Bekämpfungsmassnahmen stattfinden und auch dort nur im Szenarion mit 95% Fangwahrscheinlichkeit. Dies hat einerseit die Ursache, dass mehr Gewässer besiedelt werden als in Realität nachgewiesen wurden und andererseits können die Oszillationen dafür verantwortlich sein.
+
+Es können daher nur zwei recht simple Aussage aus dem Modell gezogen werden, welche auch bereits vor diesem Modell bestanden:
+
+1. Die Besiedelung weiterer Gewässer muss verhindert werden. Als Besiedelung wird hier verstanden, dass eine Fortpflanzung in dem Gewässer statfindet. Geschieht dies, können wohl auch Nachfahren sich hier fortpflanzen und eine neue Population bilden.
+2. Es müssen so viele Tiere wie möglich abgefangen werden. Wenn mehr als 5% der Tiere in einem Nebengewässer laichen, durch den Zaun schlüpfen oder andere Wege finden sich der Bekämpfung zu entziehen, dauert die Bekämpfung sehr lange, falls sie dann überhaupt Erfolg haben kann.
+
+## Technische Aussagen
+Es ist eine Herausforderung, natürliche Gegebnheiten in einem Modell nachzustellen. In der Realität wird jegliche Entwicklung von unendlich vielen Faktoren beeinflusst.
+
+
+Die dichteabhängigkeit ist biologisch gut begründbar. Die Umsetzung im Modell verändert jedoch das Wesen des Modells sehr stark.

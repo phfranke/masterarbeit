@@ -1,0 +1,47 @@
+# Einleitung
+
+## Eingeschleppte Arten
+Eingeschleppte Arten gehören gemäss @clavero2005invasive zu den stärksten Gefährdungsursachen bei Tieren auf der roten Liste der internationalen Union zur Bewahrung der Natur (IUCN). Dabei werden für 54% der untersuchten, ausgestorbenen Arten zumindest eine teilweise Ursache in standortfremden Arten ermittelt. @blackburn2019alien ermittelt invasive Spezies als Hauptursache für das Aussterben von 25.5% von kürzlich ausgestorbenen Pflanzenarten und 33.4% für die untersuchten Tierarten. Die effektive Bekämpfung von invasiven Species ist demnach eine wichtige Massnahme um dem Aussterben von weiteren Arten entgegen zu wirken.
+
+Die rote Liste der Amphibien der Schweiz [@schmidt2005rote] weist 70% der vorkommenden Amphibienarten (14 von 20 Arten) einen Gefährdungsstatus zu. Gründe dürften im Landschaftswandel liegen [@schmidt2015amphibien], welcher das Vorkommen von geeigneten Laichgewässern stark verändert hat. Aufgrund der ohnehin prekären Situation, sind Amphibien besonders von der Einschleppung invasiver Species betroffen. 
+
+Im vorliegenden Fall treffen der heimische Nördliche Kammmolch (Triturus cristatus) und der eingeführte Südliche Kammmolch (Triturus carnifex) aufeinander. Beide Arten sind auf der roten Liste der Schweiz als stark gefährdet eingestuft [@schmidt2005rote]. Während der Italienische Kammmolch natürlicherweise nur auf der Alpensüdseite vorkommt, besiedelt der Nördliche Kammmolch weite Teile Europas nördlich der Alpen. Die Alpen wirken demnach als natürliche Barriere. Die Vorkommen der südlichen Art auf der Alpennordseite sind in den meisten Fällen auf Verschleppungen zurückzuführen, einzig in einer schmalen Kontaktzone östlich der Alpen besteht eine Gebiet mit natürlichem Aufeinandertreffen beider Arten [@meilink2015genetic]. In Bereichen mit eingeschleppten Italienischen Kammmolchen, wurde jeweils ein Rückgang des Nördlichen Kammmolches dokumentiert. (Niederlande: @meilink2015genetic; Genf: @arntzen1999geneva)
+
+## Modellierungen in der Biologie
+Sowohl in der Förderung von bedrohten Tierarten, als auch in der Bekämpfung von Schadorganismen sind fundamentale Kenntnisse der Populationsdynamik hilfreich. Die Populationsdynamik beschreibt Faktoren wie Entwicklungsstadien, Ausbreitungsverhalten, Fortpflanzung und Sterblichkeit und bringt diese in einen Zusammenhang. Für solche Untersuchungen werden häufig statistische oder mathematische Modelle verwendet (z.B: @caudera2021mathematical, @la2017understanding). @vimercati2021cost zeigt an einem Beispiel in Südafrika auf, wie Populationsmodelle die gezielte Bekämpfung von invasiven Amphibien und den Mitteleinsatz verbessern können. Diese Modelle lassen grundsätzlich Aussagen auf Systemebene zu. @vimercati2017integrating ergänzen bestehende mathematische Modelle um den Landschaftswiderstand um die effektive Ausbreitung in einer konkreten räumlichen Umgebung zu simulieren. Dennoch bleiben räumliche Ausprägungen in dem Modellen nur marginal berücksichtigt. Aspekte wie Wanderhindernisse und Vernetzungskorridore können die Populationsdynamik entscheidend beeinflussen. Mittels agentenbasierten Methoden, lassen sich konkrete räumliche Beziehungen darstellen [@della2014simulating].
+
+Agentenbasierte Modellierungsansätze bieten Möglichkeiten um die Modelle mit räumlichen Gegebenheiten und einer vielzahl von Verhaltensweisen und -Regeln zu ergänzen [@deangelis2014individual]. So entstehen Modelle, welche die Entscheidungsstrukturen in biologischen Systemen nachbilden, vor allem wenn sie mit stochastischen Elementen ergänzt werden. Dabei können überraschende Muster entstehen (genannt "Emergenz"), welche durch formelbasierte Ansätze nicht replizierbar sind.
+
+
+## Italienischer Kammmolch (Triturus carnifex)
+Das im Rahmen dieser Masterarbeit entwickelte Modell bildet die individuellen Lebenszyklen der Kammmolche nach. Für die Nachbildung der individuellen Lebensgeschichten der Kammmolche ist ein einigermassen tiefgehendes Verständnis der Lebensweise notwendig. Hier werden wesentliche Aspekte der Biologie von kammmolchen zusammengefasst. Die Lebensweisen von Italienischem Kammmolch (Triturus carnifex) und Nördlichem Kammmolch (Triturus cristatus) ähneln sich zuweilen stark, andere Aspekte sind nur von einer Art detailliert bekannt. Für die vorliegende Arbeit werden wissenschaftliche Erkenntnisse von beiden Arten meist als gleichbedeutend aufgefasst.
+
+### Jahreszyklus
+Kammmolche sind für die Fortpflanzung auf stehende Gewässer angewiesen. Adulte Tiere verbringen grosse Teile des Jahres an Land und wandern im Vorfrühling in die Gewässer ein. Dort findet die Paarung und die Laichablage statt. Dabei legt das Weibchen `200` bis `400` Eier ab [@jehle2011crested] und tarnt jedes Ei einzeln mit einem Blatt [@meyer2009schlangenspuren]. Vermutlich ist diese intensive Laichpflege der Grund, warum Weibchen nach dem Laichen mehrjährige Pausen einlegen [@schwizer2007population]. In diesen Pausen bleiben sie auch zur Laichzeit den Gewässern fern. Nach der Fortpflanzung wandern die Tiere in die Landlebensräume ein, welche sich meist direkt neben den Gewässern, selten bis zu wenigen hundert Metern entfernt liegen [@stoefer2001zeitliche].
+
+
+### Entwicklungsstadien
+Die Weibchen legen 200-400 Eier [@meyer2009schlangenspuren]. Aufgrund eines genetischen Phänomens stoppt bei der Hälfte der Eier die Entwicklung und die Embryonen sterben ab. Grund dafür sind unterschiedliche Ausprägungen des Chromosom 1. Embryonen, welche zwei gleichartige Chomosomen 1 besitzen, sterben demnach ab und Individuen mit beiden unterschiedlichen Ausprägungen sind überlebensfähig [@horner1985normal]. Die Mortalität der geschlüpften Larven ist ebenfalls relativ hoch, lediglich 5% der Larven erreichen die Metamorphose [@laufer2007amphibien]. Vieles spricht für eine dichteabhängige Sterblichkeit im Larvenstadium (persönliche Informationen B. Schmidt, @van2007body, @schabetsberger1995alpine). Insbesondere der hohe Energiebedarf dürfte zu einem starken Konkurrenzdruck bei der Nahrungsbeschaffung führen.
+
+
+<!-- @schabetsberger1995alpine schätzt in einem alpinen Karstsee von rund 40'000 m2 die Anzahl Larven von T. alpestris nach einem ausserordentlichen warmen Sommer auf 30'000, was ein Maximalwert für diesen Standort darstellen dürfte. -->
+
+### Wanderungen {#introWanderungen}
+Für die Nördlichen Kammmolche wird eine hohe Laichgewässertreue ermittelt [@jehle2007wanderleistung, @mori2017twenty]. Eier werden meist in das gleiche Gewässer gelegt werden, in dem das Tier selber geschlüpft ist. Der kleinere Teil der Population wechselt das angestammte Laichgewässer. Gemäss @kupfer2000population sind `r round(100/83,1)`% der adulten Kammolche (1 von 83) und 13 von 35 (`r round(1300/35,1)`%) der Juvenilen in einem anderen Gewässer gefunden worden, als sie selber geschlüpft sind. Die Wanderungen beginnen nach der Fortpflanzung. Die Wandergeschwindigkeit ist bei juvenilen Kammmolche etwas höher (500m gemäss @kupfer1998wanderstrecken) als bei adulten Individuen (293m gemäss @stoefer2001zeitliche). Gemäss @jehle2007wanderleistung konnte zudem mittels genetischen Methoden nachgewiesen werden, dass nur sehr wenige Individuen (ca. 1 pro Jahr und Population) mit sehr grosser Wanderleistung (etwa das vierfache des Normalen) für die Verbindung zu entfernten Populationen verantwortlich sind. Mehrere Sinne sind an der Orientierung beteiligt. Die geruchliche Wahrnehmung wird dabei als wichtiger Sinn erachtet, auch für die Orientierung über grössere Distanzen [@weiss2021olfaction]
+
+
+## Bekämpfungsprojekt
+In Allschwil wurden seit den frühen 2000er- Jahre Kammmolche festgestellt, welche sich später als Italienische Kammmolche entpuppten. Zum Schutz der bedeutenden Population an Nördlichen Kammmolchen, und wohl auch zum Schutz der bereits in diese getätigten Investitionen, werden seit dem Jahr 2021 Bekämpfungsmassnahmen ergriffen.
+Dazu werden jeweils Anfang Jahr die Weiher mit den beobachteten Vorkommen mit Amphibienzäunen hermetisch abgeriegelt. Amphibien, welche die Gewässer aufsuchen um sich fortzupflanzen, stossen nun an diese Zäune und fallen in Kessel, welche in regelmässigen Abständen an den Zäunen eingelassen sind. Bei täglichen Kontrollen werden die Tiere in den Kesseln bestimmt und gezählt, die Kammmolche werden später noch gewogen. Diese erhobenen Daten aus den Jahren 2021 und 2022 stehen für diese Arbeit zur Verfügung.
+
+## Fragestellung {#fragestellung}
+### Forschungsfrage
+Untersuchung der Populationsdynamik des Italienischen Kammmolchs (Triturus carnifex) im Mühlebachtal in Allschwil anhand agentenbasierter Modellierung und Abschätzung der Erfolgsaussichten der bestehenden Bekämpfungsstrategie.
+
+### operative Teilfragen
+- Erstellen des Modells
+- Kalibrieren des Modells anhand der erhobenen Daten
+- Untersuchen der Populationsentwicklung bis zum Jahre 2050
+- Validieren des Modells
+
+
