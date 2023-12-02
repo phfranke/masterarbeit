@@ -5,11 +5,6 @@ title: |
 author: "Philipp Franke"
 date: "`r Sys.Date()`"
 github-repo: "phfranke/masterarbeit"
-output:
-  bookdown::pdf_document2:
-    toc: false
-    toc_depth: 3
-
 lang: de
 documentclass: book
 bibliography: ./literatur/literatur.bib
@@ -47,8 +42,6 @@ source("rSkripte/resultate.R")
 source("rSkripte/validierung.R")
 source("rSkripte/noDichtesterb.R")
 ```
-
-
 
 
 ``` {r child = 'inhalte/abstract.Rmd'}
