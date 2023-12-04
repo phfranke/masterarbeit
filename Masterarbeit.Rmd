@@ -59,6 +59,6 @@ source("rSkripte/noDichtesterb.R")
 ```
 ```{r child = '05-schlussfolgerung.Rmd'}
 ```
-
+  
 
 # Literaturverzeichnis
