@@ -43,21 +43,21 @@ source("rSkripte/validierung.R")
 source("rSkripte/noDichtesterb.R")
 ```
 
-
-``` {r child = 'inhalte/abstract.Rmd'}
+ 
+``` {r child = '00-abstract.Rmd'}
 ```
 
 \tableofcontents
 
-```{r child = 'inhalte/einleitung.Rmd'}
+```{r child = '01-einleitung.Rmd'}
 ```
-```{r child = 'inhalte/methodik.Rmd'}
+```{r child = '02-methodik.Rmd'}
 ```
-```{r child = 'inhalte/ergebnisse.Rmd'}
+```{r child = '03-ergebnisse.Rmd'}
 ```
-```{r child = 'inhalte/diskussion.Rmd'}
+```{r child = '04-diskussion.Rmd'}
 ```
-```{r child = 'inhalte/schlussfolgerung.Rmd'}
+```{r child = '05-schlussfolgerung.Rmd'}
 ```
 
 

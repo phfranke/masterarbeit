@@ -1,11 +1,41 @@
 # Einleitung
 
+Wie alle Amphibien, sind auch die Kammmolche (Gattung Triturus) sowohl auf Gewässer als auch auf Landlebensräume angewiesen. Amphibien legen ihre Eier in Gewässer ab und verbringen dort auch die Larvenphase. Erst nach der Entwicklung der Beine und dem Ablegen der Kiemen sind die Tiere an Land überlebensfähig. Im Erwachsenenalten besuchen die Kammmmolche die Gewässer nur noch für die Fortpflanzung und verbringen die restliche Zeit im Landlebensraum. Die Zeit an Land werden zuweilen für ausgiebige Wanderungen genutzt, wobei die meisten Tiere für die Fortpflanzung immer wieder in das gleiche Gewässer zurückkehren. Die Wanderleistung ist dennoch begrenzt und für eine Ausbreitung der Population sind auch die Kammmolche auf Gewässer in regelmässigen Abständen angewiesen. Dies und die zwingende Verzahnung von zwei Lebensräumen macht die Amphibien generell anfällig für die landschaftlichen Veränderungen der letzten Jahrzehnte, der viele Amphibiengewässer zum Opfer fielen [@schmidt2015amphibien]. Die rote Liste der Amphibien der Schweiz [@schmidt2005rote] weist 70% der vorkommenden Amphibienarten (14 von 20 Arten) einen Gefährdungsstatus zu, was zumindest teilweise auf den Landschaftswandel zurückzuführen ist.
+
+Eine weitere Gefährdungsursache, insbesondere für seltenen Arten, ist die Einschleppung von standortfremden Arten. @clavero2005invasive untersuchte Ursachen für das Aussterben von Tieren auf der roten Liste der internationalen Union zur Bewahrung der Natur (IUCN). Von den `680` untersuchten Tierarten konnten für `170` Gefährdungsursachen ermittelt werden.  Demnach sind die Ursachen für das Aussterben von `91` Arten (`54%`) zumindest teilweise und von `34` (`20%`) Arten ausschliesslich auf standortfremde Arten zurückzuführen. In einer zweiten Studie untersuchte @blackburn2019alien ebenfalls die Ursache für das Aussterben von Arten auf der roten Liste der IUCN. Demnach wurde das Aussterben von `25.5%` der Pflanzen- und `34.4%` der Tierarten durch eingeschleppte Arten verursacht.
+
+In der Gemeinde Allschwil südlich von Basel wurden in den `2010`'er Jahren Italienische Kammmolche (Triturus carnifex) entdeckt. Während der Italienische Kammmolch natürlicherweise nur auf der Alpensüdseite vorkommt, besiedelt der Nördliche Kammmolch (Triturus cristatus) weite Teile Europas nördlich der Alpen. Die Alpen wirken als natürliche Barriere. Die Vorkommen der südlichen Art auf der Alpennordseite sind in den meisten Fällen auf Verschleppungen zurückzuführen, einzig in einer schmalen Kontaktzone östlich der Alpen besteht eine Gebiet mit natürlichem Aufeinandertreffen beider Arten [@meilink2015genetic]. In Bereichen mit eingeschleppten Italienischen Kammmolchen, wurde jeweils ein Rückgang des Nördlichen Kammmolches dokumentiert (Niederlande: @meilink2015genetic; Genf: @arntzen1999geneva). Beide Arten sind in der Schweiz hemisch und auf der Roten Liste der Schweiz als stark gefährdet eingestuft [@schmidt2005rote]. In der Region Basel befindet sich eine Population an Nördlichen Kammmolchen (Verbreitungskarte der Schweiz: \@ref(fig:tritcristKarte)), welche mit Investitionen in die Naturschutzgebiete gezielt gestützt wird (persönliche Erfahrung).
+
+```{r 'tritcristKarte',echo=FALSE,fig.cap="Verbreitung des Nördlichen Kammmolches gemäss des Schweizerischen Informationszentrums für die Fauna. Schwarz eingekreist ist die Region Basel und die Vorkommen des Nörlichen Kammmolchs"}
+knitr::include_graphics("./bilder/trit_crist_karte.jpg")
+```
+
+Das Auftreten des Italienischen Kammmolches in der Region Basel stellt also eine bedeutende Gefährdung für die Population der Nördlichen Kammmolche dar. Um die Nördlichen Kammmolche (und wohl auch die getätigten Investitionen) zu schützen, werden die Italienischen Kammmolche gezielt bekämpft. Das Ziel dieser Massnahmen ist es, die standortfremde Art wieder komplett aus der Natur entfernen zu können und somit eine potentielle Gefährdungsursache für die seltenen Nördlichen Kammmolche zu eliminieren. Es ist nicht absehbar ob und wie die ergriffenen Bekämpfungsmassnahmen wirken. 
+
+Um die Bekämpfungsmassnahmen gezielt zu entwickeln und die Erfolgsaussichten der Massnahmen abschätzen zu können sind Kenntnisse der Populationsdynamik hilfreich. Die Populationsdynamik beschreibt Faktoren wie Entwicklungsstadien, Ausbreitungsverhalten, Fortpflanzung und Sterblichkeit und bringt diese in einen Zusammenhang. Für solche Untersuchungen werden häufig statistische oder mathematische Modelle verwendet (z.B: @caudera2021mathematical, @la2017understanding). @vimercati2021cost zeigt an einem Beispiel in Südafrika auf, wie Populationsmodelle die gezielte Bekämpfung von invasiven Amphibien und den Mitteleinsatz verbessern können. Diese Modelle lassen grundsätzlich Aussagen auf Systemebene zu. @vimercati2017integrating ergänzen bestehende mathematische Modelle um den Landschaftswiderstand um die effektive Ausbreitung in einer konkreten räumlichen Umgebung zu simulieren. Dennoch bleiben räumliche Ausprägungen in dem Modellen nur marginal berücksichtigt. Aspekte wie Wanderhindernisse und Vernetzungskorridore können die Populationsdynamik entscheidend beeinflussen. Mittels agentenbasierten Methoden, lassen sich konkrete räumliche Beziehungen darstellen [@della2014simulating]
+
+Agentenbasierte Modellierungsansätze bieten Möglichkeiten um die Modelle mit räumlichen Gegebenheiten und einer vielzahl von Verhaltensweisen und -Regeln zu ergänzen [@deangelis2014individual]. So entstehen Modelle, welche die Entscheidungsstrukturen in biologischen Systemen nachbilden, vor allem wenn sie mit stochastischen Elementen ergänzt werden. Dabei können überraschende Muster entstehen (genannt "Emergenz"), welche durch formelbasierte Ansätze nicht replizierbar sind.
+
+Das vorliegende Modell hat zum Ziel die Dynamik der Population von Italienischen Kammmolchen im Mühlebachtal nachhzubilden zu untersuchen und die Wirksamkeit der Bekämpfungsmassnahmen zu überprüfen. 
+
+## Fragestellung {#fragestellung}
+### Forschungsfrage
+Untersuchung der Populationsdynamik des Italienischen Kammmolchs (Triturus carnifex) im Mühlebachtal in Allschwil anhand agentenbasierter Modellierung und Abschätzung der Erfolgsaussichten der bestehenden Bekämpfungsstrategie.
+
+### operative Teilfragen
+- Erstellen des Modells
+- Kalibrieren des Modells anhand der erhobenen Daten
+- Untersuchen der Populationsentwicklung bis zum Jahre 2050
+- Validieren des Modells
+
+
+
 ## Eingeschleppte Arten
 Eingeschleppte Arten gehören gemäss @clavero2005invasive zu den stärksten Gefährdungsursachen bei Tieren auf der roten Liste der internationalen Union zur Bewahrung der Natur (IUCN). Dabei werden für 54% der untersuchten, ausgestorbenen Arten zumindest eine teilweise Ursache in standortfremden Arten ermittelt. @blackburn2019alien ermittelt invasive Spezies als Hauptursache für das Aussterben von 25.5% von kürzlich ausgestorbenen Pflanzenarten und 33.4% für die untersuchten Tierarten. Die effektive Bekämpfung von invasiven Species ist demnach eine wichtige Massnahme um dem Aussterben von weiteren Arten entgegen zu wirken.
 
 Die rote Liste der Amphibien der Schweiz [@schmidt2005rote] weist 70% der vorkommenden Amphibienarten (14 von 20 Arten) einen Gefährdungsstatus zu. Gründe dürften im Landschaftswandel liegen [@schmidt2015amphibien], welcher das Vorkommen von geeigneten Laichgewässern stark verändert hat. Aufgrund der ohnehin prekären Situation, sind Amphibien besonders von der Einschleppung invasiver Species betroffen. 
 
-Im vorliegenden Fall treffen der heimische Nördliche Kammmolch (Triturus cristatus) und der eingeführte Südliche Kammmolch (Triturus carnifex) aufeinander. Beide Arten sind auf der roten Liste der Schweiz als stark gefährdet eingestuft [@schmidt2005rote]. Während der Italienische Kammmolch natürlicherweise nur auf der Alpensüdseite vorkommt, besiedelt der Nördliche Kammmolch weite Teile Europas nördlich der Alpen. Die Alpen wirken demnach als natürliche Barriere. Die Vorkommen der südlichen Art auf der Alpennordseite sind in den meisten Fällen auf Verschleppungen zurückzuführen, einzig in einer schmalen Kontaktzone östlich der Alpen besteht eine Gebiet mit natürlichem Aufeinandertreffen beider Arten [@meilink2015genetic]. In Bereichen mit eingeschleppten Italienischen Kammmolchen, wurde jeweils ein Rückgang des Nördlichen Kammmolches dokumentiert. (Niederlande: @meilink2015genetic; Genf: @arntzen1999geneva)
+
 
 ## Modellierungen in der Biologie
 Sowohl in der Förderung von bedrohten Tierarten, als auch in der Bekämpfung von Schadorganismen sind fundamentale Kenntnisse der Populationsdynamik hilfreich. Die Populationsdynamik beschreibt Faktoren wie Entwicklungsstadien, Ausbreitungsverhalten, Fortpflanzung und Sterblichkeit und bringt diese in einen Zusammenhang. Für solche Untersuchungen werden häufig statistische oder mathematische Modelle verwendet (z.B: @caudera2021mathematical, @la2017understanding). @vimercati2021cost zeigt an einem Beispiel in Südafrika auf, wie Populationsmodelle die gezielte Bekämpfung von invasiven Amphibien und den Mitteleinsatz verbessern können. Diese Modelle lassen grundsätzlich Aussagen auf Systemebene zu. @vimercati2017integrating ergänzen bestehende mathematische Modelle um den Landschaftswiderstand um die effektive Ausbreitung in einer konkreten räumlichen Umgebung zu simulieren. Dennoch bleiben räumliche Ausprägungen in dem Modellen nur marginal berücksichtigt. Aspekte wie Wanderhindernisse und Vernetzungskorridore können die Populationsdynamik entscheidend beeinflussen. Mittels agentenbasierten Methoden, lassen sich konkrete räumliche Beziehungen darstellen [@della2014simulating].
@@ -34,14 +64,5 @@ Für die Nördlichen Kammmolche wird eine hohe Laichgewässertreue ermittelt [@j
 In Allschwil wurden seit den frühen 2000er- Jahre Kammmolche festgestellt, welche sich später als Italienische Kammmolche entpuppten. Zum Schutz der bedeutenden Population an Nördlichen Kammmolchen, und wohl auch zum Schutz der bereits in diese getätigten Investitionen, werden seit dem Jahr 2021 Bekämpfungsmassnahmen ergriffen.
 Dazu werden jeweils Anfang Jahr die Weiher mit den beobachteten Vorkommen mit Amphibienzäunen hermetisch abgeriegelt. Amphibien, welche die Gewässer aufsuchen um sich fortzupflanzen, stossen nun an diese Zäune und fallen in Kessel, welche in regelmässigen Abständen an den Zäunen eingelassen sind. Bei täglichen Kontrollen werden die Tiere in den Kesseln bestimmt und gezählt, die Kammmolche werden später noch gewogen. Diese erhobenen Daten aus den Jahren 2021 und 2022 stehen für diese Arbeit zur Verfügung.
 
-## Fragestellung {#fragestellung}
-### Forschungsfrage
-Untersuchung der Populationsdynamik des Italienischen Kammmolchs (Triturus carnifex) im Mühlebachtal in Allschwil anhand agentenbasierter Modellierung und Abschätzung der Erfolgsaussichten der bestehenden Bekämpfungsstrategie.
-
-### operative Teilfragen
-- Erstellen des Modells
-- Kalibrieren des Modells anhand der erhobenen Daten
-- Untersuchen der Populationsentwicklung bis zum Jahre 2050
-- Validieren des Modells
 
 
