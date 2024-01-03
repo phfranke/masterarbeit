@@ -8,6 +8,15 @@ Weiter ist auffällig, dass die Spanne der Daten mit steigender Fangwahrscheinli
 graph_res_2_1
 graph_res_2_2
 graph_res_2_3
+plot(NULL, xaxt='n', yaxt='n', bty='n',ylab='',xlab='',xlim=0:1,ylim=0:1)
+legend("center",
+       legend=c("Kammmolche, Mittelwert","Kammmolche, Minimum/Maximum","Besetzte Gewässer, Mittelwert","Besetzte Gewässer, Minimum/Maximum"),
+       bty='n',
+       lty=c(1,2,1,1),
+       lwd=c(3,3,7,15),
+       col=c("black","black","blue",rgb(0,0,255,max=255,alpha=100)),
+       title="Legende"
+       )
 
 ```
 
@@ -28,6 +37,15 @@ Es ist durchaus denkbar, dass im Modell Gewässer besiedelt werden, welche in de
 graph_res_3_1
 graph_res_3_2
 graph_res_3_3
+plot(NULL, xaxt='n', yaxt='n', bty='n',ylab='',xlab='',xlim=0:1,ylim=0:1)
+legend("center",
+       legend=c("Kammmolche, Mittelwert","Kammmolche, Minimum/Maximum","Besetzte Gewässer, Mittelwert","Besetzte Gewässer, Minimum/Maximum"),
+       bty='n',
+       lty=c(1,2,1,1),
+       lwd=c(3,3,7,15),
+       col=c("black","black","blue",rgb(0,0,255,max=255,alpha=100)),
+       title="Legende"
+       )
 
 ```
 
