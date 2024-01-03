@@ -34,13 +34,13 @@ knitr::opts_chunk$set(echo = FALSE)
 options(tinytex.verbose = TRUE)
 ```
 ```{r, include=FALSE}
-source("rSkripte/tab_parameter.R")
-source("rSkripte/felddaten.R")
-source("rSkripte/kalibration_density.R")
-source("rSkripte/kalibration_migration.R")
-source("rSkripte/resultate.R")
-source("rSkripte/validierung.R")
-source("rSkripte/noDichtesterb.R")
+source("rSkripte/tab_parameter.R", encoding='utf-8')
+source("rSkripte/felddaten.R", encoding='utf-8')
+source("rSkripte/kalibration_density.R", encoding='utf-8')
+source("rSkripte/kalibration_migration.R", encoding='utf-8')
+source("rSkripte/resultate.R", encoding='utf-8')
+source("rSkripte/validierung.R", encoding='utf-8')
+source("rSkripte/noDichtesterb.R", encoding='utf-8')
 ```
 
  

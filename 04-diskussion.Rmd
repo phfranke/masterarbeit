@@ -11,8 +11,16 @@ Die Rückmeldung der Experten auf das konzeptionelle Modell ist positiv. Als gr�
 
 Die Validität des Modells wird hier anhand der Fangzahlen aus dem Jahr 2022 überprüft. Die Fangzahlen sind in Tab. \@ref(tab:tablecatches) zusammengefasst, im Jahr 2022 wurden demnach `r sum(adu22tot$Anzahl)` adulte Kammmolche gefangen. die modellierten Fangzahlen aus dem Jahr 2022 sind in \@ref(fig:val) dargestellt. Dafür wurden die Daten aus sämtlichen Resultatdurchgängen mit beiden Modellversionen verwendet. Das sind insgesamt `30` Durchgänge (`3` Szenarien,  `5` Durchgänge, `2` Versionen). Die gestrichelte Linie zeigt die tatsächlich gefangenen Tiere an. Wie unschwer zu erkennen ist, werden im Modell viel weniger Tiere gefangen als in echt. 
 
-```{r val, echo=FALSE, fig.cap="Gefangene Kammmolche im Jahr 2022 über alle Modellläufe", out.width="60%"}
+```{r val, echo=FALSE, fig.cap="Gefangene Kammmolche im Jahr 2022 über alle Modellläufe", out.width="60%", fig.show='hold'}
 graph_val
+plot(NULL, xaxt='n', yaxt='n', bty='n',ylab='',xlab='',xlim=0:1,ylim=0:1)
+legend("topleft",
+       legend="Zielwert",
+       bty='n',
+       lty=2,
+       lwd=3,
+       col=c("black")
+       )
 
 ```
 
@@ -25,8 +33,16 @@ Bei den Durchläufen mit Fangwahrscheinlichkeit von `80%` und `95%` liegen die F
 
 Die Kalibrierung kann überprüft werden, indem die modellierten Fangzahlen 2021 angeschaut werden. Die Grafik in Abbildung \@ref(fig:val2) zeigt die modellierten Fangzahlen aus dem Jahr 2021. Die gestrichelte Linie markiert auch hier die Fangzahlen aus dem Jahr 2022. Die Fangzahlen 2021 sind mit Unsicherheiten behaftet (siehe Kapitel \@ref(daten)) und so wird die Vergleichbarkeit der beiden Darstellungen erhöht.
 
-```{r val2, echo=FALSE, fig.cap="Gefangene Kammmolche im Jahr 2021 über alle Modellläufe", out.width="60%"}
+```{r val2, echo=FALSE, fig.cap="Gefangene Kammmolche im Jahr 2021 über alle Modellläufe", out.width="60%",fig.show="hold"}
 graph_val2
+plot(NULL, xaxt='n', yaxt='n', bty='n',ylab='',xlab='',xlim=0:1,ylim=0:1)
+legend("topleft",
+       legend="Zielwert",
+       bty='n',
+       lty=2,
+       lwd=3,
+       col=c("black")
+       )
 
 ```
 
@@ -37,9 +53,17 @@ Eine weitere mögliche Ursache für die negative Validierung erschliesst sich be
 Die Fangzahlen brechen in regelmässigen Abständen stark ein und erholen sich innert einiger Jahre wieder. Es entstehen zyklische Schwankungen mit einer Frequenz zwischen fünf und zehn Jahren. Das Modell scheint Schwankungen zu produzieren, welche sich auch negativ auf die Validität auswirken.
 
 
-```{r val3, echo=FALSE, fig.cap="Zeitreihe der Fangzahlen der Szenarien mit 80% und 95% Fangwahrscheinlichkeit"}
+```{r val3, echo=FALSE, fig.cap="Zeitreihe der Fangzahlen der Szenarien mit 80 und 95 Prozent Fangwahrscheinlichkeit", fig.show="hold", out.width="50%"}
 graph_val_year
-
+plot(NULL, xaxt='n', yaxt='n', bty='n',ylab='',xlab='',xlim=0:1,ylim=0:1)
+legend("left",
+       legend=c("Mittelwert","Minimum/Maximum"),
+       bty='n',
+       lty=c(1,1),
+       lwd=c(2,15),
+       col=c("black",rgb(150,150,150,max=255,alpha=100)),
+       title=c("Legende")
+       )
 ```
 
 Auffällig in der Darstellung der zeitlichen Verläufe sind neben den zyklischen Schwankungen auch die Tatsache, dass die einzelnen Modelldurchläufe recht ähnliche Muster produzieren. Die Spitzen der Schwankungen laufen sehr spitz zu, was darauf hindeutet, dass in allen Modelldurchläufen die Schwankungen im gleichen Zeitraum auftreten. Die Fangzahlen in Tab. \@ref(tab:tablecatches) deuten nicht darauf hin, dass im realen Ökosystem ebenfalls ähnliche Schwankungen auftreten. Obwohl hier nur Daten aus zwei Jahren vorliegen, muss davon ausgegangen werden, dass die Population keine solche Schwankungen aufweist. Auch in der Literatur sind keine Hinweise auf ausgeprägte Populationsschwankungen zu finden. 
@@ -48,7 +72,6 @@ Auffällig in der Darstellung der zeitlichen Verläufe sind neben den zyklischen
 ```{r val-alle, echo=FALSE, fig.cap="Verläufe der Kammmolchpopulation über den ganzen Zeitraum", fig.show="hold", out.width="50%"}
 graph_val_sim_1
 graph_val_sim_2
-
 ```
 
 Die Vermutung, dass das Modell immer in den gleichen Zeiträumen Maximalwerte produziert, wird auch mit der nächsten Darstellung überprüft. Die Grafiken in Abbildung \@ref(fig:val-alle) zeigen die Anzahl adulter Kammmolche in sämtlichen Modelldurchläufen jeweils als separate Linie. In der linken Grafik sind die Resultate aus der ersten Modellversion abgegbildet, in welcher nur in bestimmten Gewässern bekämpft wird. Die rechte Grafik zeigt die Resultate aus der zweiten Version, wo in allen Gewässern Kammmolche abgefangen werden. In beiden Grafiken sind 15 Durchgänge abgebildet. Durch die separate Darstellung der einzelnen Modelldurchläufe kann abgeschätzt werden, ob die Zyklen zufällig entstehen oder auf eine Mechanik im Modell zurückzuführen sind. In ausnahmslos allen Durchläufen gibt es Spitzen in den beiden Jahren 2016 und 2021. Das ist noch bevor die Bekämpfung gestartet wird und beide Modellversionen die gleiche Voraussetzung haben. Die Modellversion mit der verstärkten Bekämpfung (rechte Grafik) zeigt auch über den restlichen Modellraum sehr ausgeprägte Spitzen immer in den gleichen Jahren. In der ersten Modellversion liegen die  Spitzen nicht exakt aufeinander. Wenn einzelne Linien betrachtet werden, sind aber auch dort die zyklischen Schwankungen sichtbar. Daraus kann gefolgert werden, dass die Schwankungen sehr wohl aus einer Mechanik im Modell entspringen, da sie offensichtlich nicht zufällig sind. Die Quelle ist aber nicht in der Bekämpfung zu suchen. 
@@ -57,7 +80,7 @@ Oszillationen kommen in Modellen mit verzögerten Rückkoppelungsmechanismen vor
 Ein weiteres Experiment bestätigt diese Theorie teilweise. In einer weiteren Modellversion, wird die Dichteabhängigkeit abgestellt und einen fixen Wert von `0.95` für die Sterblichkeit der Larven definiert. Zudem werden weitere Einstellungen vorgenommen: Bekämpfung der Kammmolche nur in den vorbestimmten Gewässern, Fangwahrscheinlichkeit für die Kammmolche ist `80%`. Das Modell ist dadurch nicht mehr kalibriert und kann keine glaubhaften Resultate liefern, das Experiment dient hier lediglich dazu die Ursache der Oszillation zu finden. Für dieses Experiment wird das Modell nur einmal durchgeführt und nur bis ins Jahr 2039 laufen gelassen. In \@ref(fig:val-kontr) sind die Anzahl adulter Kammmolche in diesem Durchlauf mit einem vergleichbarer Simulation aus den Resultatdurchgängen aufgetragen. Die ausgewählte Simulation ist ebenfalls mit der Modellversion 1 (Bekämpfung nur in spezifischen Gewässern) und der Fangwahrscheinlichkeit von `80%`.
 
 
-```{r val-kontr, echo=FALSE, fig.cap="Vergleich zwischen einem Simulationsdurchgang und dem Kontrolllauf ohne Dichteabhängigkeit"}
+```{r val-kontr, echo=FALSE, fig.cap="Vergleich zwischen einem Simulationsdurchgang und dem Kontrolllauf ohne Dichteabhängigkeit", out.width="50%"}
 graph_dichte
 
 ```
