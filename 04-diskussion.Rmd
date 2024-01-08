@@ -1,13 +1,15 @@
 # Diskussion
+## Validierung
+
 Das Ziel eines jeden Modells ist es, gewisse Aspekte der realen Welt adäquat nachzubilden. Mit der Validierung wird überprüft, ob dies gelungen ist. Dazu werden hier zwei unterschieldiche Ansätze verfolgt. Die qualitative Validierung fokussiert auf das konzeptionelle Modell und stütz sich auf die Meinung von Experten ab. In diesem Fall wird die generelle Funktionsweise des Modells in Textform einer Expertin vorgelegt.
 
 Die quantitative Validierung hingegen vergleicht Messdaten aus der realen Situation mit den Äquivalenten aus dem Modell. Die einzigen Messdaten, welche vorliegen, sind die Zahlen aus den Fangaktionen. Während die Daten für das Jahr 2021 bereits für die Kalibrierung genutzt wurden, dienen die Fangzahlen aus dem Jahr 2022 für die Validierung.
 
-## Qualitative Validierung {#valiQuali}
+### Qualitative Validierung {#valiQuali}
 
 Die Rückmeldung der Experten auf das konzeptionelle Modell ist positiv. Als grösste Unsicherheit wird die Modellierung der Wanderungen benannt. Hier wird empfohlen eine Sensitivitätsanalyse durchzuführen um die Auswirkungen unterschiedlicher Wanderdistanzen zu testen. Die Wanderung wird im Modell von zwei Werten bestimmt, welche sich gegenseitig ergänzen. Dies ist der Parameter `migration_time`, welcher die Dauer der Wanderung in Tagen bestimmt, und die Wandergeschwindigkeit im Metern/Tag, welcher im Modell fix eingegeben wurde. Der Parameter `migration_time`wurde so kalibriert, dass die Anzahl besetzter Gewässer nicht zu gross wird (siehe Kapitel \@ref(kaliDauer)). Eine Sensitivitätsanalyse dieser Parameter würde also die Validität des Modells direkt beeinflussen und wurde deswegen verworfen.
 
-## Quanitative Validierung
+### Quanitative Validierung
 
 Die Validität des Modells wird hier anhand der Fangzahlen aus dem Jahr 2022 überprüft. Die Fangzahlen sind in Tab. \@ref(tab:tablecatches) zusammengefasst, im Jahr 2022 wurden demnach `r sum(adu22tot$Anzahl)` adulte Kammmolche gefangen. die modellierten Fangzahlen aus dem Jahr 2022 sind in \@ref(fig:val) dargestellt. Dafür wurden die Daten aus sämtlichen Resultatdurchgängen mit beiden Modellversionen verwendet. Das sind insgesamt `30` Durchgänge (`3` Szenarien,  `5` Durchgänge, `2` Versionen). Die gestrichelte Linie zeigt die tatsächlich gefangenen Tiere an. Wie unschwer zu erkennen ist, werden im Modell viel weniger Tiere gefangen als in echt. 
 
@@ -85,16 +87,6 @@ graph_dichte
 
 ```
 
-Die Oszillationen scheinen tatsächlich abzunehmen. Die schwarze Linie zeigt das Ergebnis aus den Resultaten und weist in regelmässigen Abständen ausgeprägte Spitzen auf. Die grüne Linie stammt aus diesem Experiment und ist erscheint glatter. Die Schwankungen erscheinen etwas weniger regelmässig und sanfter. Allerdings ist das Verhalten des Modells auch in anderen Aspekten stark verändert. Mit der festen Larvensterblichkeit verläuft das Wachstum der Kammmolchpopulation viel gleichmässiger und offenbar exponentiel. Die dichteabhängige Sterblichkeit führt hier zu einer volatileren, unbeständigerer Entwicklung mit stärkeren Schwankungen.
-
-Die Oszillation hat ihren Ursprung also mindestens teilweise in Prozess der dichteabhängigen Sterblichkeit der Larven. 
+Die Oszillationen scheinen tatsächlich abzunehmen. Die schwarze Linie zeigt das Ergebnis aus den Resultaten und weist in regelmässigen Abständen ausgeprägte Spitzen auf. Die grüne Linie stammt aus diesem Experiment und erscheint glatter. Die Schwankungen sind weniger regelmässig und sanfter. Allerdings ist das Verhalten des Modells auch in anderen Aspekten stark verändert. Mit der starren Larvensterblichkeit verläuft das Wachstum der Kammmolchpopulation viel gleichmässiger und offenbar exponentiel. Die dichteabhängige Sterblichkeit führt hier zu einer volatileren, unbeständigerer Entwicklung mit stärkeren Schwankungen. Es ist schwer aufgrund dieser Datenbasis eine stichhaltige Aussage zu tätigen. Es scheint aber so, dass der Ursprung der Oszillationen zumindest teilweise in dem Prozess der dichteabhängigen Sterblichkeit zu suchen ist.
 
 
-## Wanderungen
-
-Zudem sind die Wanderungen sehr einfach modelliert und entsprechen vermutlich nicht der Realität. Im Modell wandern die Kammmolche gleich schnell und gleich lang, unabhängig vom Gelände und von der Bodenbedeckung. Es ist jedoch anzunehmen, dass die Amphibien sich in schattiger Umgebungen (Wald, Gehölze, Gräben, ...) länger aufhalten und weiter wandern können. Ebenso ist es einleuchtend, dass die Steigung einen Einfluss auf das Wanderverhalten ausübt. Die Wanderungen sind aber zu wenig detailliert erforscht, und es können keine adäquaten Annahmen für das Modell erstellt werden.
-
-## Umweltfaktoren
-Im Modell gänzlich unberücksichtigt bleiben Umweltfaktoren. Es werden nicht alle Gewässer gleich schnell und dicht besiedelt. Der Bewuchs innerhalb der Gewässer spielt sicher eine Rolle, da die Kammmolch-Weibchen die Eier in Blätter von Unterwasserpflanzen einrollen (QUELLE). Für die Fortbewegung ausserhalb der Gewässer sind sicherlich auch Mikrohabitate massgebend. Verstecke, Bewuchsdichte und Bodenbeschaffenheit spielen möglicherweise eine wichtige Rolle in der Entscheidung in welche Richtung und wie weit ein Kammmmolch sich fortbewegt. Zusätzlich sind die Einflüsse des Wetters zu nennen. In aussergewöhnlich niederschlagsreichen Jahren iust die Fortbewegung an Land sicherlich für Amphibien einfacher als in sehr trockenen Jahren. Solche eher seltenen  Wetterereignisse könnte in der Verbreitung von Kammmolchen ein wichtige Rolle spielen.
-
-Die möglichen Einflussquellen sind zahlreich. Oft ist unbekannt ob überhaupt ein Zusammenhang besteht wie stark dieser Zusammenhang ist. Aufgrund der grossen Unsicherheit wurden Umweltfaktoren hier gänzlich ignoriert.
