@@ -89,4 +89,20 @@ graph_dichte
 
 Die Oszillationen scheinen tatsächlich abzunehmen. Die schwarze Linie zeigt das Ergebnis aus den Resultaten und weist in regelmässigen Abständen ausgeprägte Spitzen auf. Die grüne Linie stammt aus diesem Experiment und erscheint glatter. Die Schwankungen sind weniger regelmässig und sanfter. Allerdings ist das Verhalten des Modells auch in anderen Aspekten stark verändert. Mit der starren Larvensterblichkeit verläuft das Wachstum der Kammmolchpopulation viel gleichmässiger und offenbar exponentiel. Die dichteabhängige Sterblichkeit führt hier zu einer volatileren, unbeständigerer Entwicklung mit stärkeren Schwankungen. Es ist schwer aufgrund dieser Datenbasis eine stichhaltige Aussage zu tätigen. Es scheint aber so, dass der Ursprung der Oszillationen zumindest teilweise in dem Prozess der dichteabhängigen Sterblichkeit zu suchen ist.
 
+## Besiedelte Gewässer
+Die Abbildungen \@ref(fig:karte-bes1) und \@ref(fig:karte-bes1) zeigen die besiedelten Gewässer. Hier ist gut ersichtlich, dass einige Gewässer sehr regelmässig besiedelt werden, was in der Realität nicht beobachtet wird. Die betrifft hauptsächlich die Gewässer mit der Nummer BL899, BL900, BL901, BL649 und BL195. Diese Gewässer gelten als nicht besiedelt, einzig in BL195 wurden einzelne Tiere nachgewiesen. Welche Gewässer besiedelt werden, liegt hauptsächlich vom Wandervermögen der Tiere ab. Im Modell gibt es die Weitwanderer, welche grosse Strecken laufen können und selten auftreten. Lässt man diese ausser acht, kann das theoretisch besiedelbare Gebiet gut berechnet werden. Die Anzahl Wandertage ist durch die Kalibrierung eingestellt auf 13 Tage. Die Wandergeschwindigkeit pro Tag liegt bei 10 Meter für Adulte und 15 Meter für Juvenile. Nach Ablauf der Wanderzeit sind die Tiere also maximal 195 Meter von ihrem angestammten Gewässer entfernt. Danach wandern sie in das nächste Gewässer, welches demnach ebenfalls maximal 195 Meter entfernt sein darf. Die maximal zu überbrückende Distanz zwischen den Gewässern beträgt also 390 Meter. In Abbildung \@ref(fig:map_wandergebiet) ist das Gebiet dargestellt, welches mit dieser maximalen Wanderdistanz theoretisch besiedelbar wäre.
+
+``` {r map-wandergebiet, echo=FALSE, fig.cap="Ohne Weitwanderer theoretisch Besiedelbares Gebiet", out.width="60%"}
+knitr::include_graphics("./bilder/wandergebiet.jpg")
+```
+
+Die Gewässer BL195 und BL649 liegen deutlich ausserhalb dieses Gebietes. Das bedeutet, dass die vielen Besiedelungen dieser beiden Gewässer durch die Weitwanderer zustande kam. Die Rate der Weitwanderer wurde im Modell aufgrund der Literatur angenommen und auf einen Wert von einem Individum von hundert Wanderern festgelegt. Die Tatsache, dass diese Gewässer dermassen oft besiedelt werden, deutet darauf hin, dass dieser Parameter zu hoch gewählt ist und angepasst werden müsste.
+
+Es bleiben die Gewässer BL899, BL900 und BL901, welche im Modell besiedelt werden und in der Realität nicht. Bei genauerer Untersuchung stellt sich heraus, dass das Gewässer BL900 mit hoher Wahrscheinlichkeit kein oder nur sehr wenig Wasser führt und deshalb wahrscheinlich durch Kammmolche nicht besiedelbar ist.
+Die letzte unerklärte Diskrepanz sind die beiden Weiher BL899 und BL901. Diese liegen sehr nahe beieinander und innerhalb der Wanderdistanz zu den besiedelten Gewässern. Hier gibt es keine augenfälligen Hinweise auf eine ungenügende Qualität:  Es drei Möglichkeiten dies zu erklären: 
+
+1. Die Gewässer sind unentdeckt besiedelt
+2. Die Gewässer weisen unbekannte Eigenschaften auf, welche den Kammmolchen verunmöglicht hier zu Laichen.
+3. Es bestehen Wanderhindernisse, welche das Auffinden dieser Gewässer stark erschweren.
+
 

@@ -1,14 +1,23 @@
-# Schlussfolgerung und Ausblick
-## Biologische Aussagen
-Rein rechnerisch kann nicht gut genug nachgewiesen werden, dass die Resultate glaubwürdig sind. In der Tat können die Oszillationen das Resultat stark in beide Richtungen beeinflusst haben. Das Modell prophezeit eine sehr schwache Wirkung der aktuellen Bekämpfungsmethode. Die Kammmolche konnten nur in einer Situation ausgerottet werden. Nämlich in der Modellversion, in der in allen Gewässern Bekämpfungsmassnahmen stattfinden und auch dort nur im Szenarion mit 95% Fangwahrscheinlichkeit. Dies hat einerseit die Ursache, dass mehr Gewässer besiedelt werden als in Realität nachgewiesen wurden und andererseits können die Oszillationen dafür verantwortlich sein.
+# Schlussfolgerung
 
-Es können daher nur zwei recht simple Aussage aus dem Modell gezogen werden, welche auch bereits vor diesem Modell bestanden:
+Im Modell konnten die Kammmolche nur in einem von sechs Szenarien erfolgreich bekämpft werden. Dies gelang nur in der Modellversion mit Bekämpfungsmassnahmen in allen Gewässern und auch dort nur im Szenario mit 95% Fangwahrscheinlichkeit. Dies ist nicht komplett  unwahrscheinlich, dadurch können zwei Aussagen bestätigt werden, welche bereits vor diesem Modell bereits bestanden:
 
-1. Die Besiedelung weiterer Gewässer muss verhindert werden. Als Besiedelung wird hier verstanden, dass eine Fortpflanzung in dem Gewässer statfindet. Geschieht dies, können wohl auch Nachfahren sich hier fortpflanzen und eine neue Population bilden.
+1. Die Besiedelung weiterer Gewässer muss verhindert werden oder die Bekämpfung muss auch auf die neu besiedelten Gewässer ausgedehnt werden.
 2. Es müssen so viele Tiere wie möglich abgefangen werden. Wenn mehr als 5% der Tiere in einem Nebengewässer laichen, durch den Zaun schlüpfen oder andere Wege finden sich der Bekämpfung zu entziehen, dauert die Bekämpfung sehr lange, falls sie dann überhaupt Erfolg haben kann.
 
-## Technische Aussagen
-Es ist eine Herausforderung, natürliche Gegebnheiten in einem Modell nachzustellen. In der Realität wird jegliche Entwicklung von unendlich vielen Faktoren beeinflusst.
 
+## Verbesserungsvorschläge
 
-Die dichteabhängigkeit ist biologisch gut begründbar. Die Umsetzung im Modell verändert jedoch das Wesen des Modells sehr stark.
+Das konzeptionelle Modell bildet die natürlichen Gegebenheiten recht gut ab, das bezeugt die qualitative Validierung in Kapitel \@ref(valiQuali). Die Wanderung wird im Modell stark vereinfacht. Mit den Weitwanderern werden aber wieder natürliche Muster ermöglicht. Es ist durchaus denkbar, dass das Modell realistische Resultate liefert, was aufgrund der Oszillationen nicht nachweisbar ist. Hier werden einige Verbesserungen vorgeschlagen, die möglicherweise in ferner oder naher Zukunft umgesetzt werden oder gerne auch durch Dritte umgesetzt werden dürfen.
+
+### Oszillationen ausmerzen
+
+Die Oszillationen sind vermutlich im Prozess der dichteabhängigen Sterblichkeit zu suchen. Um diesen Prozess zu verbessern, sollte wohl als erstes die Zeitverzögerung entfernt werden, mit welcher die Sterblichkeit angewendet wird. Wird die Dichteberechnung in jedem Zeitschritt angewendet, kann der Bullwhip-Effekt möglicherweise eliminiert werden. Momentan wird die Sterblichkeit nur im Übergang zwischen dem Stadium Larve und dem Stadium Juvenil angewendet.
+
+### Muster der besiedelten Gewässer feiner einstellen
+
+Weiter müssten Verbesserungen vorgenommen werden, um das Besiedelungsmuster stärker mit der Realität in Einklang zu bringen. Dies kann durch Anpassungen bei der Rate der Weitwanderer erreicht werden. Die Weitwanderer bringen den Kammmolchen die Fähigkeit, auch weiter entfernte Gewässer zu besiedeln. Die Wahrscheinlichkeit, dass dies auch gelingt ist allerdings nicht sehr hoch. Es müssen zufällig zwei geschlechtsreife Kammmolche unterschiedlichen Geschlechts zur gleichen Zeit im Gewässer anwesend sein. In der Realität hat dies vermutlich noch nicht geklappt. Die Rate der Weitewanderer ist also eher niedrig einzustellen. Die Schwierigkeit hier liegt dabei, dass dieser Wert nicht kalibriert werden kann, da keine Beobachtungen vorliegen. Wird der Parameter jedoch zu tief eingestellt, wird dadurch die Besiedelung von entfernten Gewässern ganz verunmöglicht. Es benötigt hier wohl einige Experimente um einen guten Wert zu finden.
+
+## Schlusswort
+
+Insgesamt kann das Modell als recht stabiles Fundament angesehen werden. Die Mechanismen sind den natürlichen Gegebenheiten nachgebildet, die Prozesse sind mit Parameter justierbar, das Modell kann kalibriert und validiert werden. Es ist durchaus möglich, dass mit wenigen Verbesserungen realistische Aussagen möglich werden.
