@@ -18,14 +18,14 @@ Um die Bekämpfungsmassnahmen gezielt zu entwickeln und die Erfolgsaussichten de
 
 Agentenbasierte Modellierungsansätze bieten Möglichkeiten um die Modelle mit räumlichen Gegebenheiten und einer vielzahl von Verhaltensweisen und -Regeln zu ergänzen [@deangelis2014individual]. So entstehen Modelle, welche die Entscheidungsstrukturen in biologischen Systemen nachbilden, vor allem wenn sie mit stochastischen Elementen ergänzt werden. Dabei können überraschende Muster entstehen (genannt "Emergenz"), welche durch formelbasierte Ansätze nicht replizierbar sind.
 
-Das vorliegende Modell hat zum Ziel die Dynamik der Population von Italienischen Kammmolchen im Mühlebachtal nachzubilden und die Wirksamkeit der Bekämpfungsmassnahmen zu überprüfen. 
+Das vorliegende Modell hat zum Ziel die Dynamik der Population von Italienischen Kammmolchen im Mühlebachtal nachzubilden und die Wirksamkeit der Bekämpfungsmassnahmen zu überprüfen. Das Modell ist auf dem Github-Repo [phfranke/masterarbeit](https://github.com/phfranke/masterarbeit) verfügbar.
 
 
 ## Fragestellung {#fragestellung}
 ### Forschungsfrage
 Untersuchung der Populationsdynamik des Italienischen Kammmolchs (Triturus carnifex) im Mühlebachtal in Allschwil anhand agentenbasierter Modellierung und Abschätzung der Erfolgsaussichten der bestehenden Bekämpfungsstrategie.
 
-### operative Teilfragen
+### operative Teilziele
 - Erstellen des Modells
 - Kalibrieren des Modells anhand der erhobenen Daten
 - Untersuchen der Populationsentwicklung bis zum Jahre 2050
