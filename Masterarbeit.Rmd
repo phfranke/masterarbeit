@@ -1,7 +1,7 @@
 ---
 title: |
    ![](bilder/titelbild.jpg){width=600px style="display: block; margin:5 auto; align:center;" }
-   <center>Agentenbasierte Modellierung einer Popultaion von invasiven Italienischen Kammmolchen und der angwandten Bekämpfungsmethoden</center>
+   <center>Agentenbasierte Modellierung einer Popultaion von invasiven Italienischen Kammmolchen und der angewendeten Bekämpfungsmethoden</center>
 author: "Philipp Franke"
 date: "`r Sys.Date()`"
 github-repo: "phfranke/masterarbeit"
@@ -19,10 +19,11 @@ urlcolor: blue
 
 <!-- Einführung Rmarkdown Unigis: https://unigis-salzburg.github.io/Opt_AppDev-R/
 Installation TinyTex:
- ```install.packages('tinytex')
- tinytex::install_tinytex()
- install.packages('rmarkdown')
- ```
+
+```install.packages('tinytex')
+tinytex::install_tinytex()
+install.packages('rmarkdown')
+```
 -->
 
 ```{r setup, include=FALSE}
@@ -33,6 +34,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ```{r, include=FALSE}
 options(tinytex.verbose = TRUE)
 ```
+
 ```{r, include=FALSE}
 source("rSkripte/tab_parameter.R", encoding='utf-8')
 source("rSkripte/felddaten.R", encoding='utf-8')
@@ -43,7 +45,7 @@ source("rSkripte/validierung.R", encoding='utf-8')
 source("rSkripte/noDichtesterb.R", encoding='utf-8')
 ```
 
- 
+
 ``` {r child = '00-abstract.Rmd'}
 ```
 
@@ -59,6 +61,6 @@ source("rSkripte/noDichtesterb.R", encoding='utf-8')
 ```
 ```{r child = '05-schlussfolgerung.Rmd'}
 ```
-  
+
 
 # Literaturverzeichnis
