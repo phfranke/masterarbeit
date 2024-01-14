@@ -26,7 +26,7 @@ Die Weibchen legen 200-400 Eier [@meyer2009schlangenspuren]. Aufgrund eines gene
 ## Bekämpfungsprojekt
 Das Bekämpfungsprojekt im Mühlebachtal hat zum Ziel, die standortfremden Italienischen Kammmolche komplett aus dem Lebensraum zu entfernen. Die Gewässer wurden von Experten und mit genetischen Methoden untersucht. Es zeigte sich, dass nur in wenigen Gewässern Italienische Kammmolche vorkommen. Diese sind in der Abbildung \@ref(fig:bekGew) rot umrandet. Für die Bekämpfung werden diese Gewässer jeweils Anfang Jahr mit einem Amphibienzaun abgeriegelt. Die Zäune sind lückenlos und im Boden eingegraben, um das Durchschlüpfen von Kammmolchen möglichst zu verhindern. Entlang der Zäune sind in regelmässigen Abständen Eimer im Boden eingegraben. Alle Amphibien, welche für die Laichablage in die Gewässer einwandern, werden in einen der Eimer geleitet. Die Eimer werden regelmässig kontrolliert und die darin befindlichen Tiere bestimmt. Die Kammmolche werden aussortiert und alle anderen Amphibien über die Zäune gehoben und frei gelassen. Die Kammmolche werden anschliessend auf Alter und Geschlecht bestimmt und gewogen. Diese erhobenen Daten aus den Jahren 2021 und 2022 stehen für diese Arbeit zur Verfügung (siehe Kapitel \@ref(daten)) und werden für die Kalibrierung und Validierung verwendet.
 
-```{r bekGew,echo=FALSE,out.width="50%",fig.cap="Übersichtskarte über das Mühlebachtal. Rot umrandet sind die Gewässer, an welchen Kammmolche bekämpft werden."}
+```{r bekGew,echo=FALSE,out.width="70%",fig.cap="Übersichtskarte über das Mühlebachtal. Rot umrandet sind die Gewässer, an welchen Kammmolche bekämpft werden."}
 knitr::include_graphics("./bilder/bekaempfungsgew.jpg")
 ```
 
@@ -34,21 +34,6 @@ knitr::include_graphics("./bilder/bekaempfungsgew.jpg")
 ## Modellbeschreibung
 
 Die Struktur dieses Kapitels folgt dem ODD-Protokoll wie von @grimm2006standard vorgeschlagen und später in @grimm2010odd erweitert. Die Bezeichnungen von Parametern und Variabeln hier entsprechen denjenigen im Modell und sind deshalb auf englisch.
-
-<!-- ### Vorbemerkungen -->
-<!-- Das Modell unterhält zeitweise mehrere Tausend Agenten. Um die Lauffähigkeit des Modells sicherzustellen wurde es auch auf Ressourceneffizienz optimiert. Deshalb werden einige Lebensabschnitte der Kammmolche vereinfacht dargestellt, ohne die grundsätzliche Funktion zu beeinträchtigen. So sind die ressourcenintensiven, räumlichen Berechnungen auf ein Minimum reduziert. Das Modell ist stringent auf die beschriebenen Ziele (siehe Kapitel \@ref(fragestellung)) ausgerichtet und vernachlässigt Verhaltensweisen, welche für diese Ziele nicht relevant sind. So werden beispielsweise die saisonalen Wanderungen komplett ausgeblendet. Im Modell bleiben die meisten Tiere dauernd in den Gewässern. Wo für das Modell relevant, wird die An- oder Abwesenheit der Tiere anhand von Variabeln ermittelt. -->
-
-
-<!-- ### Begriffe -->
-<!-- In dieser Arbeit werden Begriffe aus der Biologie und aus der Modellierung verwendet. Diese Begriffe ähneln sich teilweise, weshalb sie hier erläutert werden: -->
-
-<!-- - Arten: Biologischer Begriff. Der Italienische Kammmolch ist eine Art, eine weitere ist der Nördliche Kammmolch. -->
-<!-- - Spezies: Definition der Agenten im Modell. Hier werden die Regeln festgelegt, wie sich die einzelnen Agenten zu verhalten haben. Im Modell werden in der Regel die einzelnen Entwicklungsstadien als Spezies erfasst. Einzige Ausnahme sind die Stadien Eier und Larven, welche zusammen in einer gemeinsamen Spezies modelliert sind. -->
-<!-- - Agenten: In den meisten Fällen entspricht ein Agent im Modell einem Individum in der realen Welt. Es handelt sich um eine Entität einer definierten Spezies. In Spezialfällen kann ein Agent viele Individuen beinhalten. -->
-<!-- - Parameter: Einstellungen, welche das Verhalten des Modells oder von Agenten steuern. Die Parameter können vom Benutzer angepasst werden. -->
-<!-- - Variabeln:  Variabeln sind Eigenschaften von Agenten oder des Modells. Die Variabeln werden zur Laufzeit vom Modell berechnet. Jeder Agent besitzt einen Strauss an Variabeln, welche beispielsweise Alter oder Geschlecht bestimmen. Globale Variabeln werden auf Ebene Modell berechnet und dienen unter anderem der Ausgabe von Resultaten. -->
-<!-- - Population: Biologischer Begriff welcher alle Individuen einer Art umschreibt, welche den selben Lebensraum bewohnen. Die Population an Kammmolchen besteht im Modell aus sämtlichen Individuen. In der Regel werden hier nur die adulten Tiere als Population betrachtet. -->
-
 
 ### Zweck
 Das Modell stellt die Entwicklung der Kammmolchpopulation im Mühlebachtal nach. Sowohl die räumliche Ausbreitung der Population als auch die anzahlmässige Entwicklung der einzelnen Stadien werden berechnet. Ab dem Jahr 2021 werden im Mühlebachtal jährlich Bekämpfungsmassnahmen umgesetzt. Diese sind im Modell ebenfalls ab diesem Zeitpunkt implementiert. Mit dem Modell kann nachvollzogen werden wie sich die Population entwickelt und wie und ob die Bekämpfungsmassnahmen wirken.
