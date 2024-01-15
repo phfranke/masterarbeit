@@ -127,6 +127,7 @@ graph_val_sim_1 <-  ggplot(data_sim_1,aes(temp_year,temp_data,group=temp_sim)) +
   scale_linetype_manual("Legende", values=rep(c("solid","dashed","twodash"),5)) +
   scale_color_manual("Legende", values=rep(c("#999999", "#009E73", "#F0E442", "#0072B2", "#D55E00"),3)) +
   theme(legend.position="right") + 
+  theme_bw() +
   ggtitle("Populationsgrösse mit der Modellversion 1")
 graph_val_sim_2 <-  ggplot(data_sim_2,aes(temp_year,temp_data,group=temp_sim)) +
   geom_line(aes(linetype=temp_sim,color=temp_sim)) +
@@ -135,4 +136,5 @@ graph_val_sim_2 <-  ggplot(data_sim_2,aes(temp_year,temp_data,group=temp_sim)) +
   scale_linetype_manual("Legende",values=rep(c("solid","dashed","twodash"),5)) +
   scale_color_manual("Legende", values=rep(c("#999999", "#009E73", "#F0E442", "#0072B2", "#D55E00"),3)) +
   theme(legend.position="right") +
+  theme_bw() +
   ggtitle("Populationsgrösse mit der Modellversion 2")
