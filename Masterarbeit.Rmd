@@ -1,6 +1,6 @@
 ---
 title: |
-   ![](bilder/titelbild.jpg){width=600px style="display: block; margin:5 auto; align:center;" }
+   ![](bilder/Triturus_cristatus_1a.JPG){width=600px style="display: block; margin:5 auto; align:center;" }
    <center>Agentenbasierte Modellierung einer Popultaion von invasiven Italienischen Kammmolchen und der angewendeten Bekämpfungsmethoden</center>
 author: "Philipp Franke"
 date: "`r Sys.Date()`"
