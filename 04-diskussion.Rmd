@@ -95,7 +95,7 @@ Die Oszillationen scheinen tatsächlich abzunehmen. Die schwarze Linie zeigt das
 ## Besiedelte Gewässer
 Die Abbildungen \@ref(fig:karte-bes1) und \@ref(fig:karte-bes1) zeigen die besiedelten Gewässer. Hier ist gut ersichtlich, dass einige Gewässer sehr regelmässig besiedelt werden, was in der Realität nicht beobachtet wird. Die betrifft hauptsächlich die Gewässer mit der Nummer BL899, BL900, BL901, BL649 und BL195. Diese Gewässer gelten als nicht besiedelt, einzig in BL195 wurden einzelne Tiere nachgewiesen. Welche Gewässer besiedelt werden, liegt hauptsächlich vom Wandervermögen der Tiere ab. Im Modell gibt es die Weitwanderer, welche grosse Strecken laufen können und selten auftreten. Lässt man diese ausser acht, kann das theoretisch besiedelbare Gebiet gut berechnet werden. Die Anzahl Wandertage ist durch die Kalibrierung eingestellt auf 13 Tage. Die Wandergeschwindigkeit pro Tag liegt bei 10 Meter für Adulte und 15 Meter für Juvenile. Nach Ablauf der Wanderzeit sind die Tiere also maximal 195 Meter von ihrem angestammten Gewässer entfernt. Danach wandern sie in das nächste Gewässer ein, welches demnach ebenfalls maximal 195 Meter entfernt sein darf. Die maximal zu überbrückende Distanz zwischen den Gewässern beträgt also 390 Meter. In Abbildung \@ref(fig:map_wandergebiet) ist das Gebiet dargestellt, welches mit dieser maximalen Wanderdistanz theoretisch besiedelbar wäre.
 
-``` {r map-wandergebiet, echo=FALSE, fig.cap="Ohne Weitwanderer theoretisch besiedelbares Gebiet", out.width="800%"}
+``` {r map-wandergebiet, echo=FALSE, fig.cap="Ohne Weitwanderer theoretisch besiedelbares Gebiet", out.width="80%"}
 knitr::include_graphics("./bilder/wandergebiet.jpg")
 ```
 

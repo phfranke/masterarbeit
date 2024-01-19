@@ -377,7 +377,7 @@ Für die Kalibrierung wurde mit jedem Wert für die Wanderdauer das Modell fünf
 ```{r kaliMigrant, echo=FALSE, out.width='100%',fig.cap="Ergebnisse der Kalibration."}
 ggplot(data_graph_kali_migr, aes(time,mean)) +
   geom_point(aes(color="Mittelwert")) +
-  geom_errorbar(aes(ymin=min,ymax=max,color="Min/Max"),width=0.0002) +
+  geom_errorbar(aes(ymin=min,ymax=max,color="Min/Max"),width=0.3) +
   scale_x_continuous(breaks=time, name="Wanderdauer (Tage)") +
   scale_y_continuous(name="Anzahl besiedelter Weiher") +
   scale_color_manual(name="Legende",values=c("black","black","grey")) + 
@@ -387,8 +387,8 @@ ggplot(data_graph_kali_migr, aes(time,mean)) +
   annotate("segment", x=-Inf,xend=Inf,y=5,yend=5, lty=2) +
   annotate("segment", x=-Inf,xend=Inf,y=6,yend=6, lty=2) +
   annotate("text",x=23,y=5.5,label="Zielbereich",alpha=0.6) +
-  geom_smooth(method="lm",formula=y ~ x, se=FALSE,aes(color="Regressionosgerade"), show.legend=TRUE) +
-  guides(colour=guide_legend(override.aes=list(linetype=c("solid","blank","solid"),shape=c(NA,16,NA))))
+  geom_smooth(method="lm",formula=y ~ x, se=FALSE,aes(color="Regressionsgerade"), show.legend=TRUE) +
+  guides(colour=guide_legend(override.aes=list(linetype=c("solid","blank","solid"),shape=c(NA,16,NA),linewidth=c(0.5,NA,1))))
   
 
 ```

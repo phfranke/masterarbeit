@@ -24,7 +24,7 @@ legend("center",
 In Abbildung \@ref(fig:karte-bes1) wird dargestellt, in wievielen Jahren ein Gewässer besiedelt wurde. Dabei wurden sämtliche Wiederholungen und Fangszenarien berücksichtigt. Das resultierende Muster ist auf den ersten Blick gut nachvollziehbar. Die Gewässer in der Nähe des Aussetzungsgewässers werden in `67-89%` der Jahre besiedelt, je weitere die Gewässer entfernt liegen, desto seltener werden sie besiedelt. Es kann nicht festgestellt werden, wieviele Individuen in den einzelnen Gewässern tatsächlich zu diesem Zeitpunkt gelebt haben. Da viele Gewässer nur über wenige Jahre besiedelt waren, ist anzunehmen, dass diese nur von einzelnen Individuuen besucht wurden und keine fortpflanzungsfähige Population entstand.
 
 
-```{r karte-bes1,echo=FALSE,out.width="100%",fig.cap="Gewässer, welche mindestens einmal während sämtlichen Modelldurchläufe besetzt waren. Die Grösse repräsentiert den Anteil der Jahre, an welchem das Gewässer besiedelt war."}
+```{r karte-bes1,echo=FALSE,out.width="80%",fig.cap="Gewässer, welche mindestens einmal während sämtlichen Modelldurchläufe besetzt waren. Die Grösse repräsentiert den Anteil der Jahre, an welchem das Gewässer besiedelt war."}
 knitr::include_graphics("./bilder/resultate_besetzte_weiher_anteil.jpg")
 ```
 
@@ -52,6 +52,6 @@ legend("center",
 Der Verlauf der Kurven aus dem ersten und dem korrigierten Modell unterscheiden sich stark. Ab Beginn der Bekämpfung zeigen hier die Kurven für alle Szenarien tiefere Werte und eine geringere Streuung. Das modifizierte Modell führt im Szenario mit 95% Fangwahrscheinlichkeit zu einer Ausrottung der Kammmolche innerhalb von 15 Jahren.
 Über alle Modelläufe mit der modifizierten Version werden weniger Gewässer besiedelt viele werden seltener besiedelt. Die Karte in Abbildung \@ref(fig:karte-bes2) zeigt, welche Gewässer in wievielen Jahren besiedelt wurden. Es wurden alle Modelldurchgänge in allen Szenarien berücksichtigt.
 
-```{r karte-bes2,echo=FALSE,out.width="100%",fig.cap="Gewässer, welche mindestens einmal während sämtlichen Modelldurchgänge besetzt waren. Die Grösse der Punkte repräsentiert den Anteil der Jahre, in welchen die Gewässer besiedelt waren."}
+```{r karte-bes2,echo=FALSE,out.width="80%",fig.cap="Gewässer, welche mindestens einmal während sämtlichen Modelldurchgänge besetzt waren. Die Grösse der Punkte repräsentiert den Anteil der Jahre, in welchen die Gewässer besiedelt waren."}
 knitr::include_graphics("./bilder/resultate_besetzte_weiher_anteil2.jpg")
 ```
