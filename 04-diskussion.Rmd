@@ -78,7 +78,7 @@ Oszillationen kommen in Modellen mit verzögerten Rückkoppelungsmechanismen vor
 Ein weiteres Experiment bestätigt diese Theorie teilweise. In einer weiteren Modellversion, wird die Dichteabhängigkeit abgestellt und ein fixer Wert von `0.95` für die Sterblichkeit der Larven definiert. Zudem werden weitere Einstellungen vorgenommen: Bekämpfung der Kammmolche nur in den vorbestimmten Gewässern, Fangwahrscheinlichkeit für die Kammmolche ist `80%`. Das Modell ist dadurch nicht mehr kalibriert und kann keine glaubhaften Resultate liefern, das Experiment dient hier lediglich dazu, die Ursache der Oszillation zu finden. Für dieses Experiment wird das Modell nur einmal durchgeführt und nur bis ins Jahr 2039 laufen gelassen. In Abbildung \@ref(fig:val-kontr) sind die Anzahl adulter Kammmolche in diesem Durchlauf mit einer vergleichbaren Simulation aus den Resultatdurchgängen aufgetragen. Die ausgewählte Simulation ist ebenfalls aus einem Modelldurchlauf mit der Modellversion 1 (Bekämpfung nur in spezifischen Gewässern) und der Fangwahrscheinlichkeit von `80%`.
 
 
-```{r val-kontr, echo=FALSE, fig.cap="Vergleich zwischen einem Simulationsdurchgang und dem Kontrolllauf ohne Dichteabhängigkeit", out.width="60%"}
+```{r val-kontr, echo=FALSE, fig.cap="Vergleich zwischen einem Simulationsdurchgang und dem Kontrolllauf ohne Dichteabhängigkeit", out.width="80%"}
 ggplot(data_graph_kontrolle, aes(x=temp_year,y=temp_data,group=temp_sim)) +
   geom_line(aes(color=temp_sim)) +
   scale_color_manual(values=c("#009E73","black")) +
