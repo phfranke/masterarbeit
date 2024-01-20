@@ -366,7 +366,7 @@ ggplot() +
 ```
 
 
-```{r boxplotweight, echo=FALSE, fig.cap="Gewicht der gefangenen, adulten Tiere", out.width='80%'}
+```{r boxplotweight, echo=FALSE, fig.cap="Gewicht der gefangenen, adulten Tiere", out.width='60%'}
 ggplot(weight_all[weight_all$geschlecht!='J',],aes(x=geschlecht, y=gewicht)) +
   geom_boxplot() + 
   labs(x = "Geschlecht",y = "Gewicht (g)") +
@@ -407,16 +407,17 @@ Die Funktion des ganzen Modells ist es, die Populationsentwicklung abzubilden un
 ### Wanderdauer {#kaliDauer}
 Als beobachtete Grösse für diese Kalibrierung wird die Anzahl der besiedelten Gewässer verwendet. Wie im Kapitel \@ref(daten) gezeigt, konnten bisher nur in 5 Gewässern Kammmolche festgestellt werden. Es handelt sich um die Gewässer mit den Indentifikationsnummern BL191, BL195, BL196, BL197 und BL198. Es gilt nun, einen Wert für den Parameter der Wanderdauer zu finden, welcher ebenfalls zu einer Besiedelung dieser Gewässer führt. Das Modell soll die Möglichkeiten offen lassen, dass weitere Weiher unentdeckt besiedelt wurden. Deshalb ist als Zielwert nicht die exakte Zahl von fünf besetzten Gewässern gesetzt sondern liegt im bereich zwischen fünf und sechs Gewässern.
 
-Für die Kalibrierung wurde mit jedem Wert für die Wanderdauer das Modell fünf mal durchgeführt. Als Startdatum dient jeweils der 1.1.2000  und als Enddatum der 1.1. 2022. Die Parameterwerte der Wanderdauer in Tagen wurden experimentell auf den hier verwendeten Wertebereich eingeschränkt (`r time_levels`). Die Resultate sind in Abbildung \@ref(fig:kaliMigrant) gezeigt. Die senkrechten Linien zeigen dabei die Spanne und die Punkte den Mittelwert der Anzahl besiedelter Gewässer für jeden der drei Parameterwerte. Die grau Linie beschreibt die Regressionslinie, also die Gerade welche am Nächsten an allen Messpunkten liegt. Die waagrechten, gestrichelten Linien zeigen den Zielbereich von fünf bis sechs Gewässern. Es zeigt sich, dass der Paramaterwert von 13 genau auf der Regressionsgerade und auf dem Wert von 5.5 besetzen Gewässern liegt. Der Parameter `migration_time` wird für die folgenden Experimente also auf den Wert 13 eingestellt.
+Für die Kalibrierung wurde mit jedem Wert für die Wanderdauer das Modell fünf mal durchgeführt. Als Startdatum dient jeweils der 1.1.2000  und als Enddatum der 1.1. 2022. Die Parameterwerte der Wanderdauer in Tagen wurden experimentell auf den hier verwendeten Wertebereich eingeschränkt (`r time_levels`). Die Resultate sind in Abbildung \@ref(fig:kaliMigrant) gezeigt. Die senkrechten Linien zeigen dabei die Spanne und die Punkte den Mittelwert der Anzahl besiedelter Gewässer für jeden der drei Parameterwerte. Die grau Linie beschreibt die Regressionslinie, also die Gerade welche am Nächsten an allen Messpunkten liegt. Die waagrechten, gestrichelten Linien zeigen den Zielbereich von fünf bis sechs Gewässern. Es zeigt sich, dass der Paramaterwert von 13 genau auf der Regressionsgerade und auf dem Wert von 5.5 besetzen Gewässern liegt. Der Parameter `migration_time` wird für die folgenden Experimente also auf den Wert 13 eingestellt (in der Grafik als Dreieck dargestellt).
 
 
-```{r kaliMigrant, echo=FALSE, out.width='100%',fig.cap="Ergebnisse der Kalibration."}
+```{r kaliMigrant, echo=FALSE, out.width='80%',fig.cap="Die Kalibrierung der Wanderdauer"}
 ggplot(data_graph_kali_migr, aes(time,mean)) +
-  geom_point(aes(color="Mittelwert")) +
+  geom_point(aes(color="Mittelwert"),size=2) +
+  geom_point(pch=2,x=13,y=5.5, size=3, aes(color="gewählter Wert")) +
   geom_errorbar(aes(ymin=min,ymax=max,color="Min/Max"),width=0.3) +
   scale_x_continuous(breaks=time, name="Wanderdauer (Tage)") +
   scale_y_continuous(name="Anzahl besiedelter Weiher") +
-  scale_color_manual(name="Legende",values=c("black","black","grey")) + 
+  scale_color_manual(name="Legende",values=c("black","black","black","grey")) + 
   theme_bw() +
   annotate("rect", ymin = 5, ymax = 6, xmin = -Inf, xmax = Inf, 
            alpha = 0.1,lty=2,lwd=7,) +
@@ -424,7 +425,7 @@ ggplot(data_graph_kali_migr, aes(time,mean)) +
   annotate("segment", x=-Inf,xend=Inf,y=6,yend=6, lty=2) +
   annotate("text",x=23,y=5.5,label="Zielbereich",alpha=0.6) +
   geom_smooth(method="lm",formula=y ~ x, se=FALSE,aes(color="Regressionsgerade"), show.legend=TRUE) +
-  guides(colour=guide_legend(override.aes=list(linetype=c("solid","blank","solid"),shape=c(NA,16,NA),linewidth=c(0.5,NA,1))))
+  guides(colour=guide_legend(override.aes=list(linetype=c("blank","solid","blank","solid"),shape=c(2,NA,16,NA),linewidth=c(NA,0.5,NA,1), size=c(3,NA,2,NA))))
   
 
 ```
@@ -438,19 +439,21 @@ Für die Kalibrierung des Dichtekoeffizienten wird das Modell mehrere Male mit u
 Das Modell wird anhand der Daten der Fangaktion 2021 kalibriert (siehe Kapitel \@ref(daten) und Tabelle \@ref(tab:tablecatches)). 
 
 Im Modell wird dieser Koeffizient durch den Parameter `density_koeff` bestimmt. Für die Kalibrierung dieses Parameters wurde das Modell mit unterschieldichen Werten jeweils 5 Mal durchgeführt. Der verwendete Wertebereich (`r koeff_levels`) wurde experimentel ermittelt. Die Auswirkungen des Dichtekoeffizienten sind in Abbildung \@ref(fig:kaliDichte) veranschaulicht. Es ist ersichtlich, dass sowohl die Streuung der Resultate als auch die absolute Anzahl der gefangenen Kammmolche mit grösserem Koeffizienten abnimmt. 
-Wie in Kapitel \@ref(daten) beschrieben, sind die Fangzahlen aus dem ersten Jahr wohl nicht repräsentativ. Die Fangsaison war mutmasslich zu kurz und die Anzahl gefangener Individuen wäre wohl ungefähr doppelt so hoch ausgefallen, wenn das Abfangen schon früher begonnen hätte. Als Zielwert für die Kalibrierung wird hier eine Zahl zwischen 700 und 1200 angestrebt. Wie in der Abbildung \@ref(fig:kaliDichte) ersichtlich, liefert von den getesteten Werten einzig der Dichtekoeffizient` 0.01` einen Wert innerhalb des angestrebten Bereichs. Allerdings wird ein Wert gesucht, welcher Resultate eher im oberen Bereich des Zielbereichs liefert. Der Dichtekoeffizient sollte also deutlich grösser sein als `0.005` und kleiner als `0.01`. Es wird hier ein Wert von `0.008` festgelegt.
+Wie in Kapitel \@ref(daten) beschrieben, sind die Fangzahlen aus dem ersten Jahr wohl nicht repräsentativ. Die Fangsaison war mutmasslich zu kurz und die Anzahl gefangener Individuen wäre wohl ungefähr doppelt so hoch ausgefallen, wenn das Abfangen schon früher begonnen hätte. Als Zielwert für die Kalibrierung wird hier eine Zahl zwischen 700 und 1200 angestrebt. Wie in der Abbildung \@ref(fig:kaliDichte) ersichtlich, liefert von den getesteten Werten einzig der Dichtekoeffizient` 0.01` einen Wert innerhalb des angestrebten Bereichs. Allerdings wird ein Wert gesucht, welcher Resultate eher im oberen Bereich des Zielbereichs liefert. Der Dichtekoeffizient sollte also deutlich grösser sein als `0.005` und kleiner als `0.01`. Es wird hier ein Wert von `0.008` festgelegt (in der Grafik als Dreieck dargestellt).
 
 
-```{r kaliDichte, echo=FALSE,fig.cap="Die modellierten, gefangenen Kammmolche in Abhängigkeit des Dichtekoeffizienten"}
+```{r kaliDichte, echo=FALSE,fig.cap="Die modellierten, gefangenen Kammmolche in Abhängigkeit des Dichtekoeffizienten", out.width='80%'}
 # 
 ggplot(data_graph_kali_dens, aes(koeff_levels,mean)) +
-  geom_point(aes(color="Mittelwert")) +
+  geom_point(aes(color="Mittelwert"), size=2) +
+  geom_point(x=0.008, y=1070, aes(color="gewählter Wert"), pch=2,size=3) +
   geom_errorbar(aes(ymin=min,ymax=max,color="Min/Max"),width=0.0002)+
   scale_x_continuous(breaks=koeff_levels, name="Dichtekoeffizient") +
   scale_y_continuous(name="Gefangene adulte Kammmolche 2021") +
-  scale_color_manual(name="Legende",values=c("black","black")) + 
+  scale_color_manual(name="Legende",values=c("black","black","black","grey")) + 
   theme_bw() +
-  guides(colour=guide_legend(override.aes=list(linetype=c("solid","blank"),shape=c(NA,16)))) +
+  geom_smooth(method="lm",formula=y ~ x, se=FALSE,aes(color="Regressionsgerade"), show.legend=TRUE) +
+  guides(colour=guide_legend(override.aes=list(linetype=c("blank","solid","blank","solid"),shape=c(2,NA,16,NA), size=c(3,NA,2,NA), linewidth=c(NA,0.3,NA,1.5)))) +
   annotate("rect", ymin = 700, ymax = 1200, xmin = -Inf, xmax = Inf, 
            alpha = 0.1,lty=2,lwd=7,) +
   annotate("segment", x=-Inf,xend=Inf,y=700,yend=700, lty=2) +
