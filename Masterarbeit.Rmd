@@ -3,7 +3,7 @@ title: |
    ![](bilder/Triturus_cristatus_1a.JPG){width=600px style="display: block; margin:5 auto; align:center;" }
    <center>Agentenbasierte Modellierung einer Popultaion von invasiven Italienischen Kammmolchen und der angewendeten Bekämpfungsmethoden</center>
 author: "Philipp Franke"
-date: "`r Sys.Date()`"
+date: "`r format(Sys.Date(),format='%d.%m.%Y')`"
 github-repo: "phfranke/masterarbeit"
 lang: de
 documentclass: book
@@ -28,10 +28,6 @@ install.packages('rmarkdown')
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-```
-
-
-```{r, include=FALSE}
 options(tinytex.verbose = TRUE)
 ```
 
