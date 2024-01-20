@@ -6,7 +6,7 @@ Ursache für den generellen Gefährdungsstatus der Amphibien dürfte im Landscha
 
 Eine weitere Gefährdungsursache, insbesondere für seltenen Arten, ist die Einschleppung von standortfremden Arten. @clavero2005invasive untersuchten Ursachen für das Aussterben von Tieren auf der roten Liste der internationalen Union zur Bewahrung der Natur (IUCN). Von den 680 untersuchten Tierarten konnten für 170 Gefährdungsursachen ermittelt werden.  Demnach sind die Ursachen für das Aussterben von 91 Arten (54%) zumindest teilweise und von 34 Arten (20%) ausschliesslich auf standortfremde Arten zurückzuführen. In einer zweiten Studie untersuchten @blackburn2019alien ebenfalls die Ursachen für das Aussterben von Arten auf der roten Liste der IUCN. Demnach wurde das Aussterben von 25.5% der Pflanzen- und 34.4% der Tierarten durch eingeschleppte Arten verursacht.
 
-```{r trit-foto-juv, echo=FALSE, fig.cap="Juveniler Kammmolch", out.width="60%" }
+```{r trit-foto-juv, echo=FALSE, fig.cap="Juveniler Kammmolch", out.width="80%" }
 knitr::include_graphics("./bilder/Triturus_carnifex_juv1.JPG")
 ```
 

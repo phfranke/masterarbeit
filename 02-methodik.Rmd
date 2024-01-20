@@ -46,7 +46,7 @@ Die zeitliche Auflösung beträgt einen Tag. Das heisst,  jeder Zeitschritt im M
 
 Das Modell bildet die Stadien nach, wie sie Kammmolche während ihrer Entwicklung durchleben. Im Modell werden für diese Stadien drei Spezien angelegt, eine weitere Spezies wird für die Wanderungen benötigt. In der Grafik in Abbildung \@ref(fig:grafik-spezies) sind diese Spezien, ihre Variablen und die Prozesse abgebildet. Es handelt sich um eine vereinfachte Darstellung, welche in den nächsten Abschnitten näher beschrieben wird.
 
-``` {r grafik-spezies, out.with="80%", fig.cap="Vereinfachte, grafische Darstellung der im Modell angelegten Spezien und Prozesse"}
+``` {r grafik-spezies, out.with="120%", fig.cap="Vereinfachte, grafische Darstellung der im Modell angelegten Spezien und Prozesse"}
 knitr::include_graphics('./bilder/grafik_spezies.jpg')
 ```
 
@@ -94,7 +94,7 @@ Hier eine Übersicht über alle Variablen:
   
  [Spezies `pond`]{.ul}
  
-  - `placeOfÈxposion` (Bool)
+  - `placeOfExposion` (Bool)
   - `catchingNet` (Bool)
   - `pondNumber` (Text)
   - `area` (Gleitkommeazahl)
@@ -104,19 +104,55 @@ Hier eine Übersicht über alle Variablen:
   
  [Spezies `offspring`]{.ul} 
 
-![](./bilder/spezies_offspring.jpg)
+  - `nativePond` (FK)
+  - `isEgg` (Bool)
+  - `count` (Ganzzahl)
+  - `layDate_egg` (Datum)
+  - `hatchDate_larva` (Datum)
+  - `densityMortalityRate_larva` (Gleitkommazahl)
+  - `location` (Koordinaten)
+  
+<!-- ![](./bilder/spezies_offspring.jpg) -->
   
  [Spezies  `juvenil`]{.ul}
  
-![](./bilder/spezies_juvenil.jpg)
+  - `nativePond` (FK)
+  - `isFemale` (Bool)
+  - `dateDevelopmen` (Bool)
+  - `isMigrant` (Bool)
+  - `slipped` (Bool)
+  - `location` (Koordinaten)
+ 
+<!-- ![](./bilder/spezies_juvenil.jpg) -->
 
  [Spezies  `adult`]{.ul}
  
-![](./bilder/spezies_adult.jpg)
+  - `nativePond` (FK)
+  - `isFemale` (Bool)
+  - `maturity` (Bool)
+  - `lastReproduction` (Datum)
+  - `isMigrant` (Bool)
+  - `slipped` (Bool)
+  - `target`(Bool)
+  - `location` (Koordinaten)
+ 
+<!-- ![](./bilder/spezies_adult.jpg) -->
   
  [Spezies  `migrant`]{.ul}
+  
+  - `nativePond` (FK)
+  - `isFemale` (Bool)
+  - `dateDevelopment` (Bool)
+  - `lastReproduction` (Datum)
+  - `beginMigration` (Datum)
+  - `isMigrant` (Bool)
+  - `isJuvenil` (Bool)
+  - `target` (Bool)
+  - `velocity` (Gleitkommazahl)
+  - `velocity_real` (Gleitkommazahl)
+  - `location` (Koordinaten)
  
-![](./bilder/spezies_migrant.jpg)
+<!-- ![](./bilder/spezies_migrant.jpg) -->
 
 
 ### Prozesse {#prozess}
