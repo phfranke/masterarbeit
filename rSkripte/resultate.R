@@ -110,7 +110,8 @@ for (datum in 2:3){
           theme(axis.title.y.right=element_text(angle = 90),
                 axis.line.y.right=element_line(colour='blue'),
                 axis.ticks.y.right=element_line(colour='blue'),
-                axis.line.y.left=element_line(colour='black'))
+                axis.line.y.left=element_line(colour='black'))+
+          theme_bw()
       )
     }
 }
