@@ -7,16 +7,16 @@ ponds_count <- data[,4]
 mittel <- c(mean(ponds_count[1:5]),mean(ponds_count[6:10]), mean(ponds_count[11:15]))
 max <-  c(max(ponds_count[1:5]),max(ponds_count[6:10]), max(ponds_count[11:15]))
 min <-  c(min(ponds_count[1:5]),min(ponds_count[6:10]), min(ponds_count[11:15]))
-data <- data.frame(
+data_graph_kali_migr <- data.frame(
   time = time,
   mean = mittel,
   max = max,
   min = min
 )
 
-time_levels <- as.numeric(levels(as.factor(data$time)))
+time_levels <- as.numeric(levels(as.factor(data_graph_kali_migr$time)))
 
-bp_pond <- ggplot(data, aes(time, mean))
+bp_pond <- ggplot(data_graph_kali_migr, aes(time, mean))
 ponds <- bp_pond + 
   geom_linerange(aes(ymin=min, ymax=max)) +
   geom_point() + 
@@ -27,7 +27,8 @@ ponds <- bp_pond +
 ponds_graph <- ponds + 
   geom_point(data=data.frame(x=13,y=5.5), aes(x=x,y=y), shape=3, size=3) + 
   scale_y_continuous(breaks=seq(min(min),max(max)+1, by=2), name="Anzahl besiedelte Weiher") +
-  scale_x_continuous(breaks=c(time), name="Wanderdauer (Tage)") +
-  ggtitle("Kalibrierung der Wanderdauer in Tagen")
+  scale_x_continuous(breaks=c(time), name="Wanderdauer (Tage)") 
+# +
+#   ggtitle("Kalibrierung der Wanderdauer in Tagen")
 
                                                                  

@@ -74,7 +74,7 @@ for (datum in 2:3){
       pond_mean[i] <- mean((data_pc %>% filter(data_pc$year==level_year[i]))$pondCount)*100
     }
     
-    data_graph <- data.frame(
+    data_graph_res <- data.frame(
       year = level_year,
       min = data_min,
       max = data_max,
@@ -84,16 +84,16 @@ for (datum in 2:3){
       pond_mean = pond_mean
     )
     
-    filter_year <- (data_graph %>% filter(data_graph$max > 2000))$year
+    filter_year <- (data_graph_res %>% filter(data_graph_res$max > 2000))$year
     if (length(filter_year > 1)) {
       for (fy in 1:length(filter_year)) {
-        data_graph[data_graph$year==filter_year[fy],3] <- 2000
+        data_graph_res[data_graph_res$year==filter_year[fy],3] <- 2000
       }
     }
     
-    assign(paste("data_res",datum,pc,sep="_"),data_graph)
+    assign(paste("data_res",datum,pc,sep="_"),data_graph_res)
     
-    assign(paste("graph_res",datum,pc,sep="_"), ggplot(data_graph, aes(year, mean)) + 
+    assign(paste("graph_res",datum,pc,sep="_"), ggplot(data_graph_res, aes(year, mean)) + 
           # geom_point(aes(y=pond_mean,x=year),shape=15,color='blue',size=1.5, alpha=0.5) +
           geom_ribbon(aes(ymin=pond_min,ymax=pond_max), fill='blue', alpha=0.3) +
           geom_line(aes(y=pond_mean,x=year),color='blue',linewidth=1.5,alpha=0.3) +
@@ -110,7 +110,8 @@ for (datum in 2:3){
           theme(axis.title.y.right=element_text(angle = 90),
                 axis.line.y.right=element_line(colour='blue'),
                 axis.ticks.y.right=element_line(colour='blue'),
-                axis.line.y.left=element_line(colour='black'))
+                axis.line.y.left=element_line(colour='black'))+
+          theme_bw()
       )
     }
 }

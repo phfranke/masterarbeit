@@ -1,0 +1,57 @@
+# Ergebnisse {#ergebnisse}
+Für die Erhebung der Resultate werden für jedes Szenario fünf Modelldurchgänge durchgeführt. Wie im Kapitel \@ref(szenarien) ausgeführt, sind den Szenarien verschiedene Fangwahrscheinlichkeiten zugrunde gelegt. Als Resultat dienen die Anzahl der besiedelten Gewässer und die Anzahl adulter Kammmolche. Diese Zahlen werden im Modell einmal im Jahr, am 1. Januar, gespeichert. In Abbildung \@ref(fig:res) sind die Resultate grafisch dargestellt. Für jedes Fangszenario (Fangwahrscheinlichkeit), ist ein Diagramm abgegbildet. In Schwarz sind die Mittelwerte (Linie) sowie die Spanne (gestrichelte Linien) der lebenden, adulten Kammmolche aufgetragen. In blauer Farbe ist die Anzahl der besiedelten Gewässer angezeigt (Linie=Mittelwert, Fläche=Spanne, rechte Skala).
+Wie schnell ersichtlich wird, führt kein Szenario zum Aussterben der Kammmolche. Am Ende des Modellzeitraums leben sogar mit dem stärksten Fangszenario (95% Fangwahrscheinlichkeit) in keinem der Modelldurchgänge weniger als `r data_res_2_3$min[50]` Adulte. Wie die Daten der besetzten Gewässer zeigen, werden deutlich mehr Gewässer besiedelt, als bei der Bekämpfung berücksichtigt werden. Über sämtliche Durchgänge werden bis zum Beginn der Bekämpfung (Jahr 2021) zwischen 7 und 16 Gewässer besetzt. Nach Beginn der Bekämpfung reduziert sich die Anzahl auf 3 bis 13 Gewässer. Durch das Besiedeln von Gewässern, in welchen nicht bekämpft wird, können sich die Kammmolche weiter vermehren und ausbreiten.
+
+Weiter ist auffällig, dass die Spanne der Daten mit steigender Fangwahrscheinlichkeit zunimmt. Die Schwankungen sowohl der Anzahl besiedelter Gewässer als auch der Anzahl Tiere sind in der dritten Grafik deutlich ausgeprägter als in den anderen beiden.
+
+```{r res, echo=FALSE, fig.cap="Entwicklung der adulten Kammmolche unter Berücksichtigung der Fangwahrscheinlichkeit", fig.show="hold", out.width="50%"}
+graph_res_2_1
+graph_res_2_2
+graph_res_2_3
+plot(NULL, xaxt='n', yaxt='n', bty='n',ylab='',xlab='',xlim=0:1,ylim=0:1)
+legend("center",
+       legend=c("Kammmolche, Mittelwert","Kammmolche, Minimum/Maximum","Besetzte Gewässer, Mittelwert","Besetzte Gewässer, Minimum/Maximum"),
+       bty='n',
+       lty=c(1,2,1,1),
+       lwd=c(3,3,7,15),
+       col=c("black","black","blue",rgb(0,0,255,max=255,alpha=100)),
+       title="Legende"
+       )
+
+```
+
+
+In Abbildung \@ref(fig:karte-bes1) wird dargestellt, in wievielen Jahren ein Gewässer besiedelt wurde. Dabei wurden sämtliche Wiederholungen und Fangszenarien berücksichtigt. Das resultierende Muster ist auf den ersten Blick gut nachvollziehbar. Die Gewässer in der Nähe des Aussetzungsgewässers werden in `67-89%` der Jahre besiedelt, je weitere die Gewässer entfernt liegen, desto seltener werden sie besiedelt. Es kann nicht festgestellt werden, wieviele Individuen in den einzelnen Gewässern tatsächlich zu diesem Zeitpunkt gelebt haben. Da viele Gewässer nur über wenige Jahre besiedelt waren, ist anzunehmen, dass diese nur von einzelnen Individuen besucht wurden und keine fortpflanzungsfähige Population entstand.
+
+
+```{r karte-bes1,echo=FALSE,out.width="80%",fig.cap="Gewässer, welche mindestens einmal während sämtlichen Modelldurchläufe besetzt waren. Die Grösse repräsentiert den Anteil der Jahre, an welchem das Gewässer besiedelt war."}
+knitr::include_graphics("./bilder/resultate_besetzte_weiher_anteil.jpg")
+```
+
+
+## Korrigierte Version
+Es ist durchaus denkbar, dass im Modell Gewässer besiedelt werden, welche in der echten Umgebung für Kammmolche nicht bewohnbar sind. Diese werden dann bei der Bekämpfung der Kammmolche nicht berücksichtigt. Einerseits ist das Modell auf Emergenz und natürliches Wanderverhalten ausgerichtet, was die spontane Besiedelung von aussergewöhnlichen Gewässern ermöglicht und andererseits ist die Bekämpfung aber starr eingestellt. Um diese Diskrepanz aufzulösen und eine Gegendarstellung zu den ersten Resultaten zu erhalten, wird das Modell modifiziert und nochmal durchgeführt. In dieser korrigierten Version werden Kammmolche in allen Gewässern bekämpft. In der Abbildung \@ref(fig:res2) sind die Resulate aus dem Durchlauf mit dem modifizierten Modell dargestellt. Die schwarzen Linien zeigen erneut die Anzahl adulten Kammmolche (ausgezogene Linie: Mittelwert, gestrichelt:Minimum und Maximum), während die blaue Fläche die Anzahl besiedelter Weiher darstellt (Linie:Mittelwert, Fläche:Minimum bis Maximum).
+
+
+```{r res2, echo=FALSE, fig.cap="Resultate aus dem modifizierten Modell. Adulte Kammmolche und besiedelte Gewässer im Jahres", fig.show="hold", out.width="50%"}
+graph_res_3_1
+graph_res_3_2
+graph_res_3_3
+plot(NULL, xaxt='n', yaxt='n', bty='n',ylab='',xlab='',xlim=0:1,ylim=0:1)
+legend("center",
+       legend=c("Kammmolche, Mittelwert","Kammmolche, Minimum/Maximum","Besetzte Gewässer, Mittelwert","Besetzte Gewässer, Minimum/Maximum"),
+       bty='n',
+       lty=c(1,2,1,1),
+       lwd=c(3,3,7,15),
+       col=c("black","black","blue",rgb(0,0,255,max=255,alpha=100)),
+       title="Legende"
+       )
+
+```
+
+Der Verlauf der Kurven aus dem ersten und dem korrigierten Modell unterscheiden sich stark. Ab Beginn der Bekämpfung zeigen hier die Kurven für alle Szenarien tiefere Werte und eine geringere Streuung. Das modifizierte Modell führt im Szenario mit 95% Fangwahrscheinlichkeit zu einer Ausrottung der Kammmolche innerhalb von 15 Jahren.
+Über alle Modelläufe mit der modifizierten Version werden weniger Gewässer besiedelt, viele werden seltener besiedelt. Die Karte in Abbildung \@ref(fig:karte-bes2) zeigt, welche Gewässer in wievielen Jahren besiedelt wurden. Es wurden alle Modelldurchgänge in allen Szenarien berücksichtigt.
+
+```{r karte-bes2,echo=FALSE,out.width="80%",fig.cap="Gewässer, welche mindestens einmal während sämtlichen Modelldurchgänge besetzt waren. Die Grösse der Punkte repräsentiert den Anteil der Jahre, in welchen die Gewässer besiedelt waren."}
+knitr::include_graphics("./bilder/resultate_besetzte_weiher_anteil2.jpg")
+```

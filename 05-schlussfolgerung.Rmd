@@ -1,0 +1,25 @@
+# Schlussfolgerung
+
+Im Modell konnten die Kammmolche nur in einem von sechs Szenarien erfolgreich bekämpft werden. Dies gelang nur in der Modellversion mit Bekämpfungsmassnahmen in allen Gewässern und auch dort nur im Szenario mit 95% Fangwahrscheinlichkeit. Dies ist nicht komplett  unwahrscheinlich, dadurch können zwei Aussagen bestätigt werden, welche bereits vor diesem Modell bestanden:
+
+1. Die Besiedelung weiterer Gewässer muss verhindert werden oder die Bekämpfung muss auch auf die neu besiedelten Gewässer ausgedehnt werden.
+2. Es müssen so viele Tiere wie möglich abgefangen werden. Wenn mehr als 5% der Tiere in einem Nebengewässer laichen, durch den Zaun schlüpfen oder andere Wege finden, sich der Bekämpfung zu entziehen, dauert die Bekämpfung sehr lange, falls sie dann überhaupt Erfolg haben kann.
+
+
+## Verbesserungsvorschläge
+
+Das konzeptionelle Modell bildet die natürlichen Gegebenheiten recht gut ab, das bezeugt die qualitative Validierung in Kapitel \@ref(valiQuali). Die Wanderung wird im Modell stark vereinfacht. Mit den Weitwanderern werden aber natürliche Muster ermöglicht. Es ist durchaus denkbar, dass das Modell realistische Resultate liefert, was aufgrund der Oszillationen nicht nachweisbar ist. Hier werden einige Verbesserungen vorgeschlagen, die möglicherweise in ferner oder naher Zukunft umgesetzt werden oder gerne auch durch Dritte umgesetzt werden dürfen.
+
+### Oszillationen ausmerzen
+
+Die Oszillationen sind vermutlich im Prozess der dichteabhängigen Sterblichkeit zu suchen. Um diesen Prozess zu verbessern, sollte wohl als erstes die Zeitverzögerung entfernt werden, mit welcher die Sterblichkeit angewendet wird. Wird die Dichteberechnung in jedem Zeitschritt angewendet, kann der "Bull Whip Effekt" möglicherweise eliminiert werden. Momentan wird die Sterblichkeit nur im Übergang zwischen dem Stadium Larve und dem Stadium Juvenil angewendet.
+
+### Muster der besiedelten Gewässer feiner einstellen
+
+Ausserdem müssten Verbesserungen vorgenommen werden, um das Besiedelungsmuster stärker mit der Realität in Einklang zu bringen. Dies kann durch Anpassungen bei der Rate der Weitwanderer erreicht werden. Die Weitwanderer bringen den Kammmolchen die Fähigkeit, auch weiter entfernte Gewässer zu besiedeln. Die Wahrscheinlichkeit, dass dies auch gelingt, ist allerdings nicht sehr hoch. Es müssen zufällig zwei geschlechtsreife Kammmolche unterschiedlichen Geschlechts zur gleichen Zeit im Gewässer anwesend sein. In der Realität hat dies vermutlich noch nicht geklappt. Die Rate der Weitewanderer ist also eher niedrig einzustellen. Die Schwierigkeit hier liegt dabei, dass dieser Wert nicht kalibriert werden kann, da keine Beobachtungen vorliegen. Wird der Parameter jedoch zu niedrig eingestellt, wird dadurch die Besiedelung von entfernten Gewässern ganz verunmöglicht. Es benötigt hier wohl einige Experimente, um einen guten Wert zu finden.
+
+## Schlusswort
+
+Insgesamt ist das Modell ein recht stabiles Fundament. Die Mechanismen sind den natürlichen Gegebenheiten angepasst, die Prozesse sind mit Parameter justierbar, das Modell kann kalibriert und validiert werden. Mit wenigen Verbesserungen werden realistische Aussagen möglich.
+Diese Arbeit zeigt nicht zuletzt, dass es möglich ist, die natürlichen Verhaltensweisen von wildlebenden Tieren in ein technischen Modell zu übersetzen. Es ist äusserst befriedigend, den Modell-Molchen auf dem Bildschirm beim Wandern zuzuschauen und zu bemerken, dass die natürlichen Muster nachgebildet werden.
+

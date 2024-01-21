@@ -3,7 +3,7 @@ library(tidyverse)
 data_11_11 <- read.table("excel/resultate_11.11.csv",sep=',', fill=TRUE, header=TRUE, quote="\"")
 data_13_11 <- read.table("excel/resultate_13.11.csv",sep=',', fill=TRUE, header=TRUE, quote="\"")
 
-str(data_13_11)
+# str(data_13_11)
 
 for (datum in 1:2){
   
@@ -67,7 +67,9 @@ for (datum in 1:2){
   assign(paste("data_catch",datum,sep="_") , df)
   df2 <- as.data.frame(cbind(data$year,data$probCatch,data$totCatched_adult))
   assign(paste("data_catch_year",datum,sep="_") , df2)
-  assign(paste("data_sim",datum,sep="_"),as.data.frame(cbind(temp_year,temp_sim,temp_data)))
+  sortierung <- (as.integer(substring(temp_sim,12))+1) * temp_year
+  df3 <- as.data.frame(cbind(temp_year,temp_sim,temp_data,sortierung))[order(sortierung),]
+  assign(paste("data_sim",datum,sep="_"),df3)
 }
 
 data_tot <- rbind(data_catch_1,data_catch_2)
@@ -79,7 +81,6 @@ catch_year_min <- c()
 catch_year_max <- c()
 catch_year_mean <- c()
 for (i in 2:(length(year_levels))) {
-  print(year_levels[i])
   catched <- data_tot_year[data_tot_year[,1]==year_levels[i] & data_tot_year[,2]>0.7 , 3] - 
               data_tot_year[data_tot_year[,1]==year_levels[i-1] & data_tot_year[,2]>0.7 , 3]
   catch_year_min[i-1] <- min(catched)
@@ -96,22 +97,20 @@ graph_val <- ggplot(data_tot, aes(data_catch_prob,data_catch_diff,group=data_cat
   geom_boxplot() + 
   geom_hline(yintercept=1192, linewidth=1, linetype=2) +
   scale_x_continuous(breaks=levels, name="Fangwahrscheinlichkeit") +
-  scale_y_continuous(name="Gefangene adulte Kammmolche") +
-  ggtitle("Modellierte Fänge im Jahr 2022")
+  scale_y_continuous(name="Gefangene adulte Kammmolche") 
 
 graph_val2 <- ggplot(data_tot, aes(data_catch_prob,data_catch_2021,group=data_catch_prob)) + 
   geom_boxplot() + 
   geom_hline(yintercept=1192, linewidth=1, linetype=2) +
-  scale_x_continuous(breaks=levels_pc, name="Fangwahrscheinlichkeit") +
-  scale_y_continuous(name="Gefangene adulte Kammmolche") +
+  scale_x_continuous(breaks=levels_pc, name="Fangwahrscheinlichkeit") 
   ggtitle("Modellierte Fänge im Jahr 2021")
 
 graph_val_year <- ggplot(data_tot_year_graph[data_tot_year_graph$year>=2020,], aes(year_levels,catch_year_mean)) + 
   geom_line() + 
   geom_ribbon(aes(ymin=catch_year_min,ymax=catch_year_max), fill='darkgrey', alpha=0.3) +
   scale_x_continuous(name="Jahr", limits=c(2020,2050), breaks=seq(2020,2050,5)) +
-  scale_y_continuous(name="Gefangene Adulte") +
-  ggtitle("Gefangene Kammmolche 2020-2048")
+  scale_y_continuous(name="Gefangene Adulte") 
+
 
 data_sim_1[,1] <- as.integer(data_sim_1[,1])
 data_sim_1[,3] <- as.integer(data_sim_1[,3])
@@ -122,15 +121,17 @@ graph_val_sim_1 <-  ggplot(data_sim_1,aes(temp_year,temp_data,group=temp_sim)) +
   geom_line(aes(linetype=temp_sim,color=temp_sim)) +
   scale_x_continuous(name="Jahr", limits=c(2000,2050), breaks=seq(2000,2050,5)) +
   scale_y_continuous(name="Adulte Kammmolche", limits=c(0,2000)) +
-  scale_linetype_manual(values=rep(c("solid","dashed","twodash"),5)) +
-  scale_color_manual(values=rep(c("#999999", "#009E73", "#F0E442", "#0072B2", "#D55E00"),3)) +
-  theme(legend.position="none") + 
+  scale_linetype_manual("Legende", values=rep(c("solid","dashed","twodash"),5)) +
+  scale_color_manual("Legende", values=rep(c("#999999", "#009E73", "#F0E442", "#0072B2", "#D55E00"),3)) +
+  theme(legend.position="right") + 
+  theme_bw() +
   ggtitle("Populationsgrösse mit der Modellversion 1")
 graph_val_sim_2 <-  ggplot(data_sim_2,aes(temp_year,temp_data,group=temp_sim)) +
   geom_line(aes(linetype=temp_sim,color=temp_sim)) +
   scale_x_continuous(name="Jahr", limits=c(2000,2050), breaks=seq(2000,2050,5)) +
   scale_y_continuous(name="Adulte Kammmolche", limits=c(0,2000)) +
-  scale_linetype_manual(values=rep(c("solid","dashed","twodash"),5)) +
-  scale_color_manual(values=rep(c("#999999", "#009E73", "#F0E442", "#0072B2", "#D55E00"),3)) +
-  theme(legend.position="none") + 
+  scale_linetype_manual("Legende",values=rep(c("solid","dashed","twodash"),5)) +
+  scale_color_manual("Legende", values=rep(c("#999999", "#009E73", "#F0E442", "#0072B2", "#D55E00"),3)) +
+  theme(legend.position="right") +
+  theme_bw() +
   ggtitle("Populationsgrösse mit der Modellversion 2")

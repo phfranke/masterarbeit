@@ -25,6 +25,6 @@ graph_dichte <-
   scale_y_continuous(name="Adulte Kammmolche", limits=c(0,4000)) +
   scale_x_continuous(limits=c(2000,2040), name="Jahr") +
   ggtitle("Mit und ohne Dichteabhaengigkeit") +
-  theme(legend.position="top", legend.title = element_blank())
+  theme(legend.position="right", legend.title = element_blank())
 
             
