@@ -6,10 +6,7 @@ This model investigates the impact of this measures.
 
 A copy of the gama-model is here: ./gama_modelle
 
-To run the model on your own machine, copy the latest version into your Gama- directory.
-<<<<<<< HEAD
+To run the model on your own machine, copy the repo into your Gama- directory.
 The model needs the shapefile ./gama_models/shp/bodenbedeckung_2.shp in a relativ path to the modell: ./shp/bodenbedeckung_2.shp, and there have to be a folder ./result/ in the modeldirectory.
-=======
-The model needs the shapefile ./gama_models/shp/bodenbedeckung_2.shp in a relativ path to the model: ./shp/bodenbedeckung_2.shp, and there have to be a folder ./result/ in the same directory like the model.
->>>>>>> 9e7e7b5947e1705240e2bac271ff46dd222a14f2
 
+Don't hesitate to ask questions or propose improvement suggestions.
