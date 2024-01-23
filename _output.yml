@@ -1,3 +1,0 @@
-bookdown::pdf_document2:
-  toc: false
-  toc_depth: 3

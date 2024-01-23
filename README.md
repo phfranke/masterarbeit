@@ -4,7 +4,6 @@ The newts are treated as foreign species, which endangers a local population of 
 There are taken measures to erase the italian newts for protection reasons.
 This model investigates the impact of this measures.
 
-This repo is mainly for the documentation of the Master-Thesis with bookdown.
 A copy of the gama-model is here: ./gama_modelle
 
 To run the model on your own machine, copy the latest version into your Gama- directory.
